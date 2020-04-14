@@ -1,0 +1,28 @@
+:root {
+  font-size: 16px;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+}
+$theme-colors: (
+  "primary": #057afb
+);
+
+// Text
+$headings-font-weight: 700;
+$enable-responsive-font-sizes: true;
+// Border radius
+$border-radius: 0.5rem;
+$border-radius-lg: 0.6rem;
+$border-radius-sm: 0.4rem;
+
+//Alerts
+$alert-bg-level: 0;
+$alert-border-level: 0;
+
+// Buttons
+$input-btn-font-size: 1.1rem;
+$btn-font-weight: 500;
+$input-btn-padding-y: 0.6rem;
+$input-btn-padding-x: 1.1rem;
+
+@import "/assets/scss/bootstrap";
