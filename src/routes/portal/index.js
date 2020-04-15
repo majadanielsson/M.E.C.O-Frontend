@@ -7,9 +7,22 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
-import {Container} from "react-bootstrap";
+import {
+  Navbar,
+  Container
+} from "react-bootstrap";
 export default function App() {
-  return (<Router>
+  return (
+    <div>
+      <Navbar bg="dark" variant="dark" expand="lg">
+  <Link to="/portal"><Navbar.Brand>Kursvärderingsportalen</Navbar.Brand></Link>
+  <Navbar.Toggle />
+  <Navbar.Collapse className="justify-content-end">
+
+  </Navbar.Collapse>
+</Navbar>
+
+    <Router>
     <div>
       <Switch>
         <Route path="/topics">
@@ -20,7 +33,8 @@ export default function App() {
         </Route>
       </Switch>
     </div>
-  </Router>);
+  </Router>
+</div>);
 }
 
 function Home() {
@@ -63,6 +77,8 @@ function Topics() {
 }
 
 function Topic() {
-  let {topicId} = useParams();
+  let {
+    topicId
+  } = useParams();
   return <h3>Requested topic ID: {topicId}</h3>;
 }

@@ -11,8 +11,11 @@ import Portal from "./routes/portal/";
 import Rapport from "./routes/rapport/";
 import Csv from "./routes/csv/";
 import Home from "./routes/home/";
+import Login from "./routes/login/";
+const User = React.createContext();
 export default function App() {
-  return (<Router>
+  return (<User.Provider>
+    <Router>
     <div>
       <Switch>
 
@@ -28,11 +31,16 @@ export default function App() {
           <Csv/>
         </Route>
 
+        <Route path="/login">
+          <Login/>
+        </Route>
+
         <Route path="/">
           <Home/>
         </Route>
 
       </Switch>
     </div>
-  </Router>);
+  </Router>
+</User.Provider>);
 }
