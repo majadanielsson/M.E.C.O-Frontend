@@ -12,9 +12,23 @@ import Rapport from "./routes/rapport/";
 import Csv from "./routes/csv/";
 import Home from "./routes/home/";
 import Login from "./routes/login/";
-const User = React.createContext();
-export default function App() {
-  return (<User.Provider>
+import UserContext from "context/UserContext"
+export default class App extends React.Component {
+  constructor() {
+    super();
+    var user = window.sessionStorage.getItem("user");
+    this.state = {
+      user: (!user) ? "" : JSON.parse(user),
+      changeUser: (user) => {
+        this.setState({
+          user: user
+        });
+        window.sessionStorage.setItem("user", JSON.stringify(user));
+      }
+    }
+  };
+  render() {
+    return <UserContext.Provider value={this.state}>
     <Router>
     <div>
       <Switch>
@@ -42,5 +56,6 @@ export default function App() {
       </Switch>
     </div>
   </Router>
-</User.Provider>);
+</UserContext.Provider>
+  };
 }

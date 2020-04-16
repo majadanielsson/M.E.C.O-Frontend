@@ -11,16 +11,12 @@ import {
   Navbar,
   Container
 } from "react-bootstrap";
+import User from "components/User";
+import Nav from "components/Nav";
 export default function App() {
   return (
     <div>
-      <Navbar bg="dark" variant="dark" expand="lg">
-  <Link to="/portal"><Navbar.Brand>Kursvärderingsportalen</Navbar.Brand></Link>
-  <Navbar.Toggle />
-  <Navbar.Collapse className="justify-content-end">
-
-  </Navbar.Collapse>
-</Navbar>
+      <Nav name="Kursvärderingsportalen" url="/portal"></Nav>
 
     <Router>
     <div>

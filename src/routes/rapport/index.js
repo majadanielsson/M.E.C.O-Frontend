@@ -7,9 +7,17 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
-import {Container} from "react-bootstrap";
+import {
+  Container,
+  Navbar
+} from "react-bootstrap";
+import User from "components/User";
+import Nav from "components/Nav";
 export default function App() {
-  return (<Router>
+  return (<div>
+    <Nav name="Rapport" url="/rapport"></Nav>
+
+    <Router>
     <div>
       <Switch>
         <Route path="/">
@@ -17,7 +25,7 @@ export default function App() {
         </Route>
       </Switch>
     </div>
-  </Router>);
+  </Router></div>);
 }
 
 function Home() {

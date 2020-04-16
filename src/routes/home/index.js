@@ -1,16 +1,17 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams
+  Link
 } from "react-router-dom";
-import {Container, Button} from "react-bootstrap";
-
+import {
+  Container,
+  Button,
+  Navbar
+} from "react-bootstrap";
+import Nav from "components/Nav";
 export default function App() {
-  return (<Container className="py-4">
+  return (<div>
+    <Nav name="Kursvärderingsportalen" url="/"></Nav>
+    <Container className="py-4">
     <h1>Kursvärderingsportalen</h1>
     <div className="py-2">
       <Link to="/portal">
@@ -23,5 +24,6 @@ export default function App() {
         <Button variant="warning">CSV</Button>
       </Link>
     </div>
-  </Container>);
+  </Container>
+</div>);
 }

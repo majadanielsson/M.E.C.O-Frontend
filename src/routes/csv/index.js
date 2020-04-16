@@ -7,9 +7,14 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
-import {Container} from "react-bootstrap";
+import {
+  Container
+} from "react-bootstrap";
+import Nav from "components/Nav";
 export default function App() {
-  return (<Router>
+  return (<div>
+    <Nav name="CSV" url="/csv"></Nav>
+    <Router>
     <div>
       <Switch>
         <Route path="/">
@@ -17,7 +22,8 @@ export default function App() {
         </Route>
       </Switch>
     </div>
-  </Router>);
+  </Router>
+</div>);
 }
 
 function Home() {
