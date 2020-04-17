@@ -9,15 +9,22 @@ import {
 } from "react-router-dom";
 import {
   Navbar,
-  Container
+  Container,
+  InputGroup,
+  Form
 } from "react-bootstrap";
+import {
+  FontAwesomeIcon
+} from "@fortawesome/react-fontawesome"
+import {
+  faSearch
+} from "@fortawesome/free-solid-svg-icons"
 import User from "components/User";
 import Nav from "components/Nav";
 export default function App() {
   return (
     <div>
       <Nav name="Kursvärderingsportalen" url="/portal"></Nav>
-
     <Router>
     <div>
       <Switch>
@@ -35,7 +42,21 @@ export default function App() {
 
 function Home() {
   return <Container className="py-4">
-    <h1>Portal</h1>
+    <h1>Portalen</h1>
+    <Form className="py-4">
+      <Form.Label>Sök kurser</Form.Label>
+      <InputGroup>
+        <InputGroup.Prepend>
+          <InputGroup.Text id="inputGroupPrepend"><FontAwesomeIcon icon={faSearch}/></InputGroup.Text>
+        </InputGroup.Prepend>
+        <Form.Control
+          type="text"
+          placeholder="Sök"
+          aria-describedby="inputGroupPrepend"
+          required
+        />
+      </InputGroup>
+    </Form>
   </Container>;
 }
 
