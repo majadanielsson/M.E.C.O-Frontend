@@ -16,7 +16,7 @@ export default class User extends React.Component {
   static contextType = UserContext;
   render() {
     if (this.context.user)
-      return <div className="text-white"><FontAwesomeIcon icon={faUser} /> {this.context.user.username}
+      return <div className="text-white"><FontAwesomeIcon icon={faUser} /> {(this.context.user.name) ? this.context.user.name : this.context.user.username}
         <br/>
         <a className="text-white"
           href="#"

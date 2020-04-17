@@ -2,6 +2,19 @@ const apiUrl = "http://localhost:5000"
 
 const api = {
   cas: {
+    dev: async (user) => {
+
+      var settings = {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+      };
+      const response = await fetch(`${apiUrl}/cas/dev`, settings);
+      return response.json();
+    },
     logout: async () => {
       window.sessionStorage.removeItem("user");
       await fetch(`${apiUrl}/cas/logout`);

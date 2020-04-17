@@ -5,13 +5,14 @@ import {
   Route,
   Link,
   useRouteMatch,
-  useParams
+  useParams,
 } from "react-router-dom";
 import {
   Navbar,
   Container,
   InputGroup,
-  Form
+  Form,
+  Button
 } from "react-bootstrap";
 import {
   FontAwesomeIcon
@@ -41,20 +42,19 @@ export default function App() {
 }
 
 function Home() {
-  return <Container className="py-4">
-    <h1>Portalen</h1>
-    <Form className="py-4">
-      <Form.Label>Sök kurser</Form.Label>
+  return <Container className="py-5 col-lg-8 col-xl-6">
+    <h1>Sök kurser</h1>
+    <Form className="py-3">
       <InputGroup>
-        <InputGroup.Prepend>
-          <InputGroup.Text id="inputGroupPrepend"><FontAwesomeIcon icon={faSearch}/></InputGroup.Text>
-        </InputGroup.Prepend>
         <Form.Control
           type="text"
           placeholder="Sök"
           aria-describedby="inputGroupPrepend"
           required
         />
+        <InputGroup.Append>
+          <Button><FontAwesomeIcon icon={faSearch}/></Button>
+        </InputGroup.Append>
       </InputGroup>
     </Form>
   </Container>;
