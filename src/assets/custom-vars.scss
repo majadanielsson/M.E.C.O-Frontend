@@ -1,0 +1,33 @@
+:root {
+  font-size: 16px;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+}
+$theme-colors: (
+  "primary": #057afb
+);
+
+.cover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+// Text
+$headings-font-weight: 600;
+$enable-responsive-font-sizes: true;
+// Border radius
+$border-radius: 0.7rem;
+$border-radius-lg: 0.8rem;
+$border-radius-sm: 0.6rem;
+
+//Alerts
+$alert-bg-level: 0;
+$alert-border-level: 0;
+
+// Buttons
+$input-btn-font-size: 1.1rem;
+$btn-font-weight: 500;
+$input-btn-padding-y: 0.6rem;
+$input-btn-padding-x: 1.1rem;
