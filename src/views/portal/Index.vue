@@ -7,7 +7,7 @@
       <!-- Search Field -->
       <b-form @submit.prevent="searchButton">
         <b-input-group>
-          <b-form-input v-model="q" />
+          <b-form-input v-model="q" placeholder="Sök namn eller kurskod" />
           <b-input-group-append>
             <b-button variant="primary">
               <b-icon icon="search" />
@@ -29,8 +29,8 @@
 
       <!-- Load more -->
       <div class="my-4 text-center">
-        <b-button variant="primary" block @click="load" v-if="results.length > 0 && !complete"><span v-if="loadingPage">Laddar...</span><span v-else>Ladda fler</span></b-button>
-        <span v-if="results.length == 0 && complete">Inga träffar</span>
+        <b-button variant="primary" :disabled="loadingPage" block @click="load" v-if="results.length > 0 && !complete"><span v-if="loadingPage">Laddar...</span><span v-else>Ladda fler</span></b-button>
+        <span v-if="results.length == 0 && complete">Inga resultat hittades.</span>
       </div>
 
       <!-- Loading Placeholder -->
@@ -112,6 +112,7 @@ export default {
       this.loading = false;
       this.results = results;
       this.complete = (results.length < 20) ? true : false;
+      if (results.length == 1) this.$router.replace(this.$route.path + '/courses/' + results[0]._id);
     },
     // Load next page
     load: async function() {
