@@ -1,9 +1,28 @@
+// Base URL to API
 const apiUrl = "http://localhost:5000"
 
 const api = {
-  cas: {
-    dev: async (user) => {
+  search: async (q) => {
+    if (!q) return [];
+    var settings = {
+      credentials: "include",
+    };
 
+    const response = await fetch(`${apiUrl}/search?q=${encodeURI(q.trim())}`, settings);
+    return response.json();
+  },
+  courses: {
+    get: async (id) => {
+      var settings = {
+        credentials: "include",
+      };
+      if (!id) id = "";
+      const response = await fetch(`${apiUrl}/api/courseInstance/?courseID=${encodeURI(id)}`, settings);
+      return response.json();
+    }
+  },
+  cas: { // CAS SSO API
+    dev: async (user) => {
       var settings = {
         credentials: "include",
         method: "POST",

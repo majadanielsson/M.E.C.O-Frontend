@@ -7,12 +7,17 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
+
+// Routes
 import Portal from "./routes/portal/";
 import Rapport from "./routes/rapport/";
 import Csv from "./routes/csv/";
 import Home from "./routes/home/";
 import Login from "./routes/login/";
+
+// Context for user data
 import UserContext from "context/UserContext"
+
 export default class App extends React.Component {
   constructor() {
     super();

@@ -8,11 +8,13 @@ import {
   useParams,
 } from "react-router-dom";
 import {
+  Badge,
   Navbar,
   Container,
   InputGroup,
   Form,
-  Button
+  Button,
+  Card
 } from "react-bootstrap";
 import {
   FontAwesomeIcon
@@ -22,80 +24,85 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import User from "components/User";
 import Nav from "components/Nav";
-export default function App() {
-  return (
-    <div>
-      <Nav name="Kursvärderingsportalen" url="/portal"></Nav>
+import api from "modules/api";
+const portalUrl = "/portal";
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+      <Nav name="Kursvärderingsportalen" url={portalUrl}></Nav>
     <Router>
     <div>
       <Switch>
-        <Route path="/topics">
-          <Topics/>
+        <Route path={`${portalUrl}/courses/:CourseId`}>
+          <Courses/>
         </Route>
-        <Route path="/">
+        <Route path={portalUrl}>
           <Home/>
         </Route>
       </Switch>
     </div>
   </Router>
 </div>);
+  }
 }
 
-function Home() {
-  return <Container className="py-5 col-lg-8 col-xl-6">
+class Home extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      search: []
+    };
+  };
+  render() {
+    const search = async (event) => {
+      event.preventDefault();
+      this.setState({
+        search: await api.search(this.q.value)
+      });
+    }
+    return <Container className="py-5 col-lg-8 col-xl-6">
     <h1>Sök kurser</h1>
-    <Form className="py-3">
+    <Form className="py-3" onSubmit={search}>
       <InputGroup>
         <Form.Control
+          ref={(q) => { this.q = q }}
           type="text"
-          placeholder="Sök"
-          aria-describedby="inputGroupPrepend"
-          required
+          placeholder="Sök namn eller kurskod"
+          aria-describedby="inputGroupAppend"
         />
         <InputGroup.Append>
           <Button><FontAwesomeIcon icon={faSearch}/></Button>
         </InputGroup.Append>
       </InputGroup>
     </Form>
+    {this.state.search.map(item => <Link to={`${portalUrl}/courses/${item._id}`} key={item._id}>
+    <Card className="my-3">
+    <Card.Body>
+    <Card.Title>{item.name}</Card.Title>
+    <Badge className="float-right" variant="secondary" >{item.extent}{item.extentUnit}</Badge>
+    <Card.Subtitle className="text-muted">{item._id}</Card.Subtitle>
+    </Card.Body>
+    </Card>
+</Link>
+
+  )}
   </Container>;
+  }
 }
 
-function Topics() {
-  let match = useRouteMatch();
-
-  return (<div>
-    <h2>Topics</h2>
-
-    <ul>
-      <li>
-        <Link to={`${match.url}/components`}>Components</Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/props-v-state`}>
-          Props v. State
-        </Link>
-      </li>
-    </ul>
-
-    {/* The Topics page has its own <Switch> with more routes
-          that build on the /topics URL path. You can think of the
-          2nd <Route> here as an "index" page for all topics, or
-          the page that is shown when no topic is selected */
-    }
-    <Switch>
-      <Route path={`${match.path}/:topicId`}>
-        <Topic/>
-      </Route>
-      <Route path={match.path}>
-        <h3>Please select a topic.</h3>
-      </Route>
-    </Switch>
-  </div>);
-}
-
-function Topic() {
+function Courses() {
   let {
-    topicId
+    CourseId
   } = useParams();
-  return <h3>Requested topic ID: {topicId}</h3>;
+  var course = {};
+  api.courses.get(CourseId).then(
+    response => course = response
+  )
+  return <Container className="py-4">
+    {course.name}
+  </Container>
 }
