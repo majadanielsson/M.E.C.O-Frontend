@@ -14,10 +14,10 @@
         </b-form>
         <b-card class="bg-secondary text-white">
           <b-form-group label="Kurskod">
-            <b-form-input v-model="params._id" placeholder="1DL221" />
+            <b-form-input v-model="params._id" placeholder="Kurskod" />
           </b-form-group>
           <b-form-group label="Tillfälle">
-            <b-form-input v-model="params.instanceId" placeholder="12345" />
+            <b-form-input v-model="params.instanceId" placeholder="Kurstillfälle" />
           </b-form-group>
         </b-card>
       </b-col>
