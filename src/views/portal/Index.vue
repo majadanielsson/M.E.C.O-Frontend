@@ -29,7 +29,7 @@
       <!-- Load more -->
       <div class="my-4 text-center">
         <p v-if="this.results.length">Visar {{this.results.length}} av {{this.totalCount}}</p>
-        <b-progress v-if="this.results.length" :max="this.totalCount" height="3px" :value="this.results.length" class="mb-4"></b-progress>
+        <b-progress v-if="this.results.length" :max="this.totalCount" height="3px" :value="this.results.length" class="mb-4 mx-5"></b-progress>
         <b-button variant="primary" :disabled="loadingPage" block @click="load" v-if="results.length > 0 && !complete"><span v-if="loadingPage">Laddar...</span><span v-else>Ladda fler</span></b-button>
         <span v-if="results.length == 0 && complete">Inga resultat hittades</span>
       </div>

@@ -9,9 +9,20 @@
     </b-container>
   </div>
   <b-container class="my-4" v-if="course">
-    <h3 v-for="instance in course.instances.sort((a,b) => a.date < b.date)" :key="instance._id">
-      {{toSemester(instance.date)}}
-    </h3>
+    <div class="py-2 course-instance" v-for="instance in course.instances.sort((a,b) => a.date < b.date)" :key="instance._id">
+      <h2 v-b-toggle="`collapse-${instance._id}`" class="cursor-pointer text-dark">
+        <b-icon class="collapse-rotate" icon="caret-down" /> {{toSemester(instance.date)}}
+      </h2>
+      <b-collapse :id="`collapse-${instance._id}`">
+        <b-card class="mb-4" v-if="instance.report">
+          <h3 class="text-dark">Kursrapport</h3>
+          <div v-for="question in instance.report.questions" :key="question._id">
+            <h4>{{question.question}}</h4>
+            <p>{{question.answer}}</p>
+          </div>
+        </b-card>
+      </b-collapse>
+    </div>
   </b-container>
 </div>
 </template>
@@ -38,3 +49,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.course-instance .collapse-rotate {
+  transition: 0.2s transform;
+  transform: rotate(0deg);
+}
+
+.course-instance .collapsed .b-icon {
+  transition: 0.2s transform;
+  transform: rotate(-90deg);
+}
+</style>
