@@ -28,8 +28,10 @@
 
       <!-- Load more -->
       <div class="my-4 text-center">
+        <p v-if="this.results.length">Visar {{this.results.length}} av {{this.totalCount}}</p>
+        <b-progress v-if="this.results.length" :max="this.totalCount" height="3px" :value="this.results.length" class="mb-4"></b-progress>
         <b-button variant="primary" :disabled="loadingPage" block @click="load" v-if="results.length > 0 && !complete"><span v-if="loadingPage">Laddar...</span><span v-else>Ladda fler</span></b-button>
-        <span v-if="results.length == 0 && complete">Inga resultat hittades.</span>
+        <span v-if="results.length == 0 && complete">Inga resultat hittades</span>
       </div>
 
       <!-- Loading Placeholder -->
@@ -88,6 +90,7 @@ export default {
       results: [], // Search results
       loading: false, // Loading initial search
       loadingPage: false, // Loading new page
+      totalCount: null, // Loading new page
     }
   },
   methods: {
@@ -107,7 +110,9 @@ export default {
       this.results = [];
       this.complete = false;
       this.loadingPage = false;
-      const results = await api.search(this.q);
+      const response = await api.search(this.q);
+      const results = response.data;
+      this.totalCount = response.total;
       this.loading = false;
       this.results = results;
       this.complete = (results.length < 20) ? true : false;
@@ -117,7 +122,8 @@ export default {
     load: async function() {
       this.loadingPage = true;
       this.page++;
-      const results = await api.search(this.q, this.page);
+      const response = await api.search(this.q, this.page);
+      const results = response.data;
       this.loadingPage = false;
       if (results.length > 0) this.results.push(...results);
       if (results.length < 20) this.complete = true;
