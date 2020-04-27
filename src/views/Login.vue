@@ -1,6 +1,6 @@
 <!-- PENDING LOGIN -->
 <template>
-<b-container class="d-flex cover align-items-center justify-content-center pb-5 text-center">
+<b-container class="d-flex cover text-secondary align-items-center justify-content-center pb-5 text-center">
 
   <!-- Logging in -->
   <div v-if="loggingIn">

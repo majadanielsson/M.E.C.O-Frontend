@@ -3,9 +3,13 @@
   overflow-x: hidden;
   overflow-wrap: break-word;
 }
+
+// Colors
 $theme-colors: (
-  "primary": #057afb
+  "primary": #61599d
 );
+$dark: #127;
+$body-color: #333;
 
 .cover {
   position: absolute;
@@ -25,6 +29,17 @@ $border-radius-sm: 0.6rem;
 //Alerts
 $alert-bg-level: 0;
 $alert-border-level: 0;
+
+// Links
+$link-color: $dark;
+
+// Input
+$input-btn-border-width: 0;
+$input-bg: #f3f3f3;
+
+// Cards
+$card-bg: #f3f3f3;
+$card-border-width: 0;
 
 // Buttons
 $input-btn-font-size: 1.1rem;

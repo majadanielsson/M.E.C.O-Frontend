@@ -2,6 +2,21 @@
 const apiUrl = "http://localhost:5000"
 
 const api = {
+  reports: {
+    post: async function(questions, params) {
+      var settings = {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(questions)
+      };
+      console.log(settings);
+      const response = await fetch(`${apiUrl}/reports?courseID=${params._id}&instanceID=${params.instanceId}`, settings);
+      return response.json();
+    }
+  },
   search: async (q, page) => {
     // Courses text search
     if (!q) return [];

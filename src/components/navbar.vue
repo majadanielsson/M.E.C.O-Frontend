@@ -1,5 +1,5 @@
 <template>
-<b-navbar type="dark" class="text-white" variant="dark" toggleable="lg">
+<b-navbar type="dark" class="text-white" variant="primary" toggleable="lg">
   <b-navbar-brand :to="url">{{name}}</b-navbar-brand>
   <b-navbar-toggle target="nav-collapse" />
   <b-collapse id="nav-collapse" class="justify-content-end" is-nav>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
+import Report from '@/views/Report.vue'
 import Portal from '@/views/Portal.vue'
 import PortalIndex from '@/views/portal/Index.vue'
 import PortalCourse from '@/views/portal/Course.vue'
@@ -28,7 +29,11 @@ const routes = [{
         component: PortalCourse
       }
     ]
-  }
+  },
+  {
+    path: '/report',
+    component: Report
+  },
 ]
 
 const router = new VueRouter({

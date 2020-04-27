@@ -2,7 +2,7 @@
 <b-container class="my-4">
   <b-row align-h="center">
     <b-col lg="8">
-      <h1 class="mb-3">Sök kurser</h1>
+      <h1 class="mb-3 text-dark">Sök kurser</h1>
 
       <!-- Search Field -->
       <b-form @submit.prevent="searchButton">
@@ -18,10 +18,9 @@
 
       <!-- Search Results -->
       <router-link v-for="result in results" :key="result._id" :to="$route.path+'/courses/'+result._id">
-        <b-card class="my-3">
+        <b-card :title="result.name" class="my-4">
           <b-card-text>
-            {{result.name}}
-            <br>
+            <b-badge variant="dark" class="float-right">{{result.extent}}{{result.extentUnit}}</b-badge>
             <span class="text-muted">{{result._id}}</span>
           </b-card-text>
         </b-card>
@@ -129,3 +128,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.card-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+</style>
