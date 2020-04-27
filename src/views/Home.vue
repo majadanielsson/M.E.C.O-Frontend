@@ -7,7 +7,7 @@
     <h1>Kursvärderingsportalen</h1>
     <div class="py-2">
       <b-button to="/portal" variant="primary" class="mr-1">Portalen</b-button>
-      <b-button to="/rapport" variant="success" class="mr-1">Rapport</b-button>
+      <b-button to="/report" variant="success" class="mr-1">Rapport</b-button>
       <b-button to="/csv" variant="warning">CSV</b-button>
     </div>
 

@@ -36,7 +36,11 @@ export default {
         question: element.question,
         answer: element.answer
       }));
-      api.reports.post(questions, this.params);
+      var data = {
+        questions: questions,
+        author: "User"
+      }
+      api.reports.post(data, this.params);
     }
   },
   data: function() {

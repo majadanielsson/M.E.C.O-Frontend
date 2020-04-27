@@ -3,14 +3,14 @@ const apiUrl = "http://localhost:5000"
 
 const api = {
   reports: {
-    post: async function(questions, params) {
+    post: async function(data, params) {
       var settings = {
         credentials: "include",
         method: "POST",
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify(questions)
+        body: JSON.stringify(data)
       };
       console.log(settings);
       const response = await fetch(`${apiUrl}/reports?courseID=${params._id}&instanceID=${params.instanceId}`, settings);
