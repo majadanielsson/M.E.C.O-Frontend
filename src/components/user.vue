@@ -11,8 +11,8 @@
 
   <!-- Not logged in -->
   <template v-else>
-    <b-link class="text-white" @click="login" href="#">
-      <b-icon icon="box-arrow-in-right" scale="1.2" /> Logga in</b-link>
+    <b-button variant="primary" @click="login" href="#">
+      <b-icon icon="box-arrow-in-right" scale="1.2" /> Logga in</b-button>
 </template>
 
 </div>
@@ -20,18 +20,7 @@
 </template>
 
 <script>
-import api from "@/modules/api"
 export default {
   name: 'user',
-  methods: {
-    logout: async function() {
-      this.$root.user = null;
-      api.cas.logout();
-
-    },
-    login: function() {
-      api.cas.redirect();
-    },
-  }
 }
 </script>

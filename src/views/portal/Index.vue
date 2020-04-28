@@ -20,7 +20,7 @@
       <router-link v-for="result in results" :key="result._id" :to="$route.path+'/courses/'+result._id">
         <b-card :title="result.name" class="my-4">
           <b-card-text>
-            <b-badge variant="dark" class="float-right">{{result.extent}}{{result.extentUnit}}</b-badge>
+            <b-badge variant="dark" class="float-right">{{result.extent}} {{result.extentUnit}}</b-badge>
             <span class="text-muted">{{result._id}}</span>
           </b-card-text>
         </b-card>

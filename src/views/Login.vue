@@ -9,7 +9,7 @@
 
   <!-- Failed -->
   <div v-else>
-    <h1 class="h3 mb-5">Inloggningen misslyckades</h1>
+    <h1 class="h3 mb-4">Inloggningen misslyckades</h1>
     <b-button class="my-2" variant="primary" @click="login">Försök igen</b-button>
     <br>
     <b-button variant="link text-dark" to="/">Tillbaka</b-button>

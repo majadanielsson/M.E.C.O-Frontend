@@ -4,7 +4,7 @@
     <b-container v-if="course">
       <h1 class="h2">{{course.name}}</h1>
       <h2 class="h5"><span class="d-inline-block align-middle mr-2">{{course._id}}</span>
-        <b-badge class="d-inline-block align-middle" variant="light">{{course.extent}}{{course.extentUnit}}</b-badge>
+        <b-badge class="d-inline-block align-middle" variant="light">{{course.extent}} {{course.extentUnit}}</b-badge>
       </h2>
     </b-container>
   </div>
