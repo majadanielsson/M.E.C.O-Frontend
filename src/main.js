@@ -19,5 +19,10 @@ new Vue({
       user: null
     }
   },
+  created: function() {
+    const user = window.sessionStorage.getItem("user");
+    if (user) this.user = JSON.parse(user);
+
+  },
   render: h => h(App)
 }).$mount('#app')

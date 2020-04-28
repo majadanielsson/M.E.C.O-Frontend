@@ -4,8 +4,8 @@
   <b-collapse class="justify-content-end" is-nav>
     <!-- Logged in -->
     <b-button variant="primary" v-if="this.$root.user" v-b-toggle.sidebar>
-      <b-icon icon="person-fill" scale="1.2" />
-      <span class="d-none d-sm-inline">
+      <b-icon icon="person-check-fill" scale="1.2" />
+      <span class="d-none d-sm-inline ml-1">
         {{(this.$root.user.name) ? this.$root.user.name : this.$root.user.username }}
       </span>
     </b-button>
@@ -13,34 +13,23 @@
     <!-- Not logged in -->
     <b-button v-else variant="primary" @click="login" href="#">
       <b-icon icon="person-plus" scale="1.2" />
-      <span class="d-none d-sm-inline">
+      <span class="d-none d-sm-inline ml-1">
         Logga in
       </span>
     </b-button>
 
   </b-collapse>
   <!-- Logged in -->
-  <b-sidebar class="text-center" bg-variant="dark" text-variant="light" id="sidebar" shadow>
-    <div class="px-4 py-3 large">
-      <template v-if="this.$root.user">
-        <div class="mb-4">
-          <div class="my-2">
-            <b-avatar size="6em" variant="primary"></b-avatar>
-          </div>
-          {{(this.$root.user.name) ? this.$root.user.name : this.$root.user.username }}
-        </div>
-        <div class="my-3">
-          <b-button variant="light" @click="logout" href="#">
-            <b-icon icon="box-arrow-right" scale="1.2" /> Logga ut</b-button>
-        </div>
-      </template>
-
-      <!-- Not logged in -->
-      <template v-else>
-        <b-button variant="light" @click="login" href="#">
-          <b-icon icon="box-arrow-in-right" scale="1.2" /> Logga in</b-button>
-      </template>
-      <slot></slot>
+  <b-sidebar v-if="this.$root.user" backdrop class="text-center" body-class="d-flex px-5 py-3 pt-4 large justify-content-between flex-column" bg-variant="dark" text-variant="light" id="sidebar" shadow>
+    <div>
+      <div class="mb-4">
+        <b-avatar size="7em" variant="primary" :text="this.$root.user.username.substring(0,1)+this.$root.user.username.substring(2,3)" />
+      </div>
+      <h4>{{(this.$root.user.name) ? this.$root.user.name : this.$root.user.username }}</h4>
+    </div>
+    <div class="my-4">
+      <b-button block variant="light" @click="logout" href="#">
+        <b-icon icon="person-dash" scale="1.2" class="mr-1" /> Logga ut</b-button>
     </div>
   </b-sidebar>
 </b-navbar>

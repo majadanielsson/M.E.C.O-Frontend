@@ -49,6 +49,7 @@ export default {
     devLogin: async function() {
       const data = await api.cas.dev(this.form);
       this.$root.user = data;
+      window.sessionStorage.setItem("user", JSON.stringify(data));
     }
   },
   data: function() {

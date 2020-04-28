@@ -35,6 +35,7 @@ export default {
       try {
         const data = await api.cas.login(ticket);
         this.$root.user = data;
+        window.sessionStorage.setItem("user", JSON.stringify(data));
         const redirect = window.sessionStorage.getItem("redirect");
         window.sessionStorage.removeItem("redirect");
         this.$router.push(redirect);
