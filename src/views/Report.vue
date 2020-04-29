@@ -1,6 +1,6 @@
 <template>
 <div>
-  <navbar name="Kursvärderingsportalen" url="/rapport">
+  <navbar name="Kursvärderingsportalen" url="/report">
   </navbar>
   <b-container class="my-4">
     <b-row align-h="center">
