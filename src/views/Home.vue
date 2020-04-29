@@ -4,7 +4,7 @@
   </navbar>
 
   <b-container class="py-4">
-    <h1>Kursvärderingsportalen</h1>
+    <h1 class="text-dark">Kursvärderingsportalen</h1>
     <p v-if="$root.user" class="large">Välkommen {{($root.user.name) ? $root.user.name.split(" ")[0] : $root.user.username}}!</p>
     <div class="py-2">
       <b-button to="/portal" variant="primary" class="mr-1">Portalen</b-button>
