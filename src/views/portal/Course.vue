@@ -44,7 +44,7 @@ export default {
       var p = date.substring(5);
       //translates period to corresponding 
       //period in "Teknisk-naturvetenskapliga fakulteten" for now.
-      if (p < 3) return "VT " + year + ", period " + eval(eval(p)+2);
+      if (p < 3) return "VT " + year + ", period " + (parseInt(p)+2);
       if (p > 3) return "HT " + year + ", period " + (p-3);
       else return "Sommar " + year;
     }
