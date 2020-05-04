@@ -4,14 +4,6 @@
     <b-row align-h="center">
       <b-col lg="8">
         <h1>Kursrapport</h1>
-        <b-card class="bg-secondary text-white">
-          <b-form-group label="Kurskod">
-            <b-form-input size="sm" v-model="params._id" placeholder="Kurskod" />
-          </b-form-group>
-          <b-form-group label="Tillfälle">
-            <b-form-input size="sm" v-model="params.instanceId" placeholder="Kurstillfälle" />
-          </b-form-group>
-        </b-card>
         <b-form class="py-3" @submit.prevent="submitForm">
           <b-form-group :label="question.question" v-for="question in form" :key="question._id">
             <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
@@ -37,7 +29,10 @@ export default {
         questions: questions,
         author: "User"
       }
-      api.reports.post(data, this.params);
+      api.reports.post(data, {
+        _id: this.$route.params.courseId,
+        instanceId: this.$route.params.instanceId,
+      });
     }
   },
   data: function() {
@@ -64,10 +59,6 @@ export default {
           _id: 3
         }
       ],
-      params: {
-        _id: this.$route.params.courseId,
-        instanceId: this.$route.params.instanceId,
-      }
     }
   },
 }
