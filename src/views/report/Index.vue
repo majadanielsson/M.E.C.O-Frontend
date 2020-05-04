@@ -9,7 +9,7 @@
             <b-badge class="d-inline-block align-middle" variant="primary">{{course.extent}} {{course.extentUnit}}</b-badge>
           </h3>
           <div>
-            <b-link :to="'report/'+ course._id+ '/' + instance._id" v-for="instance in course.instances" :key="instance._id">
+            <b-link :to="$route.path + '/report/'+ course._id+ '/' + instance._id" v-for="instance in course.instances" :key="instance._id">
               <b-card class="my-3">{{toSemester(instance.date)}}</b-card>
             </b-link>
           </div>
