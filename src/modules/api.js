@@ -32,8 +32,8 @@ const api = {
       var settings = {
         credentials: "include",
       };
-      if (!id) id = "";
-      const response = await fetch(`${apiUrl}/api/courseInstance/?courseID=${encodeURI(id)}`, settings);
+      if (!id) throw "ID needed";
+      const response = await fetch(`${apiUrl}/api/courseInstance/${encodeURI(id)}`, settings);
       return response.json();
     }
   },
