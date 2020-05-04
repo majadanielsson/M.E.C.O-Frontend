@@ -7,7 +7,7 @@
       <!-- Search Field -->
       <b-form @submit.prevent="searchButton">
         <b-input-group>
-          <b-form-input v-model="q" placeholder="Sök namn eller kurskod" />
+          <b-form-input v-model="q" autocomplete="off" placeholder="Sök namn eller kurskod" />
           <b-input-group-append>
             <b-button variant="primary">
               <b-icon icon="search" />

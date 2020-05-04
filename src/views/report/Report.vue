@@ -1,7 +1,5 @@
 <template>
 <div>
-  <navbar name="Kursvärderingsportalen" url="/report">
-  </navbar>
   <b-container class="my-4">
     <b-row align-h="center">
       <b-col lg="8">
@@ -16,7 +14,7 @@
         </b-card>
         <b-form class="py-3" @submit.prevent="submitForm">
           <b-form-group :label="question.question" v-for="question in form" :key="question._id">
-            <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required ></b-form-textarea>
+            <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
           </b-form-group>
           <b-button class="my-2" type="submit" variant="primary">Skicka kursrapport</b-button>
         </b-form>
@@ -27,7 +25,6 @@
 </template>
 
 <script>
-import navbar from "@/components/navbar"
 import api from "@/modules/api"
 export default {
   methods: {
@@ -50,7 +47,7 @@ export default {
           answer: "",
           _id: 0
         },
-        
+
         {
           question: "Kursens styrkor enligt studenterna",
           answer: "",
@@ -68,13 +65,10 @@ export default {
         }
       ],
       params: {
-        _id: "",
-        instanceId: "",
+        _id: this.$route.params.courseId,
+        instanceId: this.$route.params.instanceId,
       }
     }
   },
-  components: {
-    navbar
-  }
 }
 </script>

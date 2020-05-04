@@ -2,7 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
-import Report from '@/views/Report.vue'
+import Admin from '@/views/Admin.vue'
+import ReportIndex from '@/views/report/Index.vue'
+import ReportReport from '@/views/report/Report.vue'
 import Csv from '@/views/Csv.vue'
 import Portal from '@/views/Portal.vue'
 import PortalIndex from '@/views/portal/Index.vue'
@@ -32,8 +34,17 @@ const routes = [{
     ]
   },
   {
-    path: '/report',
-    component: Report
+    path: '/admin',
+    component: Admin,
+    children: [{
+        path: "",
+        component: ReportIndex
+      },
+      {
+        path: "report/:courseId/:instanceId",
+        component: ReportReport
+      }
+    ]
   },
   {
     path: '/csv',

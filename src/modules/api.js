@@ -28,12 +28,13 @@ const api = {
     return response.json();
   },
   courses: {
-    get: async (id) => {
+    get: async (id, params) => {
       var settings = {
         credentials: "include",
       };
-      if (!id) throw "ID needed";
-      const response = await fetch(`${apiUrl}/courses/${encodeURI(id)}`, settings);
+      var querystring;
+      if (params && params.responsible) querystring = "?responsible=true";
+      const response = await fetch(`${apiUrl}/courses${id ? "/" : ""}${encodeURI(id)}${querystring}`, settings);
       return response.json();
     }
   },
