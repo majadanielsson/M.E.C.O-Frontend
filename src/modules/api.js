@@ -32,7 +32,7 @@ const api = {
       var settings = {
         credentials: "include",
       };
-      var querystring;
+      var querystring = "";
       if (params && params.responsible) querystring = "?responsible=true";
       const response = await fetch(`${apiUrl}/courses${id ? "/" : ""}${encodeURI(id)}${querystring}`, settings);
       return response.json();
