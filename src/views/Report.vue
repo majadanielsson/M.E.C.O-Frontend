@@ -5,21 +5,21 @@
   <b-container class="my-4">
     <b-row align-h="center">
       <b-col lg="8">
-        <h1>Formulär</h1>
-        <b-form class="py-3" @submit.prevent="submitForm">
-          <b-form-group :label="question.question" v-for="question in form" :key="question._id">
-            <b-form-input v-model="question.answer" trim placeholder="Svar" required />
-          </b-form-group>
-          <b-button class="my-2" type="submit" variant="primary">Skicka</b-button>
-        </b-form>
+        <h1>Kursrapport</h1>
         <b-card class="bg-secondary text-white">
           <b-form-group label="Kurskod">
-            <b-form-input v-model="params._id" placeholder="Kurskod" />
+            <b-form-input size="sm" v-model="params._id" placeholder="Kurskod" />
           </b-form-group>
           <b-form-group label="Tillfälle">
-            <b-form-input v-model="params.instanceId" placeholder="Kurstillfälle" />
+            <b-form-input size="sm" v-model="params.instanceId" placeholder="Kurstillfälle" />
           </b-form-group>
         </b-card>
+        <b-form class="py-3" @submit.prevent="submitForm">
+          <b-form-group :label="question.question" v-for="question in form" :key="question._id">
+            <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required ></b-form-textarea>
+          </b-form-group>
+          <b-button class="my-2" type="submit" variant="primary">Skicka kursrapport</b-button>
+        </b-form>
       </b-col>
     </b-row>
   </b-container>
@@ -46,14 +46,25 @@ export default {
   data: function() {
     return {
       form: [{
-          question: "Vad heter du?",
+          question: "Beskrivning av eventuella förändringar sedan förra kurstillfället",
           answer: "",
           _id: 0
         },
+        
         {
-          question: "Vilken är din favoritfärg?",
+          question: "Kursens styrkor enligt studenterna",
           answer: "",
           _id: 1
+        },
+        {
+          question: "Kursens svagheter engligt studenterna",
+          answer: "",
+          _id: 2
+        },
+        {
+          question: "Kursansvariges analys av kurstillfället",
+          answer: "",
+          _id: 3
         }
       ],
       params: {
