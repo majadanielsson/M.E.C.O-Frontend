@@ -9,7 +9,7 @@
     </b-container>
   </div>
   <b-container class="my-4" v-if="course">
-    <div class="py-2 course-instance" v-for="instance in course.instances.sort((a,b) => a.date - b.date)" :key="instance._id">
+    <div class="py-2 course-instance" v-for="instance in course.instances.sort((a,b) => a.date < b.date)" :key="instance._id">
       <h2 v-b-toggle="`collapse-${instance._id}`" class="cursor-pointer text-dark">
         <b-icon class="collapse-rotate" icon="caret-down" /> {{toSemester(instance.date)}}
       </h2>
