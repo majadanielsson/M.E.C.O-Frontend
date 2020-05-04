@@ -13,7 +13,7 @@ const api = {
         body: JSON.stringify(data)
       };
       console.log(settings);
-      const response = await fetch(`${apiUrl}/reports?courseID=${params._id}&instanceID=${params.instanceId}`, settings);
+      const response = await fetch(`${apiUrl}/courses/${encodeURI(params._id)}/${encodeURI(params.instanceId)}`, settings);
       return response.json();
     }
   },
@@ -33,7 +33,7 @@ const api = {
         credentials: "include",
       };
       if (!id) throw "ID needed";
-      const response = await fetch(`${apiUrl}/api/courseInstance/${encodeURI(id)}`, settings);
+      const response = await fetch(`${apiUrl}/courses/${encodeURI(id)}`, settings);
       return response.json();
     }
   },
