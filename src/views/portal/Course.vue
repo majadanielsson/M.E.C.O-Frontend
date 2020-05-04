@@ -9,7 +9,7 @@
     </b-container>
   </div>
   <b-container class="my-4" v-if="course">
-    <div class="py-2 course-instance" v-for="instance in course.instances.sort((a,b) => a.date < b.date)" :key="instance._id">
+    <div class="py-2 course-instance" v-for="instance in course.instances" :key="instance._id">
       <h2 v-b-toggle="`collapse-${instance._id}`" class="cursor-pointer text-dark">
         <b-icon class="collapse-rotate" icon="caret-down" /> {{toSemester(instance.date)}}
       </h2>
@@ -31,7 +31,9 @@
 import api from "@/modules/api"
 export default {
   created: async function() {
-    this.course = await api.courses.get(this.$route.params.id);
+    var course = await api.courses.get(this.$route.params.id);
+    course.instances.sort((a, b) => a.date < b.date);
+    this.course = course;
   },
   data: function() {
     return {
@@ -42,10 +44,10 @@ export default {
     toSemester: function(date) {
       var year = date.substring(0, 4);
       var p = date.substring(5);
-      //translates period to corresponding 
+      //translates period to corresponding
       //period in "Teknisk-naturvetenskapliga fakulteten" for now.
-      if (p < 3) return "VT " + year + ", period " + (parseInt(p)+2);
-      if (p > 3) return "HT " + year + ", period " + (p-3);
+      if (p < 3) return "VT " + year + ", period " + (parseInt(p) + 2);
+      if (p > 3) return "HT " + year + ", period " + (p - 3);
       else return "Sommar " + year;
     }
   }
