@@ -4,13 +4,16 @@
     <b-row align-h="center">
       <b-col lg="8">
         <div v-for="course in courses" :key="course._id">
-          <h2>{{course.name}}</h2>
+          <h3>{{course.name}}</h3>
           <h3 class="h5"><span class="d-inline-block align-middle mr-2">{{course._id}}</span>
             <b-badge class="d-inline-block align-middle" variant="primary">{{course.extent}} {{course.extentUnit}}</b-badge>
           </h3>
           <div>
             <b-link :to="$route.path + '/report/'+ course._id+ '/' + instance._id" v-for="instance in course.instances" :key="instance._id">
-              <b-card class="my-3">{{toSemester(instance.date)}}</b-card>
+              <b-card class="my-3">
+                {{toSemester(instance.date)}}
+                <b-button>I am a Link</b-button>
+              </b-card>
             </b-link>
           </div>
         </div>
