@@ -8,6 +8,7 @@
       </div>
       <div class="column">
     </div>
+    </div>
   </section>
 </template>
 

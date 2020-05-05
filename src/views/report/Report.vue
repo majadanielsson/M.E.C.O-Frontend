@@ -18,7 +18,6 @@
 
 <script>
 import api from "@/modules/api"
-import { Bar } from 'vue-chartjs'
 export default {
   methods: {
     submitForm: function() {
