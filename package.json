@@ -10,11 +10,15 @@
   "dependencies": {
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.12.0",
+    "chart.js": "^2.9.3",
+    "chartkick": "^3.2.0",
     "core-js": "^3.6.4",
     "papaparse": "^5.2.0",
     "vue": "^2.6.11",
+    "vue-chartkick": "^0.6.0",
     "vue-content-loader": "^0.2.3",
-    "vue-router": "^3.1.6"
+    "vue-router": "^3.1.6",
+    "yarn": "^1.22.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

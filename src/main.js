@@ -6,6 +6,12 @@ import {
 import App from './App.vue'
 import router from './router'
 
+
+import Chartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+
+Vue.use(Chartkick.use(Chart))
+
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
