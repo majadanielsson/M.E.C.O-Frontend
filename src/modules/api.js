@@ -3,7 +3,7 @@ const apiUrl = "http://localhost:5000"
 
 const api = {
   reports: {
-    post: async function(data, params) {
+    post: async function (data, params) {
       var settings = {
         credentials: "include",
         method: "POST",
@@ -35,6 +35,15 @@ const api = {
       var querystring = "";
       if (params && params.responsible) querystring = "?responsible=true";
       const response = await fetch(`${apiUrl}/courses${id ? "/" : ""}${encodeURI(id)}${querystring}`, settings);
+      return response.json();
+    }
+  },
+  courseInstance: {
+    get: async (courseId, instanceId) => {
+      var settings = {
+        credentials: "include",
+      };
+      const response = await fetch(`${apiUrl}/courses/${courseId}/${instanceId}`, settings);
       return response.json();
     }
   },
