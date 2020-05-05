@@ -9,6 +9,7 @@ import Csv from '@/views/Csv.vue'
 import Portal from '@/views/Portal.vue'
 import PortalIndex from '@/views/portal/Index.vue'
 import PortalCourse from '@/views/portal/Course.vue'
+import VueChartJS from '@/views/VueChartJS'
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,11 @@ const routes = [{
   {
     path: '/csv',
     component: Csv
+  },
+  {
+    path: '/chartjs',
+    name: 'VueChartJS',
+    component: VueChartJS
   },
 ]
 

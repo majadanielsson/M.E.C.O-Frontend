@@ -39,7 +39,7 @@ export default {
     return {
       course: null
     }
-  },
+  },  
   methods: {
     toSemester: function(date) {
       var year = date.substring(0, 4);
