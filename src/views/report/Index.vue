@@ -4,17 +4,32 @@
     <b-row align-h="center">
       <b-col lg="8">
         <div v-for="course in courses" :key="course._id">
-          <h3>{{course.name}}</h3>
-          <h3 class="h5"><span class="d-inline-block align-middle mr-2">{{course._id}}</span>
+          <h4>{{course.name}}</h4>
+          <h4 class="h5"><span class="d-inline-block align-middle mr-2">{{course._id}}</span>
             <b-badge class="d-inline-block align-middle" variant="primary">{{course.extent}} {{course.extentUnit}}</b-badge>
-          </h3>
+          </h4>
           <div>
-            <b-link :to="$route.path + '/report/'+ course._id+ '/' + instance._id" v-for="instance in course.instances" :key="instance._id">
-              <b-card class="my-3">
-                {{toSemester(instance.date)}}
-                <b-button>I am a Link</b-button>
-              </b-card>
-            </b-link>
+            <b-card class="my-3" v-for="instance in course.instances" :key="instance._id">
+              <b-container>
+              <b-row align-v="center" align-h="center">
+                <b-col>
+                <b-link>{{toSemester(instance.date)}}</b-link>
+                </b-col>
+                <b-col v-if="Array.isArray(instance.report) && instance.report.length">
+                  <b-badge variant="green">Kursrapport finns</b-badge>
+                </b-col>
+                <b-col v-else>
+                  <b-badge variant="red">Kursrapport finns inte</b-badge>
+                </b-col>
+                <b-col v-if="Array.isArray(instance.report) && instance.report.length">
+                  <b-badge :to="$route.path + '/report/'+ course._id+ '/' + instance._id" variant="primary">Redigera kursrapport</b-badge>
+                </b-col>
+                <b-col v-else>
+                  <b-badge :to="$route.path + '/report/'+ course._id+ '/' + instance._id" variant="primary">Skriv kursrapport</b-badge>
+                </b-col>
+              </b-row>
+              </b-container>
+            </b-card>
           </div>
         </div>
       </b-col>

@@ -8,7 +8,7 @@
           <h5>Kurskod: {{instance.courseId}}</h5>
           <h5>Kurstillfälle: {{toSemester(instance.date)}}</h5>
             <div v-if="Array.isArray(instance.report) && instance.report.length">
-              <p v-for="report in instance.report" :key="report._id">Senast ändrad av: {{report.author}}, {{report.date.slice(0,10)}} {{report.date.slice(11,16)}}</p>
+              <p v-for="report in instance.report" :key="report._id">Ändrad av: {{report.author}}, {{report.date.slice(0,10)}} {{report.date.slice(11,16)}}</p>
               <b-form class="py-3" @submit.prevent="submitForm">
                 <b-form-group :label="question.question" v-for="question in instance.report[instance.report.length - 1].questions" :key="question._id">
                   <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
