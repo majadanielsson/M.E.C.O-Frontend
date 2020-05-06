@@ -45,6 +45,18 @@ const api = {
       };
       const response = await fetch(`${apiUrl}/courses/${courseId}/${instanceId}`, settings);
       return response.json();
+    },
+    comment: async (courseId, instanceId, comment) => {
+      var settings = {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(comment)
+      };
+      const response = await fetch(`${apiUrl}/courses/${courseId}/${instanceId}/comment`, settings);
+      return response.json();
     }
   },
   cas: { // CAS SSO API
