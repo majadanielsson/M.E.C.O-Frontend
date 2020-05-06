@@ -9,7 +9,6 @@ import Csv from '@/views/Csv.vue'
 import Portal from '@/views/Portal.vue'
 import PortalIndex from '@/views/portal/Index.vue'
 import PortalCourse from '@/views/portal/Course.vue'
-import VueChartKick from '@/views/VueChartKick'
 
 Vue.use(VueRouter)
 
@@ -50,11 +49,6 @@ const routes = [{
   {
     path: '/csv',
     component: Csv
-  },
-  {
-    path: '/chartkick',
-    name: 'VueChartKick',
-    component: VueChartKick
   },
 ]
 

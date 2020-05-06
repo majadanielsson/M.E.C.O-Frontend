@@ -9,6 +9,28 @@
     </b-container>
   </div>
   <b-container class="my-4" v-if="course">
+    <div>
+      <div style="float: left">
+        <h5 class="text-dark">Antal registrerade studenter</h5>
+        <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
+        <line-chart width="90%" height="70%" :data="studentsReg"></line-chart>
+      </div>
+      <div style="float: left">
+        <h5 class="text-dark">Genomsnittligt betyg</h5>
+        <small class="text-dark">..</small>
+        <line-chart width="90%" height="70%" :discrete="true" :min="2" :max="5" :data="avarageGrade"></line-chart>
+      </div>
+      <div style="float: left">
+        <h5 class="text-dark">Studenternas nöjdhet med kursen</h5>
+        <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
+        <line-chart width="90%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageImpression"></line-chart>
+      </div>
+      <div style="float: left">
+        <h5 class="text-dark">Studenternas ansträngning</h5>
+        <small class="text-dark">..</small>
+        <line-chart width="90%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageEffort"></line-chart>
+      </div>
+    </div>
     <div class="py-2 course-instance" v-for="instance in course.instances" :key="instance._id">
       <h2 v-b-toggle="`collapse-${instance._id}`" class="cursor-pointer text-dark">
         <b-icon class="collapse-rotate" icon="caret-down" /> {{toSemester(instance.date)}}
@@ -34,13 +56,37 @@ export default {
     var course = await api.courses.get(this.$route.params.id);
     course.instances.sort((a, b) => a.date < b.date);
     this.course = course;
+    this.avarageToArray();
   },
   data: function() {
     return {
-      course: null
+      course: null,
+      studentsReg: [['2015', 44], ['2016', 27], ['2017', 60], ['2018', 55], ['2019', 37]],
+      avarageGrade: [['2015', 5], ['2016', 3], ['2017', 3], ['2018', 4], ['2019', 5]],
+      avarageImpression: [],
+      avarageEffort: []
     }
   },
   methods: {
+    avarageToArray: function() {
+      for (var i = 0; i < this.course.instances.length; i++) {
+        var instance = this.course.instances[i]
+
+        console.log(instance.report[instance.report.length - 1]);
+        if(instance.report[instance.report.length - 1]) {
+          var year = instance.date.substring(0, 4);
+
+          var answerImpression = instance.report[instance.report.length - 1].questions[0].answer;
+          var answerEffort = instance.report[instance.report.length - 1].questions[1].answer;
+
+          this.avarageImpression.push([year.toString(), answerImpression]);
+          this.avarageEffort.push([year.toString(), answerEffort]);
+
+          console.log(this.avarageImpression);
+          console.log(this.avarageEffort);
+        }
+      }
+    },
     toSemester: function(date) {
       var year = date.substring(0, 4);
       var p = date.substring(5);
