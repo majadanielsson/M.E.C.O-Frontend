@@ -42,7 +42,7 @@ export default {
     var select = this.course.instances.findIndex(
       instance => instance.report.length
     );
-    if (select>=0) this.selected = select;
+    if (select >= 0) this.selected = select;
   },
   data: function() {
     return {
