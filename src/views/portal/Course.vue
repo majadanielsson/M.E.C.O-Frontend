@@ -10,24 +10,24 @@
   </div>
   <b-container class="my-4" v-if="course">
     <div>
-      <div style="float: left">
+      <div class="graph">
         <h5 class="text-dark">Antal registrerade studenter</h5>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
         <line-chart width="90%" height="70%" :data="studentsReg"></line-chart>
       </div>
-      <div style="float: left">
+      <div class="graph">
         <h5 class="text-dark">Genomsnittligt betyg</h5>
         <small class="text-dark">..</small>
         <line-chart width="90%" height="70%" :discrete="true" :min="2" :max="5" :data="avarageGrade"></line-chart>
       </div>
-      <div style="float: left">
+      <div class="graph">
         <h5 class="text-dark">Studenternas nöjdhet med kursen</h5>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
         <line-chart width="90%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageImpression"></line-chart>
       </div>
-      <div style="float: left">
+      <div class="graph">
         <h5 class="text-dark">Studenternas ansträngning</h5>
-        <small class="text-dark">..</small>
+        <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
         <line-chart width="90%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageEffort"></line-chart>
       </div>
     </div>
@@ -109,5 +109,9 @@ export default {
 .course-instance .collapsed .b-icon {
   transition: 0.2s transform;
   transform: rotate(-90deg);
+}
+.graph {
+  margin: 25px;
+  float: left;
 }
 </style>
