@@ -1,44 +1,54 @@
 <template>
-<div>
-  <div class="bg-primary text-white py-5">
-    <b-container v-if="course">
-      <h1 class="h2">{{course.name}}</h1>
-      <h2 class="h5"><span class="d-inline-block align-middle mr-2">{{course._id}}</span>
-        <b-badge class="d-inline-block align-middle" variant="light">{{course.extent}} {{course.extentUnit}}</b-badge>
-      </h2>
+  <div>
+    <!--Header-->
+    <div class="bg-primary text-white py-5">
+      <b-container v-if="course">
+        <h1 class="h2">{{course.name}}</h1>
+        <h2 class="h5">
+          <span class="d-inline-block align-middle mr-2">{{course._id}}</span>
+          <b-badge
+            class="d-inline-block align-middle"
+            variant="light"
+          >{{course.extent}} {{course.extentUnit}}</b-badge>
+        </h2>
+      </b-container>
+    </div>
+    <!--Content-->
+    <b-container class="my-4" v-if="course">
+      <b-form-select v-model="selected" size="lg" class="text-dark">
+        <b-form-select-option
+          v-for="(instance, index) in course.instances"
+          :key="instance._id"
+          :value="index"
+        >{{instance.dateString}}</b-form-select-option>
+      </b-form-select>
+      <course-instance :instance="course.instances[selected]" />
     </b-container>
   </div>
-  <b-container class="my-4" v-if="course">
-    <div class="py-2 course-instance" v-for="instance in course.instances" :key="instance._id">
-      <h2 v-b-toggle="`collapse-${instance._id}`" class="cursor-pointer text-dark">
-        <b-icon class="collapse-rotate" icon="caret-down" /> {{toSemester(instance.date)}}
-      </h2>
-      <b-collapse :id="`collapse-${instance._id}`">
-        <b-card class="mb-4" v-if="instance.report">
-          <h3 class="text-dark">Kursrapport</h3>
-          <div v-for="question in instance.report.questions" :key="question._id">
-            <h4>{{question.question}}</h4>
-            <p>{{question.answer}}</p>
-          </div>
-        </b-card>
-      </b-collapse>
-    </div>
-  </b-container>
-</div>
 </template>
 
 <script>
-import api from "@/modules/api"
+import api from "@/modules/api";
+import courseInstance from "@/components/courseInstance";
 export default {
   created: async function() {
     var course = await api.courses.get(this.$route.params.id);
     course.instances.sort((a, b) => a.date < b.date);
+    for (var i in course.instances)
+      course.instances[i].dateString = this.toSemester(
+        course.instances[i].date
+      );
     this.course = course;
+    var select = this.course.instances.findIndex(
+      instance => instance.report.length
+    );
+    if (select>=0) this.selected = select;
   },
   data: function() {
     return {
-      course: null
-    }
+      course: null,
+      selected: 0
+    };
   },
   methods: {
     toSemester: function(date) {
@@ -50,8 +60,11 @@ export default {
       if (p > 3) return "HT " + year + ", period " + (p - 3);
       else return "Sommar " + year;
     }
+  },
+  components: {
+    courseInstance
   }
-}
+};
 </script>
 
 <style scoped>
