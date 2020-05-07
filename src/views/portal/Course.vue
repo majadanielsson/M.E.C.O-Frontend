@@ -13,19 +13,7 @@
         </h2>
       </b-container>
     </div>
-    <!--Content-->
     <b-container class="my-4" v-if="course">
-      <b-form-select v-model="selected" size="lg" class="text-dark">
-        <b-form-select-option
-          v-for="(instance, index) in course.instances"
-          :key="instance._id"
-          :value="index"
-        >{{instance.dateString}}</b-form-select-option>
-      </b-form-select>
-      <course-instance :instance="course.instances[selected]" />
-    </b-container>
-
-  <b-container class="my-4" v-if="course">
     <div>
       <div class="graph">
         <h5 class="text-dark">Antal registrerade studenter</h5>
@@ -48,21 +36,18 @@
         <line-chart width="90%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageEffort"></line-chart>
       </div>
     </div>
-    <div class="py-2 course-instance" v-for="instance in course.instances" :key="instance._id">
-      <h2 v-b-toggle="`collapse-${instance._id}`" class="cursor-pointer text-dark">
-        <b-icon class="collapse-rotate" icon="caret-down" /> {{toSemester(instance.date)}}
-      </h2>
-      <b-collapse :id="`collapse-${instance._id}`">
-        <b-card class="mb-4" v-if="instance.report">
-          <h3 class="text-dark">Kursrapport</h3>
-          <div v-for="question in instance.report.questions" :key="question._id">
-            <h4>{{question.question}}</h4>
-            <p>{{question.answer}}</p>
-          </div>
-        </b-card>
-      </b-collapse>
-    </div>
   </b-container>
+    <!--Content-->
+    <b-container class="my-4" v-if="course">
+      <b-form-select v-model="selected" size="lg" class="text-dark">
+        <b-form-select-option
+          v-for="(instance, index) in course.instances"
+          :key="instance._id"
+          :value="index"
+        >{{instance.dateString}}</b-form-select-option>
+      </b-form-select>
+      <course-instance :instance="course.instances[selected]" />
+    </b-container>
 </div>
 </template>
 
@@ -78,11 +63,12 @@ export default {
         course.instances[i].date
       );
     this.course = course;
-    this.avarageToArray();
     var select = this.course.instances.findIndex(
       instance => instance.report.length
     );
     if (select >= 0) this.selected = select;
+
+    this.avarageToArray();
   },
   data: function() {
     return {
@@ -100,15 +86,15 @@ export default {
       for (var i = 0; i < this.course.instances.length; i++) {
         var instance = this.course.instances[i]
 
-        console.log(instance.report[instance.report.length - 1]);
         if(instance.report[instance.report.length - 1]) {
-          var year = instance.date.substring(0, 4);
+          var semester  = this.toSemester(instance.date)
 
+          var newSemesterFormat = semester.substring(0, 2) + semester.substring(5, 7);
           var answerImpression = instance.report[instance.report.length - 1].questions[0].answer;
           var answerEffort = instance.report[instance.report.length - 1].questions[1].answer;
 
-          this.avarageImpression.push([year.toString(), answerImpression]);
-          this.avarageEffort.push([year.toString(), answerEffort]);
+          this.avarageImpression.push([newSemesterFormat, answerImpression]);
+          this.avarageEffort.push([newSemesterFormat, answerEffort]);
 
           console.log(this.avarageImpression);
           console.log(this.avarageEffort);
@@ -142,7 +128,7 @@ export default {
   transform: rotate(-90deg);
 }
 .graph {
-  margin: 25px;
+  margin: 10px;
   float: left;
 }
 </style>
