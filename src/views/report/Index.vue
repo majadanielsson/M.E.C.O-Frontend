@@ -19,7 +19,7 @@
                     <b-badge variant="green">Kursrapport finns</b-badge>
                   </b-col>
                   <b-col v-else>
-                    <b-badge class="mw-100" variant="red">Kursrapport finns inte</b-badge>
+                    <b-badge variant="red">Kursrapport finns inte</b-badge>
                   </b-col>
                   <b-col v-if="Array.isArray(instance.report) && instance.report.length">
                     <b-badge :to="$route.path + '/report/'+ course._id+ '/' + instance._id" variant="primary">Redigera kursrapport</b-badge>
