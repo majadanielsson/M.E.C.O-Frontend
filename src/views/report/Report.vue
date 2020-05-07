@@ -10,7 +10,7 @@
             <div v-if="Array.isArray(instance.report) && instance.report.length">
               <p v-for="report in instance.report" :key="report._id">Ändrad av: {{report.author}}, {{report.date.slice(0,10)}} {{report.date.slice(11,16)}}</p>
               <b-form class="py-3" @submit.prevent="submitForm">
-                <b-form-group :label="question.question" v-for="question in instance.report[instance.report.length - 1].questions" :key="question._id">
+                <b-form-group :label="question.question" v-for="question in instance.report[0].questions" :key="question._id">
                   <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
                 </b-form-group>
                 <b-button class="my-2" type="submit" variant="primary">Redigera kursrapport</b-button>
@@ -35,14 +35,24 @@ import api from "@/modules/api";
 export default {
   methods: {
     submitForm: function() {
-      var questions = this.form.map(element => ({
-        question: element.question,
-        answer: element.answer
-      }));
+      var questions = null;
+      if (Array.isArray(this.instance.report) && this.instance.report.length){
+        questions = this.instance.report[0].questions.map(element => ({
+          question: element.question,
+          answer: element.answer
+        }));
+      }
+      else {
+        questions = this.form.map(element => ({
+          question: element.question,
+          answer: element.answer
+        }));
+      }
       var data = {
         questions: questions,
         author: "User"
       };
+      console.log(data);
       api.reports.post(data, {
         _id: this.$route.params.courseId,
         instanceId: this.$route.params.instanceId
