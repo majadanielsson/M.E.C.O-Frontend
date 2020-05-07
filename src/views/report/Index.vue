@@ -11,23 +11,23 @@
           <div>
             <b-card class="my-3" v-for="instance in course.instances" :key="instance._id">
               <b-container>
-              <b-row align-v="center" align-h="center">
-                <b-col>
-                <b-link>{{toSemester(instance.date)}}</b-link>
-                </b-col>
-                <b-col v-if="Array.isArray(instance.report) && instance.report.length">
-                  <b-badge variant="green">Kursrapport finns</b-badge>
-                </b-col>
-                <b-col v-else>
-                  <b-badge variant="red">Kursrapport finns inte</b-badge>
-                </b-col>
-                <b-col v-if="Array.isArray(instance.report) && instance.report.length">
-                  <b-badge :to="$route.path + '/report/'+ course._id+ '/' + instance._id" variant="primary">Redigera kursrapport</b-badge>
-                </b-col>
-                <b-col v-else>
-                  <b-badge :to="$route.path + '/report/'+ course._id+ '/' + instance._id" variant="primary">Skriv kursrapport</b-badge>
-                </b-col>
-              </b-row>
+                <b-row align-v="center" align-h="center">
+                  <b-col>
+                   <b-link :to="'/portal/courses/'+ course._id + '?id=' + instance._id">{{toSemester(instance.date)}}</b-link>
+                  </b-col>
+                  <b-col v-if="Array.isArray(instance.report) && instance.report.length">
+                    <b-badge variant="green">Kursrapport finns</b-badge>
+                  </b-col>
+                  <b-col v-else>
+                    <b-badge class="mw-100" variant="red">Kursrapport finns inte</b-badge>
+                  </b-col>
+                  <b-col v-if="Array.isArray(instance.report) && instance.report.length">
+                    <b-badge :to="$route.path + '/report/'+ course._id+ '/' + instance._id" variant="primary">Redigera kursrapport</b-badge>
+                  </b-col>
+                  <b-col v-else>
+                    <b-badge :to="$route.path + '/report/'+ course._id+ '/' + instance._id" variant="primary">Skriv kursrapport</b-badge>
+                  </b-col>
+                </b-row>
               </b-container>
             </b-card>
           </div>

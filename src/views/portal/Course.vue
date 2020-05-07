@@ -39,9 +39,18 @@ export default {
         course.instances[i].date
       );
     this.course = course;
-    var select = this.course.instances.findIndex(
+    var select = null;
+    if (this.$route.query.id) {
+      select = this.course.instances.findIndex(
+        instance => instance._id == this.$route.query.id
+      );
+      this.$router.replace({'query': null});
+    }
+    else {
+      select = this.course.instances.findIndex(
       instance => instance.report.length
-    );
+      );
+    }
     if (select >= 0) this.selected = select;
   },
   data: function() {
