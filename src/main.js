@@ -1,25 +1,26 @@
 import Vue from 'vue'
+import api from '@/plugins/api';
 import {
   BootstrapVue,
   IconsPlugin
 } from 'bootstrap-vue'
 import App from './App.vue'
 import router from './router'
-
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+Vue.use(api);
 Vue.config.productionTip = false
 
 new Vue({
   router,
-  data: function() {
+  data: function () {
     return {
       user: null
     }
   },
-  created: function() {
+  created: function () {
     const user = window.sessionStorage.getItem("user");
     if (user) this.user = JSON.parse(user);
 

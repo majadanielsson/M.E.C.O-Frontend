@@ -28,11 +28,13 @@
 </template>
 
 <script>
-import api from "@/modules/api";
 import courseInstance from "@/components/courseInstance";
 export default {
   created: async function() {
-    var course = await api.courses.get(this.$route.params.id);
+    var course = await this.$api.request(
+      "GET",
+      "/courses/" + this.$route.params.id
+    );
     course.instances.sort((a, b) => a.date < b.date);
     for (var i in course.instances)
       course.instances[i].dateString = this.toSemester(
