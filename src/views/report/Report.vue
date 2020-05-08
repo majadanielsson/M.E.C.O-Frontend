@@ -4,26 +4,52 @@
       <b-row align-h="center">
         <b-col lg="8">
           <h2>Kursrapport</h2>
-          <h5>Kursnamn: {{instance.name}}</h5>
-          <h5>Kurskod: {{instance.courseId}}</h5>
-          <h5>Kurstillfälle: {{toSemester(instance.date)}}</h5>
-            <div v-if="Array.isArray(instance.report) && instance.report.length">
-              <p v-for="report in instance.report" :key="report._id">Ändrad av: {{report.author}}, {{report.date.slice(0,10)}} {{report.date.slice(11,16)}}</p>
-              <b-form class="py-3" @submit.prevent="submitForm">
-                <b-form-group :label="question.question" v-for="question in instance.report[instance.report.length - 1].questions" :key="question._id">
-                  <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
-                </b-form-group>
-                <b-button class="my-2" type="submit" variant="primary">Redigera kursrapport</b-button>
-              </b-form>
-            </div>
-            <div v-else>
-              <b-form class="py-3" @submit.prevent="submitForm">
-                <b-form-group :label="question.question" v-for="question in form" :key="question._id">
-                  <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
-                </b-form-group>
-                <b-button class="my-2" type="submit" variant="primary">Skicka kursrapport</b-button>
-              </b-form>
-            </div>
+          <h5>Kursnamn: {{ instance.name }}</h5>
+          <h5>Kurskod: {{ instance.courseId }}</h5>
+          <h5>Kurstillfälle: {{ toSemester(instance.date) }}</h5>
+          <div v-if="Array.isArray(instance.report) && instance.report.length">
+            <p v-for="report in instance.report" :key="report._id">
+              Ändrad av: {{ report.author }}, {{ report.date.slice(0, 10) }}
+              {{ report.date.slice(11, 16) }}
+            </p>
+            <b-form class="py-3" @submit.prevent="submitForm">
+              <b-form-group
+                :label="question.question"
+                v-for="question in instance.report[instance.report.length - 1]
+                  .questions"
+                :key="question._id"
+              >
+                <b-form-textarea
+                  v-model="question.answer"
+                  rows="3"
+                  placeholder="Svar"
+                  required
+                ></b-form-textarea>
+              </b-form-group>
+              <b-button class="my-2" type="submit" variant="primary"
+                >Redigera kursrapport</b-button
+              >
+            </b-form>
+          </div>
+          <div v-else>
+            <b-form class="py-3" @submit.prevent="submitForm">
+              <b-form-group
+                :label="question.question"
+                v-for="question in form"
+                :key="question._id"
+              >
+                <b-form-textarea
+                  v-model="question.answer"
+                  rows="3"
+                  placeholder="Svar"
+                  required
+                ></b-form-textarea>
+              </b-form-group>
+              <b-button class="my-2" type="submit" variant="primary"
+                >Skicka kursrapport</b-button
+              >
+            </b-form>
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -35,17 +61,24 @@ import api from "@/modules/api";
 export default {
   methods: {
     submitForm: function() {
-      var questions = this.form.map(element => ({
+      var questions = this.form.map((element) => ({
         question: element.question,
-        answer: element.answer
+        answer: element.answer,
       }));
       var data = {
         questions: questions,
-        author: "User"
+        author: "User",
       };
       api.reports.post(data, {
         _id: this.$route.params.courseId,
-        instanceId: this.$route.params.instanceId
+        instanceId: this.$route.params.instanceId,
+      });
+      this.$swal({
+        title: "OK!",
+        text: "Kursrapport!",
+        icon: "success",
+        buttons: false,
+        timer: 2500,
       });
     },
     toSemester: function(date) {
@@ -59,7 +92,6 @@ export default {
         else return "Sommar " + year;
       }
     },
-  
   },
   created: async function() {
     this.instance = await api.courseInstance.get(
@@ -75,28 +107,26 @@ export default {
           question:
             "Beskrivning av eventuella förändringar sedan förra kurstillfället",
           answer: "",
-          _id: 0
+          _id: 0,
         },
 
         {
           question: "Kursens styrkor enligt studenterna",
           answer: "",
-          _id: 1
+          _id: 1,
         },
         {
           question: "Kursens svagheter engligt studenterna",
           answer: "",
-          _id: 2
+          _id: 2,
         },
         {
           question: "Kursansvariges analys av kurstillfället",
           answer: "",
-          _id: 3
-        }
-      ]
+          _id: 3,
+        },
+      ],
     };
-  }
-  
-  
+  },
 };
 </script>
