@@ -15,8 +15,7 @@
             <b-form class="py-3" @submit.prevent="submitForm">
               <b-form-group
                 :label="question.question"
-                v-for="question in instance.report[instance.report.length - 1]
-                  .questions"
+                v-for="question in instance.report[0].questions"
                 :key="question._id"
               >
                 <b-form-textarea
@@ -61,24 +60,38 @@ import api from "@/modules/api";
 export default {
   methods: {
     submitForm: function() {
-      var questions = this.form.map((element) => ({
-        question: element.question,
-        answer: element.answer,
-      }));
+      var questions = null;
+      if (Array.isArray(this.instance.report) && this.instance.report.length) {
+        questions = this.instance.report[0].questions.map((element) => ({
+          question: element.question,
+          answer: element.answer,
+        }));
+        this.$swal({
+          title: "Kursrapport redigerad",
+          icon: "success",
+          buttons: false,
+          timer: 2500,
+        });
+      } else {
+        questions = this.form.map((element) => ({
+          question: element.question,
+          answer: element.answer,
+        }));
+        this.$swal({
+          title: "Kursrapport skapad!",
+          icon: "success",
+          buttons: false,
+          timer: 2500,
+        });
+      }
       var data = {
         questions: questions,
         author: "User",
       };
+      console.log(data);
       api.reports.post(data, {
         _id: this.$route.params.courseId,
         instanceId: this.$route.params.instanceId,
-      });
-      this.$swal({
-        title: "OK!",
-        text: "Kursrapport!",
-        icon: "success",
-        buttons: false,
-        timer: 2500,
       });
     },
     toSemester: function(date) {
