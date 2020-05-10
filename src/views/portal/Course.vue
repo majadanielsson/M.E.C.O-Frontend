@@ -67,13 +67,13 @@ export default {
       instance => instance.report.length
     );
     if (select >= 0) this.selected = select;
-
+    this.getInstanceDates();
     this.avarageToArray();
   },
   data: function() {
     return {
       course: null,
-
+      instanceDates: [],
       studentsReg: [['2015', 44], ['2016', 27], ['2017', 60], ['2018', 55], ['2019', 37]],
       avarageGrade: [['2015', 5], ['2016', 3], ['2017', 3], ['2018', 4], ['2019', 5]],
       avarageImpression: [],
@@ -82,6 +82,15 @@ export default {
     };
   },
   methods: {
+    toSemester: function(date) {
+      var year = date.substring(0, 4);
+      var p = date.substring(5);
+      //translates period to corresponding
+      //period in "Teknisk-naturvetenskapliga fakulteten" for now.
+      if (p < 3) return "VT " + year + ", period " + (parseInt(p) + 2);
+      if (p > 3) return "HT " + year + ", period " + (p - 3);
+      else return "Sommar " + year;
+    },
     avarageToArray: function() {
       for (var i = 0; i < this.course.instances.length; i++) {
         var instance = this.course.instances[i]
@@ -94,22 +103,17 @@ export default {
           var answerEffort = instance.report[instance.report.length - 1].questions[1].answer;
 
           this.avarageImpression.push([newSemesterFormat, answerImpression]);
-          this.avarageEffort.push([newSemesterFormat, answerEffort]);
-
-          console.log(this.avarageImpression);
-          console.log(this.avarageEffort);
+          this.avarageEffort.push([newSemesterFormat, answerEffort]); 
         }
       }
     },
-    toSemester: function(date) {
-      var year = date.substring(0, 4);
-      var p = date.substring(5);
-      //translates period to corresponding
-      //period in "Teknisk-naturvetenskapliga fakulteten" for now.
-      if (p < 3) return "VT " + year + ", period " + (parseInt(p) + 2);
-      if (p > 3) return "HT " + year + ", period " + (p - 3);
-      else return "Sommar " + year;
-    }
+    getInstanceDates: function() {
+      for(var i = 0; i < this.course.instances.length; i++) {
+        console.log(this.course.instances[i].date)
+        this.instanceDates.push(this.course.instances[i].date);
+      }
+      console.log(this.instanceDates);
+    },
   },
   components: {
     courseInstance
