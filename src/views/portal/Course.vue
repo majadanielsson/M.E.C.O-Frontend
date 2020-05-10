@@ -110,8 +110,8 @@ export default {
           var semester  = this.toSemester(instance.date)
 
           var newSemesterFormat = semester.substring(0, 2) + semester.substring(5, 7);
-          var answerImpression = instance.report[instance.report.length - 1].questions[0].answer;
-          var answerEffort = instance.report[instance.report.length - 1].questions[1].answer;
+          var answerImpression = instance.report[0].questions[0].answer;
+          var answerEffort = instance.report[0].questions[1].answer;
 
           this.avarageImpression.push([newSemesterFormat, answerImpression]);
           this.avarageEffort.push([newSemesterFormat, answerEffort]); 
