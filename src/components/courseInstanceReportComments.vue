@@ -23,7 +23,6 @@
   </div>
 </template>
 <script>
-import api from "@/modules/api";
 export default {
   data() {
     return {
@@ -33,12 +32,10 @@ export default {
   methods: {
     send: async function() {
       try {
-        const posted = await api.courseInstance.comment(
-          this.$route.params.id,
-          this.instanceId,
-          {
-            comment: this.comment
-          }
+        const posted = await this.$api.request(
+          "POST",
+          `/courses/${this.$route.params.id}/${this.instanceId}/comment`,
+          { comment: this.comment }
         );
         this.comment = "";
         this.commentGroup[this.commentGroup.length - 1].comments.push(posted);

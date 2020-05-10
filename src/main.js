@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import api from '@/plugins/api';
 import {
   BootstrapVue,
   IconsPlugin
@@ -6,29 +7,31 @@ import {
 import App from './App.vue'
 import router from './router'
 
-
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 
 Vue.use(Chartkick.use(Chart))
 
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+Vue.use(VueSweetalert2);
 // Install BootstrapVue
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+Vue.use(api);
 Vue.config.productionTip = false
 
 new Vue({
   router,
-  data: function() {
+  data: function () {
     return {
-      user: null
-    }
+      user: null,
+    };
   },
-  created: function() {
+  created: function () {
     const user = window.sessionStorage.getItem("user");
     if (user) this.user = JSON.parse(user);
-
   },
   render: h => h(App)
 }).$mount('#app')

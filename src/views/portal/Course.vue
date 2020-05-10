@@ -52,20 +52,31 @@
 </template>
 
 <script>
-import api from "@/modules/api";
 import courseInstance from "@/components/courseInstance";
 export default {
   created: async function() {
-    var course = await api.courses.get(this.$route.params.id);
+    var course = await this.$api.request(
+      "GET",
+      "/courses/" + this.$route.params.id
+    );
     course.instances.sort((a, b) => a.date < b.date);
     for (var i in course.instances)
       course.instances[i].dateString = this.toSemester(
         course.instances[i].date
       );
     this.course = course;
-    var select = this.course.instances.findIndex(
+    var select = null;
+    if (this.$route.query.id) {
+      select = this.course.instances.findIndex(
+        instance => instance._id == this.$route.query.id
+      );
+      this.$router.replace({'query': null});
+    }
+    else {
+      select = this.course.instances.findIndex(
       instance => instance.report.length
-    );
+      );
+    }
     if (select >= 0) this.selected = select;
     this.getInstanceDates();
     this.avarageToArray();

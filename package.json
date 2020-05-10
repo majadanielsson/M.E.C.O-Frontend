@@ -18,7 +18,7 @@
     "vue-chartkick": "^0.6.0",
     "vue-content-loader": "^0.2.3",
     "vue-router": "^3.1.6",
-    "yarn": "^1.22.4"
+    "vue-sweetalert2": "^3.0.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
