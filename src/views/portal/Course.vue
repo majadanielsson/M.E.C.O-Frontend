@@ -85,8 +85,8 @@ export default {
     return {
       course: null,
       instanceDates: [],
-      studentsReg: [['2015', 44], ['2016', 27], ['2017', 60], ['2018', 55], ['2019', 37]],
-      avarageGrade: [['2015', 5], ['2016', 3], ['2017', 3], ['2018', 4], ['2019', 5]],
+      studentsReg: [['HT15', 44], ['HT16', 27], ['HT17', 60], ['HT18', 55], ['HT19', 37]],
+      avarageGrade: [['HT15', 5], ['HT16', 3], ['HT17', 3], ['HT18', 4], ['HT19', 5]],
       avarageImpression: [],
       avarageEffort: [],
       selected: 0
