@@ -16,24 +16,24 @@
     <b-container class="my-4" v-if="course">
     <div class="d-flex justify-content-center">
       <div class="p-2">
-        <h5 class="text-dark">Antal registrerade studenter</h5>
+        <h6 class="text-dark">Antal registrerade studenter</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="90%" height="70%" :data="studentsReg"></line-chart>
+        <line-chart width="95%" height="70%" :data="studentsReg"></line-chart>
       </div>
       <div class="p-2">
-        <h5 class="text-dark">Genomsnittligt betyg</h5>
+        <h6 class="text-dark">Genomsnittligt betyg</h6>
         <small class="text-dark">..</small>
-        <line-chart width="90%" height="70%" :discrete="true" :min="2" :max="5" :data="avarageGrade"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :min="2" :max="5" :data="avarageGrade"></line-chart>
       </div>
       <div class="p-2">
-        <h5 class="text-dark">Studenternas nöjdhet med kursen</h5>
+        <h6 class="text-dark">Studenternas nöjdhet med kursen</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="90%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageImpression"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageImpression"></line-chart>
       </div>
       <div class="p-2">
-        <h5 class="text-dark">Studenternas ansträngning</h5>
+        <h6 class="text-dark">Studenternas ansträngning</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="90%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageEffort"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageEffort"></line-chart>
       </div>
     </div>
   </b-container>
@@ -110,8 +110,8 @@ export default {
           var semester  = this.toSemester(instance.date)
 
           var newSemesterFormat = semester.substring(0, 2) + semester.substring(5, 7);
-          var answerImpression = instance.report[0].questions[0].answer;
-          var answerEffort = instance.report[0].questions[1].answer;
+          var answerImpression = instance.report[0].questions[1].answer;
+          var answerEffort = instance.report[0].questions[2].answer;
 
           this.avarageImpression.push([newSemesterFormat, answerImpression]);
           this.avarageEffort.push([newSemesterFormat, answerEffort]); 
