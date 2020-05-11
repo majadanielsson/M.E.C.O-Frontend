@@ -9,7 +9,7 @@
           <b-input-group>
             <b-form-input v-model="q" autocomplete="off" placeholder="Sök namn eller kurskod" />
             <b-input-group-append>
-              <b-button variant="primary">
+              <b-button type="submit" variant="primary">
                 <b-icon icon="search" />
               </b-button>
             </b-input-group-append>
