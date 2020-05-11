@@ -38,7 +38,10 @@ function api(Vue) {
         // Delete session and cookie, redirect to CAS logout
         this.state.user = null;
         window.sessionStorage.removeItem("user");
-        await fetch(apiUrl + "/cas/logout/");
+        var settings = {
+            credentials: "include",
+        };
+        await fetch(apiUrl + "/cas/logout/", settings);
         window.location.replace(`https://weblogin.uu.se/idp/profile/cas/logout?service=${window.location.origin}/login/`)
     }
 
