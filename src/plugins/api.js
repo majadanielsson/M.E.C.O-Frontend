@@ -30,7 +30,9 @@ function api(Vue) {
                     if (confirm("Sessionen har upphört. Vill du logga in igen?")) this.redirect();
                     break;
             }
-            throw response.message;
+            //return 1590;
+            return [response.message, "error"];
+            
 
         }
     }

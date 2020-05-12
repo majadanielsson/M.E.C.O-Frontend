@@ -3,7 +3,7 @@
     <b-navbar-brand :to="url">{{name}}</b-navbar-brand>
     <b-collapse class="justify-content-end" is-nav>
       <!-- Logged in -->
-      <b-button variant="primary" v-if="$api.state.user" v-b-toggle.sidebar>
+      <b-button variant="primary" v-if="$api.state.user" v-b-toggle.sidebar-right>
         <b-icon icon="person-check-fill" scale="1.2" />
         <span
           class="d-none d-sm-inline ml-1"
@@ -24,7 +24,8 @@
       body-class="d-flex px-5 py-3 pt-4 large justify-content-between flex-column"
       bg-variant="dark"
       text-variant="light"
-      id="sidebar"
+      id="sidebar-right"
+      right
       shadow
     >
       <div>
