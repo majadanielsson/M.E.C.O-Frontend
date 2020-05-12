@@ -19,17 +19,35 @@
                 v-for="question in instance.report[0].questions"
                 :key="question._id"
               >
-                <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
+                <b-form-textarea
+                  v-model="question.answer"
+                  rows="3"
+                  placeholder="Svar"
+                  required
+                ></b-form-textarea>
               </b-form-group>
-              <b-button class="my-2" type="submit" variant="primary">Redigera kursrapport</b-button>
+              <b-button class="my-2" type="submit" variant="primary"
+                >Redigera kursrapport</b-button
+              >
             </b-form>
           </div>
           <div v-else>
             <b-form class="py-3" @submit.prevent="submitForm">
-              <b-form-group :label="question.question" v-for="question in form" :key="question._id">
-                <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
+              <b-form-group
+                :label="question.question"
+                v-for="question in form"
+                :key="question._id"
+              >
+                <b-form-textarea
+                  v-model="question.answer"
+                  rows="3"
+                  placeholder="Svar"
+                  required
+                ></b-form-textarea>
               </b-form-group>
-              <b-button class="my-2" type="submit" variant="primary">Skicka kursrapport</b-button>
+              <b-button class="my-2" type="submit" variant="primary"
+                >Skicka kursrapport</b-button
+              >
             </b-form>
           </div>
         </b-col>
@@ -44,31 +62,31 @@ export default {
     submitForm: function() {
       var questions = null;
       if (Array.isArray(this.instance.report) && this.instance.report.length) {
-        questions = this.instance.report[0].questions.map(element => ({
+        questions = this.instance.report[0].questions.map((element) => ({
           question: element.question,
-          answer: element.answer
+          answer: element.answer,
         }));
         this.$swal({
           title: "Kursrapport redigerad",
           icon: "success",
-          buttons: false,
-          timer: 2500
+          showConfirmButton: false,
+          timer: 2500,
         });
       } else {
-        questions = this.form.map(element => ({
+        questions = this.form.map((element) => ({
           question: element.question,
-          answer: element.answer
+          answer: element.answer,
         }));
         this.$swal({
           title: "Kursrapport skapad!",
           icon: "success",
-          buttons: false,
-          timer: 2500
+          showConfirmButton: false,
+          timer: 2500,
         });
       }
       var data = {
         questions: questions,
-        author: "User"
+        author: "User",
       };
       this.$api.request(
         "POST",
@@ -86,7 +104,7 @@ export default {
         if (p > 3) return "HT " + year + ", period " + (p - 3);
         else return "Sommar " + year;
       }
-    }
+    },
   },
   created: async function() {
     this.instance = await this.$api.request(
@@ -99,29 +117,53 @@ export default {
       instance: {},
       form: [
         {
+          question: "Svarsfrekvens på kursvärdering",
+          answer: "",
+          _id: 0,
+        },
+        {
+          question:
+            "Hur nöjda var studenterna med kursen i stort? (Medelvärde från kursvärdering)",
+          answer: "",
+          _id: 1,
+        },
+
+        {
+          question:
+            "I vilken grad ansträngde sig studenterna för att tillgodogöra sig kursinnehållet? (Medelvärde från kursvärdering)",
+          answer: "",
+          _id: 2,
+        },
+
+        {
           question:
             "Beskrivning av eventuella förändringar sedan förra kurstillfället",
           answer: "",
-          _id: 0
+          _id: 3,
         },
 
         {
           question: "Kursens styrkor enligt studenterna",
           answer: "",
-          _id: 1
+          _id: 4,
         },
         {
           question: "Kursens svagheter engligt studenterna",
           answer: "",
-          _id: 2
+          _id: 5,
         },
         {
           question: "Kursansvariges analys av kurstillfället",
           answer: "",
-          _id: 3
-        }
-      ]
+          _id: 6,
+        },
+        {
+          question: "Förslag till eventuella åtgärder",
+          answer: "",
+          _id: 7,
+        },
+      ],
     };
-  }
+  },
 };
 </script>
