@@ -30,7 +30,9 @@ function api(Vue) {
                     if (confirm("Sessionen har upphört. Vill du logga in igen?")) this.redirect();
                     break;
             }
-            throw response.message;
+            //return 1590;
+            throw { ...responseData, status: response.status };
+
 
         }
     }
@@ -91,6 +93,22 @@ function api(Vue) {
         // Save current URL to Session Storage and redirect to CAS
         window.sessionStorage.setItem("redirect", window.location.pathname);
         window.location.replace(`https://weblogin.uu.se/idp/profile/cas/login?service=${window.location.origin}/login/`)
+    };
+    this.csv = async (file) => {
+        var form = new FormData();
+        form.append("csv", file);
+        var settings = {
+            credentials: "include",
+            method: "POST",
+            body: form
+        };
+        const response = await fetch(`${apiUrl}/csv`, settings);
+        const responseData = await response.json();
+        if (response.ok) return responseData;
+        else {
+            console.log(responseData.detail);
+            throw responseData.message;
+        }
     }
     this.state = Vue.observable({ user: initUser });
 }

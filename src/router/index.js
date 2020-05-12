@@ -9,47 +9,52 @@ import Csv from '@/views/Csv.vue'
 import Portal from '@/views/Portal.vue'
 import PortalIndex from '@/views/portal/Index.vue'
 import PortalCourse from '@/views/portal/Course.vue'
+import NotFound from '@/views/404.vue'
 
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '/',
-    component: Home
+  path: '/',
+  component: Home
+},
+{
+  path: '/login',
+  component: Login
+},
+{
+  path: '/portal',
+  component: Portal,
+  children: [{
+    path: "",
+    component: PortalIndex
   },
   {
-    path: '/login',
-    component: Login
+    path: "courses/:id",
+    component: PortalCourse
+  }
+  ]
+},
+{
+  path: '/admin',
+  component: Admin,
+  children: [{
+    path: "",
+    component: ReportIndex
   },
   {
-    path: '/portal',
-    component: Portal,
-    children: [{
-        path: "",
-        component: PortalIndex
-      },
-      {
-        path: "courses/:id",
-        component: PortalCourse
-      }
-    ]
-  },
-  {
-    path: '/admin',
-    component: Admin,
-    children: [{
-        path: "",
-        component: ReportIndex
-      },
-      {
-        path: "report/:courseId/:instanceId",
-        component: ReportReport
-      }
-    ]
-  },
-  {
-    path: '/csv',
-    component: Csv
-  },
+    path: "report/:courseId/:instanceId",
+    component: ReportReport
+  }
+  ]
+},
+{
+  path: '/csv',
+  component: Csv
+},
+{
+  path: "*",
+  component: NotFound
+}
 ]
 
 const router = new VueRouter({
