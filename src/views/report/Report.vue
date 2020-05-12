@@ -92,6 +92,7 @@ export default {
         `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
         data
       );
+      this.$router.go(-1);
     },
     toSemester: function(date) {
       if (date != undefined) {
