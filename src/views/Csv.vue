@@ -1,6 +1,6 @@
 <template>
   <div>
-  <navbar name="Kursvärderingsportalen" url="/csv"></navbar>
+  <navbar name="Kursvärderingsportalen" url="/portal"></navbar>
     <b-container class="py-4">
       <input type="file" id="file" @change="readFile" />
       <b-table v-if="data" striped hover :items="data"></b-table>

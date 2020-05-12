@@ -1,6 +1,10 @@
 <template>
   <b-navbar type="dark" class="text-white" variant="primary">
     <b-navbar-brand :to="url">{{name}}</b-navbar-brand>
+    <b-navbar-nav v-if="$api.state.user">
+      <b-nav-item v-if="$api.state.user.role == 'employee'" to="/admin" variant="primary">Mina kurser</b-nav-item>
+      <b-nav-item v-if="$api.state.user.role == 'employee'" to="/csv" variant="primary">Ladda upp CSV-filer</b-nav-item>
+    </b-navbar-nav>
     <b-collapse class="justify-content-end" is-nav>
       <!-- Logged in -->
       <b-button variant="primary" v-if="$api.state.user" v-b-toggle.sidebar-right>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar name="Kursvärderingsportalen" url="/"></navbar>
-
+    
     <b-container class="py-4">
       <h1>Kursvärderingsportalen</h1>
       <p
@@ -28,7 +28,7 @@
                 <b-form-input type="text" v-model="form.username" required />
               </b-form-group>
               <b-form-group label="role">
-                <b-form-input type="text" v-model="form.role" required defaultValue="student" />
+                <b-form-input type="text" v-model="form.role" required defaultValue="employee" />
               </b-form-group>
               <b-button variant="primary" type="submit">Logga in</b-button>
             </b-form>
@@ -51,7 +51,7 @@ export default {
       form: {
         name: "Maria Andersson",
         username: "maan1234",
-        role: "student"
+        role: "employee"
       }
     };
   }
