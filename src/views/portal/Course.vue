@@ -39,12 +39,14 @@
   </b-container>
     <!--Content-->
     <b-container class="my-4" v-if="course">
-      <b-form-select v-model="selected" size="lg" class="text-dark">
+      <b-form-select v-model="selected" size="lg" class="text-dark border border-primary">
         <b-form-select-option
           v-for="(instance, index) in course.instances"
           :key="instance._id"
           :value="index"
-        >{{instance.dateString}}</b-form-select-option>
+        >
+          {{instance.dateString}}<p v-if="instance.report.length == 0" color="red">. Kursrapport saknas</p>
+        </b-form-select-option>
       </b-form-select>
       <course-instance :instance="course.instances[selected]" />
     </b-container>
