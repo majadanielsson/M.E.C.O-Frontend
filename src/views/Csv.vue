@@ -1,32 +1,42 @@
 <template>
   <div>
-  <navbar name="Kursvärderingsportalen" url="/csv"></navbar>
-    <b-container class="py-4">
-      <input type="file" id="file" @change="readFile" />
-      <b-table v-if="data" striped hover :items="data"></b-table>
+    <navbar name="Kursvärderingsportalen" url="/csv"></navbar>
+    <b-container class="my-4">
+      <b-row align-h="center">
+        <b-col md="10" lg="8">
+          <h1 class="text-dark">Uppladdning av kursvärderingar</h1>
+          <p>
+            <b-link href="/download/Kursvärdering.csv" download>Ladda ner mallen</b-link>, fyll i, och ladda upp
+          </p>
+
+          <b-form @submit.prevent="$api.csv(file)">
+            <b-form-file
+              placeholder="Välj eller släpp en fil..."
+              browse-text="Bläddra"
+              class="my-3"
+              type="file"
+              accept=".csv"
+              v-model="file"
+              id="file"
+            />
+            <b-button variant="primary" type="submit">Ladda upp</b-button>
+          </b-form>
+        </b-col>
+      </b-row>
     </b-container>
-</div>
-  </template>
+  </div>
+</template>
 
   <script>
-  import navbar from "@/components/navbar"
-  import Papa from "papaparse"
-  export default {
-    data: function() {
-      return {
-        file: null,
-        data: null
-      }
-    },
-    components: {
-      navbar
-    },
-    methods: {
-      readFile: async function() {
-        Papa.parse(document.getElementById("file").files[0], {
-          complete: result => this.data = result.data,
-        });
-      }
-    }
+import navbar from "@/components/navbar";
+export default {
+  data() {
+    return {
+      file: null
+    };
+  },
+  components: {
+    navbar
   }
-  </script>
+};
+</script>
