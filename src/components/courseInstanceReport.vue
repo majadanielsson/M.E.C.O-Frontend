@@ -2,7 +2,7 @@
   <div class="my-4" v-if="report">
     <h3 class="text-dark">Kursrapport</h3>
     <div v-for="question in report.questions" :key="question._id">
-      <h4>{{question.question}}</h4>
+      <h5>{{question.question}}</h5>
       <p>{{question.answer}}</p>
     </div>
     <courseInstanceReportComments :commentGroup="commentGroup" :instanceId="instanceId" />

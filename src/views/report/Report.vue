@@ -99,25 +99,50 @@ export default {
       form: [
         {
           question:
-            "Beskrivning av eventuella förändringar sedan förra kurstillfället",
+            "Svarsfrekvens på kursvärdering",
           answer: "",
           _id: 0
+        },
+        {
+          question:
+            "Hur nöjda var studenterna med kursen i stort? (Medelvärde från kursvärdering)",
+          answer: "",
+          _id: 1
+        },
+
+        {
+          question:
+            "I vilken grad ansträngde sig studenterna för att tillgodogöra sig kursinnehållet? (Medelvärde från kursvärdering)",
+          answer: "",
+          _id: 2
+        },
+
+        {
+          question:
+            "Beskrivning av eventuella förändringar sedan förra kurstillfället",
+          answer: "",
+          _id: 3
         },
 
         {
           question: "Kursens styrkor enligt studenterna",
           answer: "",
-          _id: 1
+          _id: 4
         },
         {
           question: "Kursens svagheter engligt studenterna",
           answer: "",
-          _id: 2
+          _id: 5
         },
         {
           question: "Kursansvariges analys av kurstillfället",
           answer: "",
-          _id: 3
+          _id: 6
+        },
+        {
+          question: "Förslag till eventuella åtgärder",
+          answer: "",
+          _id: 7
         }
       ]
     };
