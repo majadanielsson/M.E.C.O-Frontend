@@ -58,13 +58,25 @@
 <script>
 export default {
   methods: {
-    submitForm: function() {
+    submitForm: async function() {
       var questions = null;
+      var data = null;
       if (Array.isArray(this.instance.report) && this.instance.report.length) {
         questions = this.instance.report[0].questions.map((element) => ({
           question: element.question,
           answer: element.answer,
         }));
+
+        data = {
+        questions: questions,
+        author: "User",
+        };
+        await this.$api.request(
+        "POST",
+        `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
+        data
+        );
+
         this.$swal({
           title: "Kursrapport redigerad",
           icon: "success",
@@ -76,6 +88,17 @@ export default {
           question: element.question,
           answer: element.answer,
         }));
+
+        data = {
+        questions: questions,
+        author: "User",
+        };
+        await this.$api.request(
+        "POST",
+        `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
+        data
+        );
+
         this.$swal({
           title: "Kursrapport skapad!",
           icon: "success",
@@ -83,15 +106,6 @@ export default {
           timer: 2500,
         });
       }
-      var data = {
-        questions: questions,
-        author: "User",
-      };
-      this.$api.request(
-        "POST",
-        `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
-        data
-      );
       this.$router.go(-1);
     },
     toSemester: function(date) {
