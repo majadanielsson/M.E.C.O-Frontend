@@ -12,7 +12,7 @@
 
       <!-- Not logged in -->
       <b-button v-else variant="primary" @click="$api.redirect()" href="#">
-        <b-icon icon="person" scale="1.2" />
+        <b-icon icon="person-plus" scale="1.2" />
         <span class="d-none d-sm-inline ml-1">Logga in</span>
       </b-button>
     </b-collapse>
@@ -40,7 +40,7 @@
       </div>
       <div class="my-4">
         <b-button block variant="light" @click="$api.logout()" href="#">
-          <b-icon icon="person" scale="1.2" class="mr-1" />Logga ut
+          <b-icon icon="person-dash" scale="1.2" class="mr-1" />Logga ut
         </b-button>
       </div>
     </b-sidebar>
