@@ -61,6 +61,7 @@ export default {
     submitForm: async function() {
       var questions = null;
       var data = null;
+      
       if (Array.isArray(this.instance.report) && this.instance.report.length) {
         questions = this.instance.report[0].questions.map((element) => ({
           question: element.question,
