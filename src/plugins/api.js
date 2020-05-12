@@ -31,8 +31,8 @@ function api(Vue) {
                     break;
             }
             //return 1590;
-            return [response.message, "error"];
-            
+            throw { ...responseData, status: response.status };
+
 
         }
     }
