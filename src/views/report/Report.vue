@@ -61,7 +61,8 @@ export default {
     submitForm: async function() {
       var questions = null;
       var data = null;
-      
+      var response = null;
+
       if (Array.isArray(this.instance.report) && this.instance.report.length) {
         questions = this.instance.report[0].questions.map((element) => ({
           question: element.question,
@@ -72,18 +73,31 @@ export default {
         questions: questions,
         author: "User",
         };
-        await this.$api.request(
+        
+        response = await this.$api.request(
         "POST",
         `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
         data
         );
 
+        if(response[1] != "error") {
+
         this.$swal({
           title: "Kursrapport redigerad",
           icon: "success",
           showConfirmButton: false,
-          timer: 2500,
+          timer: 1400,
+        }); 
+        } else {
+          this.$swal({
+          title: "Något gick fel!",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 1400,
         });
+          throw response[0];
+        }
+
       } else {
         questions = this.form.map((element) => ({
           question: element.question,
@@ -94,20 +108,24 @@ export default {
         questions: questions,
         author: "User",
         };
-        await this.$api.request(
+        response = await this.$api.request(
         "POST",
         `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
         data
         );
 
+        if(response[1] != "error") {
         this.$swal({
-          title: "Kursrapport skapad!",
-          icon: "success",
+          title: "Något gick fel!",
+          icon: "error",
           showConfirmButton: false,
-          timer: 2500,
+          timer: 1400,
         });
+        } else {
+          throw response[0];
+        }
       }
-      this.$router.go(-1);
+      this.$router.go(-1); 
     },
     toSemester: function(date) {
       if (date != undefined) {
