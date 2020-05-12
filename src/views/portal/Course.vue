@@ -28,12 +28,12 @@
       <div class="p-2">
         <h6 class="text-dark">Studenternas nöjdhet med kursen</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="95%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageImpression"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="avarageImpression"></line-chart>
       </div>
       <div class="p-2">
         <h6 class="text-dark">Studenternas ansträngning</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="95%" height="70%" :discrete="true" :min="0" :max="5" :data="avarageEffort"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="avarageEffort"></line-chart>
       </div>
     </div>
   </b-container>
@@ -85,8 +85,8 @@ export default {
     return {
       course: null,
       instanceDates: [],
-      studentsReg: [['HT15', 44], ['HT16', 27], ['HT17', 60], ['HT18', 55], ['HT19', 37]],
-      avarageGrade: [['HT15', 5], ['HT16', 3], ['HT17', 3], ['HT18', 4], ['HT19', 5]],
+      studentsReg: [],
+      avarageGrade: [],
       avarageImpression: [],
       avarageEffort: [],
       selected: 0
@@ -115,15 +115,15 @@ export default {
 
           this.avarageImpression.push([newSemesterFormat, answerImpression]);
           this.avarageEffort.push([newSemesterFormat, answerEffort]); 
+          this.studentsReg.push([newSemesterFormat, Math.ceil(Math.random() * 100)]);
+          this.avarageGrade.push([newSemesterFormat, 3]);
         }
       }
     },
     getInstanceDates: function() {
       for(var i = 0; i < this.course.instances.length; i++) {
-        console.log(this.course.instances[i].date)
         this.instanceDates.push(this.course.instances[i].date);
       }
-      console.log(this.instanceDates);
     },
   },
   components: {
