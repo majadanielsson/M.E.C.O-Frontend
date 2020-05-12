@@ -15,6 +15,7 @@
             <b-form class="py-3" @submit.prevent="submitForm">
               <b-form-group
                 :label="question.question"
+                label-size="lg"
                 v-for="question in instance.report[0].questions"
                 :key="question._id"
               >
