@@ -4,40 +4,75 @@
       <b-row align-h="center">
         <b-col lg="8">
           <div v-for="course in courses" :key="course._id">
-            <h4>{{course.name}}</h4>
+            <h4>{{ course.name }}</h4>
             <h4 class="h5">
-              <span class="d-inline-block align-middle mr-2">{{course._id}}</span>
-              <b-badge
-                class="d-inline-block align-middle"
-                variant="primary"
-              >{{course.extent}} {{course.extentUnit}}</b-badge>
+              <span class="d-inline-block align-middle mr-2">{{
+                course._id
+              }}</span>
+              <b-badge class="d-inline-block align-middle" variant="primary"
+                >{{ course.extent }} {{ course.extentUnit }}</b-badge
+              >
             </h4>
             <div>
-              <b-card class="my-3" v-for="instance in course.instances" :key="instance._id">
+              <b-card
+                class="my-3"
+                v-for="instance in course.instances"
+                :key="instance._id"
+              >
                 <b-container>
                   <b-row align-v="center" align-h="center">
                     <b-col>
                       <b-link
-                        :to="'/portal/courses/'+ course._id + '?id=' + instance._id"
-                      >{{toSemester(instance.date)}}</b-link>
+                        :to="
+                          '/portal/courses/' +
+                            course._id +
+                            '?id=' +
+                            instance._id
+                        "
+                        >{{ toSemester(instance.date) }}</b-link
+                      >
                     </b-col>
-                    <b-col v-if="Array.isArray(instance.report) && instance.report.length">
+                    <b-col
+                      v-if="
+                        Array.isArray(instance.report) && instance.report.length
+                      "
+                    >
                       <b-badge variant="green">Kursrapport finns</b-badge>
                     </b-col>
                     <b-col v-else>
                       <b-badge variant="red">Kursrapport finns inte</b-badge>
                     </b-col>
-                    <b-col v-if="Array.isArray(instance.report) && instance.report.length">
-                      <b-badge
-                        :to="$route.path + '/report/'+ course._id+ '/' + instance._id"
+                    <b-col
+                      v-if="
+                        Array.isArray(instance.report) && instance.report.length
+                      "
+                    >
+                      <b-button
+                        size="sm"
+                        :to="
+                          $route.path +
+                            '/report/' +
+                            course._id +
+                            '/' +
+                            instance._id
+                        "
                         variant="primary"
-                      >Redigera kursrapport</b-badge>
+                        >Redigera kursrapport</b-button
+                      >
                     </b-col>
                     <b-col v-else>
-                      <b-badge
-                        :to="$route.path + '/report/'+ course._id+ '/' + instance._id"
+                      <b-button
+                        size="sm"
+                        :to="
+                          $route.path +
+                            '/report/' +
+                            course._id +
+                            '/' +
+                            instance._id
+                        "
                         variant="primary"
-                      >Skriv kursrapport</b-badge>
+                        >Skriv kursrapport</b-button
+                      >
                     </b-col>
                   </b-row>
                 </b-container>
@@ -54,14 +89,14 @@
 export default {
   created: async function() {
     var courses = await this.$api.request("GET", "/courses", null, {
-      responsible: true
+      responsible: true,
     });
     courses.sort((a, b) => a < b);
     this.courses = courses;
   },
   data: function() {
     return {
-      courses: []
+      courses: [],
     };
   },
   methods: {
@@ -73,7 +108,7 @@ export default {
       if (p < 3) return "VT " + year + ", period " + (parseInt(p) + 2);
       if (p > 3) return "HT " + year + ", period " + (p - 3);
       else return "Sommar " + year;
-    }
-  }
+    },
+  },
 };
 </script>
