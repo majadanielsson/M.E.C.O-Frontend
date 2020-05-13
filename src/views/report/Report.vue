@@ -64,6 +64,7 @@ export default {
       var data = null;
       var response = null;
 
+      try {
       if (Array.isArray(this.instance.report) && this.instance.report.length) {
         questions = this.instance.report[0].questions.map((element) => ({
           question: element.question,
@@ -127,6 +128,10 @@ export default {
         }
       }
       this.$router.go(-1); 
+      }
+      catch(err) {
+        console.log(err);
+      }
     },
     toSemester: function(date) {
       if (date != undefined) {
