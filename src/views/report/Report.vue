@@ -62,71 +62,72 @@ export default {
     submitForm: async function() {
       var questions = null;
       var data = null;
-      var response = null;
+      // var response = null;
+      var edit = null;
 
       if (Array.isArray(this.instance.report) && this.instance.report.length) {
         questions = this.instance.report[0].questions.map((element) => ({
           question: element.question,
           answer: element.answer,
         }));
-
-        data = {
-        questions: questions,
-        author: "User",
-        };
-        
-        response = await this.$api.request(
-        "POST",
-        `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
-        data
-        );
-
-        if(response[1] != "error") {
-
-        this.$swal({
-          title: "Kursrapport redigerad",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1400,
-        }); 
-        } else {
-          this.$swal({
-          title: "Något gick fel!",
-          icon: "error",
-          showConfirmButton: false,
-          timer: 1400,
-        });
-          throw response[0];
-        }
-
+        edit = true;
       } else {
         questions = this.form.map((element) => ({
           question: element.question,
           answer: element.answer,
         }));
-
+        edit = false;
+      }
+      try {
         data = {
-        questions: questions,
-        author: "User",
+          questions: questions,
+          author: "User",
         };
-        response = await this.$api.request(
-        "POST",
-        `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
-        data
-        );
 
-        if(response[1] != "error") {
-        this.$swal({
-          title: "Något gick fel!",
-          icon: "error",
-          showConfirmButton: false,
-          timer: 1400,
-        });
+        await this.$api.request(
+          "POST",
+          `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
+          data
+        );
+        if (edit == true) {
+          this.$swal({
+            title: "Kursrapport redigerad",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1400,
+          });
         } else {
-          throw response[0];
+          this.$swal({
+            title: "Kursrapport skapad",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1400,
+          });
+        }
+        // Go back one step to the My courses page
+        this.$router.go(-1);
+      } catch (err) {
+        switch (err.status) {
+          case 422:
+            this.$swal({
+              title: "Error 422",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1400,
+            });
+            break;
+          case 404:
+            this.$router.push("/404");
+            break;
+          default:
+            this.$swal({
+              title: "Något blev fel",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1400,
+            });
         }
       }
-      this.$router.go(-1); 
     },
     toSemester: function(date) {
       if (date != undefined) {
