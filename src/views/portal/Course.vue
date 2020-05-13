@@ -17,7 +17,7 @@
     <div class="d-flex justify-content-center">
       <div class="p-2">
         <h6 class="text-dark">Antal registrerade studenter</h6>
-        <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
+        <small class="text-dark">..</small>
         <line-chart width="95%" height="70%" :data="studentsReg"></line-chart>
       </div>
       <div class="p-2">
@@ -48,14 +48,14 @@
           {{instance.dateString}}<p v-if="instance.report.length == 0" color="red">. Kursrapport saknas</p>
         </b-form-select-option>
       </b-form-select>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center" style="margin-top: 50px">
         <div class="p-2" v-if="course.instances[selected].evaluation[0]">
           <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
-          <column-chart :data="course.instances[selected].evaluation[0].answers"></column-chart>
+          <column-chart height="200px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
         </div>
         <div class="p-2" v-if="course.instances[selected].evaluation[1]">
           <h6 class="text-dark">I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
-          <column-chart :data="course.instances[selected].evaluation[0].answers"></column-chart>
+          <column-chart height="200px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
         </div>
       </div>
       <course-instance :instance="course.instances[selected]" />
