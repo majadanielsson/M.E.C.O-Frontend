@@ -23,17 +23,17 @@
       <div class="p-2">
         <h6 class="text-dark">Genomsnittligt betyg</h6>
         <small class="text-dark">..</small>
-        <line-chart width="95%" height="70%" :discrete="true" :min="2" :max="5" :data="avarageGrade"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :min="2" :max="5" :data="averageGrade"></line-chart>
       </div>
       <div class="p-2">
         <h6 class="text-dark">Studenternas nöjdhet med kursen</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="avarageImpression"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageImpression"></line-chart>
       </div>
       <div class="p-2">
         <h6 class="text-dark">Studenternas ansträngning</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="avarageEffort"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageEffort"></line-chart>
       </div>
     </div>
   </b-container>
@@ -91,16 +91,16 @@ export default {
     }
     if (select >= 0) this.selected = select;
     this.getInstanceDates();
-    this.avarageToArray();
+    this.averageToArray();
   },
   data: function() {
     return {
       course: null,
       instanceDates: [],
       studentsReg: [],
-      avarageGrade: [],
-      avarageImpression: [],
-      avarageEffort: [],
+      averageGrade: [],
+      averageImpression: [],
+      averageEffort: [],
       selected: 0
     };
   },
@@ -119,33 +119,32 @@ export default {
         var shortSemester = semester.substring(0, 2) + semester.substring(5, 7);
         return shortSemester;
     },
-    avarageToArray: function() {
+    averageToArray: function() {
       for (var i = 0; i < this.course.instances.length; i++) {
         var instance = this.course.instances[i];
         var semester = this.toShortSemester(instance.date);
 
         //Takes imput from form
-        
+        /*
         if(instance.report[0]) {
           var answerImpression = instance.report[0].questions[1].answer;
           var answerEffort = instance.report[0].questions[2].answer;
-        
-
-        //Takes input from CSV
-        /*
-        if(instance.evaluation) {
-          for (var j = 0; j < instance.evaluation.length; j++) {
-            for (var k = 0: k < instance.evaluation.)
-          }
-        }
         */
 
-          this.avarageImpression.push([semester, answerImpression]);
-          this.avarageEffort.push([semester, answerEffort]); 
+        //Takes input from CSV
+        if(instance.evaluation[0]) {
+            this.averageImpression.push([semester, instance.evaluation[0].average]);
         }
-        this.studentsReg.push([semester, Math.ceil(Math.random() * 100)]);
-        this.avarageGrade.push([semester, 3]);
+        if(instance.evaluation[1]) {
+            this.averageEffort.push([semester, instance.evaluation[1].average]);
+        }
+
+          //this.averageImpression.push([semester, answerImpression]);
+          //this.averageEffort.push([semester, answerEffort]); 
+          this.studentsReg.push([semester, Math.ceil(Math.random() * 100)]);
+          this.averageGrade.push([semester, 3]);
       }
+        
     },
     getInstanceDates: function() {
       for(var i = 0; i < this.course.instances.length; i++) {
