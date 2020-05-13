@@ -48,6 +48,16 @@
           {{instance.dateString}}<p v-if="instance.report.length == 0" color="red">. Kursrapport saknas</p>
         </b-form-select-option>
       </b-form-select>
+      <div class="d-flex justify-content-center">
+        <div class="p-2" v-if="course.instances[selected].evaluation[0]">
+          <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
+          <column-chart :data="course.instances[selected].evaluation[0].answers"></column-chart>
+        </div>
+        <div class="p-2" v-if="course.instances[selected].evaluation[1]">
+          <h6 class="text-dark">I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
+          <column-chart :data="course.instances[selected].evaluation[0].answers"></column-chart>
+        </div>
+      </div>
       <course-instance :instance="course.instances[selected]" />
     </b-container>
 </div>
@@ -104,21 +114,36 @@ export default {
       if (p > 3) return "HT " + year + ", period " + (p - 3);
       else return "Sommar " + year;
     },
+    toShortSemester: function(date) {
+        var semester  = this.toSemester(date)
+        var shortSemester = semester.substring(0, 2) + semester.substring(5, 7);
+        return shortSemester;
+    },
     avarageToArray: function() {
       for (var i = 0; i < this.course.instances.length; i++) {
-        var instance = this.course.instances[i]
+        var instance = this.course.instances[i];
+        var semester = this.toShortSemester(instance.date);
 
-        if(instance.report[instance.report.length - 1]) {
-          var semester  = this.toSemester(instance.date)
-
-          var newSemesterFormat = semester.substring(0, 2) + semester.substring(5, 7);
+        //Takes imput from form
+        
+        if(instance.report[0]) {
           var answerImpression = instance.report[0].questions[1].answer;
           var answerEffort = instance.report[0].questions[2].answer;
+        
 
-          this.avarageImpression.push([newSemesterFormat, answerImpression]);
-          this.avarageEffort.push([newSemesterFormat, answerEffort]); 
-          this.studentsReg.push([newSemesterFormat, Math.ceil(Math.random() * 100)]);
-          this.avarageGrade.push([newSemesterFormat, 3]);
+        //Takes input from CSV
+        /*
+        if(instance.evaluation) {
+          for (var j = 0; j < instance.evaluation.length; j++) {
+            for (var k = 0: k < instance.evaluation.)
+          }
+        }
+        */
+
+          this.avarageImpression.push([semester, answerImpression]);
+          this.avarageEffort.push([semester, answerEffort]); 
+          this.studentsReg.push([semester, Math.ceil(Math.random() * 100)]);
+          this.avarageGrade.push([semester, 3]);
         }
       }
     },
