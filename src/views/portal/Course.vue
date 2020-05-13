@@ -142,9 +142,9 @@ export default {
 
           this.avarageImpression.push([semester, answerImpression]);
           this.avarageEffort.push([semester, answerEffort]); 
-          this.studentsReg.push([semester, Math.ceil(Math.random() * 100)]);
-          this.avarageGrade.push([semester, 3]);
         }
+        this.studentsReg.push([semester, Math.ceil(Math.random() * 100)]);
+        this.avarageGrade.push([semester, 3]);
       }
     },
     getInstanceDates: function() {
