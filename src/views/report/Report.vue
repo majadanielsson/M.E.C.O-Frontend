@@ -151,50 +151,31 @@ export default {
       instance: {},
       form: [
         {
-          question: "Svarsfrekvens på kursvärdering",
-          answer: "",
-          _id: 0,
-        },
-        {
-          question:
-            "Hur nöjda var studenterna med kursen i stort? (Medelvärde från kursvärdering)",
-          answer: "",
-          _id: 1,
-        },
-
-        {
-          question:
-            "I vilken grad ansträngde sig studenterna för att tillgodogöra sig kursinnehållet? (Medelvärde från kursvärdering)",
-          answer: "",
-          _id: 2,
-        },
-
-        {
           question:
             "Beskrivning av eventuella förändringar sedan förra kurstillfället",
           answer: "",
-          _id: 3,
+          _id: 0,
         },
 
         {
           question: "Kursens styrkor enligt studenterna",
           answer: "",
-          _id: 4,
+          _id: 1,
         },
         {
           question: "Kursens svagheter engligt studenterna",
           answer: "",
-          _id: 5,
+          _id: 2,
         },
         {
           question: "Kursansvariges analys av kurstillfället",
           answer: "",
-          _id: 6,
+          _id: 3,
         },
         {
           question: "Förslag till eventuella åtgärder",
           answer: "",
-          _id: 7,
+          _id: 4,
         },
       ],
     };
