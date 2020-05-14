@@ -59,7 +59,7 @@
           </div>
           <div class="p-2" v-if="course.instances[selected].evaluation[1]">
             <h6 class="text-dark">I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
-            <column-chart height="200px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+            <column-chart height="200px" :data="course.instances[selected].evaluation[1].answers"></column-chart>
           </div>
         </div>
      </div>
