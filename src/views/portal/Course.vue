@@ -15,25 +15,25 @@
     </div>
     <b-container class="my-4" v-if="course">
     <div class="d-flex justify-content-center">
-      <div class="p-2">
+      <div class="p-2 graph">
         <h6 class="text-dark">Antal registrerade studenter</h6>
-        <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
+        <small class="text-dark">..</small>
         <line-chart width="95%" height="70%" :data="studentsReg"></line-chart>
       </div>
-      <div class="p-2">
+      <div class="p-2 graph">
         <h6 class="text-dark">Genomsnittligt betyg</h6>
         <small class="text-dark">..</small>
-        <line-chart width="95%" height="70%" :discrete="true" :min="2" :max="5" :data="avarageGrade"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :min="2" :max="5" :data="averageGrade"></line-chart>
       </div>
-      <div class="p-2">
+      <div class="p-2 graph">
         <h6 class="text-dark">Studenternas nöjdhet med kursen</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="avarageImpression"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageImpression"></line-chart>
       </div>
-      <div class="p-2">
+      <div class="p-2 graph">
         <h6 class="text-dark">Studenternas ansträngning</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="avarageEffort"></line-chart>
+        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageEffort"></line-chart>
       </div>
     </div>
   </b-container>
@@ -48,6 +48,16 @@
           {{instance.dateString}}<p v-if="instance.report.length == 0" color="red">. Kursrapport saknas</p>
         </b-form-select-option>
       </b-form-select>
+      <div class="d-flex justify-content-center" style="margin-top: 50px">
+        <div class="p-2 graph" v-if="course.instances[selected].evaluation[0]">
+          <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
+          <column-chart height="200px" width="400px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+        </div>
+        <div class="p-2 graph" v-if="course.instances[selected].evaluation[1]">
+          <h6 class="text-dark">I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
+          <column-chart height="200px" width="400px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+        </div>
+      </div>
       <course-instance :instance="course.instances[selected]" />
     </b-container>
 </div>
@@ -81,16 +91,16 @@ export default {
     }
     if (select >= 0) this.selected = select;
     this.getInstanceDates();
-    this.avarageToArray();
+    this.averageToArray();
   },
   data: function() {
     return {
       course: null,
       instanceDates: [],
       studentsReg: [],
-      avarageGrade: [],
-      avarageImpression: [],
-      avarageEffort: [],
+      averageGrade: [],
+      averageImpression: [],
+      averageEffort: [],
       selected: 0
     };
   },
@@ -104,23 +114,37 @@ export default {
       if (p > 3) return "HT " + year + ", period " + (p - 3);
       else return "Sommar " + year;
     },
-    avarageToArray: function() {
+    toShortSemester: function(date) {
+        var semester  = this.toSemester(date)
+        var shortSemester = semester.substring(0, 2) + semester.substring(5, 7);
+        return shortSemester;
+    },
+    averageToArray: function() {
       for (var i = 0; i < this.course.instances.length; i++) {
-        var instance = this.course.instances[i]
+        var instance = this.course.instances[i];
+        var semester = this.toShortSemester(instance.date);
 
-        if(instance.report[instance.report.length - 1]) {
-          var semester  = this.toSemester(instance.date)
-
-          var newSemesterFormat = semester.substring(0, 2) + semester.substring(5, 7);
+        //Takes imput from form
+        /*
+        if(instance.report[0]) {
           var answerImpression = instance.report[0].questions[1].answer;
           var answerEffort = instance.report[0].questions[2].answer;
+        */
 
-          this.avarageImpression.push([newSemesterFormat, answerImpression]);
-          this.avarageEffort.push([newSemesterFormat, answerEffort]); 
-          this.studentsReg.push([newSemesterFormat, Math.ceil(Math.random() * 100)]);
-          this.avarageGrade.push([newSemesterFormat, 3]);
+        //Takes input from CSV
+        if(instance.evaluation[0]) {
+            this.averageImpression.push([semester, instance.evaluation[0].average]);
         }
+        if(instance.evaluation[1]) {
+            this.averageEffort.push([semester, instance.evaluation[1].average]);
+        }
+
+          //this.averageImpression.push([semester, answerImpression]);
+          //this.averageEffort.push([semester, answerEffort]); 
+          this.studentsReg.push([semester, Math.ceil(Math.random() * 100)]);
+          this.averageGrade.push([semester, 3]);
       }
+        
     },
     getInstanceDates: function() {
       for(var i = 0; i < this.course.instances.length; i++) {
@@ -145,7 +169,8 @@ export default {
   transform: rotate(-90deg);
 }
 .graph {
-  margin: 10px;
-  float: left;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 </style>
