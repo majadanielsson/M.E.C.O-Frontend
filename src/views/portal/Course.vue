@@ -15,22 +15,22 @@
     </div>
     <b-container class="my-4" v-if="course">
     <div class="d-flex justify-content-center">
-      <div class="p-2">
+      <div class="p-2 graph">
         <h6 class="text-dark">Antal registrerade studenter</h6>
         <small class="text-dark">..</small>
         <line-chart width="95%" height="70%" :data="studentsReg"></line-chart>
       </div>
-      <div class="p-2">
+      <div class="p-2 graph">
         <h6 class="text-dark">Genomsnittligt betyg</h6>
         <small class="text-dark">..</small>
         <line-chart width="95%" height="70%" :discrete="true" :min="2" :max="5" :data="averageGrade"></line-chart>
       </div>
-      <div class="p-2">
+      <div class="p-2 graph">
         <h6 class="text-dark">Studenternas nöjdhet med kursen</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
         <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageImpression"></line-chart>
       </div>
-      <div class="p-2">
+      <div class="p-2 graph">
         <h6 class="text-dark">Studenternas ansträngning</h6>
         <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
         <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageEffort"></line-chart>
@@ -49,13 +49,13 @@
         </b-form-select-option>
       </b-form-select>
       <div class="d-flex justify-content-center" style="margin-top: 50px">
-        <div class="p-2" v-if="course.instances[selected].evaluation[0]">
+        <div class="p-2 graph" v-if="course.instances[selected].evaluation[0]">
           <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
-          <column-chart height="200px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+          <column-chart height="200px" width="400px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
         </div>
-        <div class="p-2" v-if="course.instances[selected].evaluation[1]">
+        <div class="p-2 graph" v-if="course.instances[selected].evaluation[1]">
           <h6 class="text-dark">I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
-          <column-chart height="200px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+          <column-chart height="200px" width="400px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
         </div>
       </div>
       <course-instance :instance="course.instances[selected]" />
@@ -169,7 +169,8 @@ export default {
   transform: rotate(-90deg);
 }
 .graph {
-  margin: 10px;
-  float: left;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 </style>
