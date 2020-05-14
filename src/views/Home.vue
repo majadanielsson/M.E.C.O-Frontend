@@ -1,7 +1,5 @@
 <template>
   <div>
-    <navbar name="Kursvärderingsportalen" url="/"></navbar>
-    
     <b-container class="py-4">
       <h1>Kursvärderingsportalen</h1>
       <p
@@ -40,12 +38,8 @@
 </template>
 
 <script>
-import navbar from "@/components/navbar";
 export default {
   name: "Home",
-  components: {
-    navbar
-  },
   data: function() {
     return {
       form: {

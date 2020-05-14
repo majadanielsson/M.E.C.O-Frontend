@@ -39,7 +39,8 @@ const routes = [{
   component: Admin,
   children: [{
     path: "",
-    component: ReportIndex
+    component: ReportIndex,
+    name: "ReportIndex"
   },
   {
     path: "report/:courseId/:instanceId",
@@ -49,7 +50,8 @@ const routes = [{
 },
 {
   path: '/csv',
-  component: Csv
+  component: Csv,
+  name: "CSV"
 },
 {
   path: "*",

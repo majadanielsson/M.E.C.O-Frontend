@@ -1,6 +1,5 @@
 <template>
   <div>
-    <navbar name="Kursvärderingsportalen" url="/portal"></navbar>
     <b-container class="my-4">
       <b-row align-h="center">
         <b-col md="10" lg="8">
@@ -28,15 +27,14 @@
 </template>
 
   <script>
-import navbar from "@/components/navbar";
 export default {
   data() {
     return {
       file: null
     };
   },
-  components: {
-    navbar
+  metaInfo: {
+    title: "Uppladdning av kursvärderingar"
   }
 };
 </script>

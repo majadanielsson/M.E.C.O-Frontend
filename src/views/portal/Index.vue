@@ -158,6 +158,11 @@ export default {
   },
   components: {
     ContentLoader
+  },
+  metaInfo() {
+    return {
+      title: this.$route.query.q ? this.$route.query.q : "Sök kurser"
+    };
   }
 };
 </script>

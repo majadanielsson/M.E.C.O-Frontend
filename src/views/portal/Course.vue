@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--Header-->
-    <div class="bg-primary text-white py-5">
+    <div class="bg-primary text-white py-3 py-md-5">
       <b-container v-if="course">
         <h1 class="h2">{{course.name}}</h1>
         <h2 class="h5">
@@ -14,29 +14,50 @@
       </b-container>
     </div>
     <b-container class="my-4" v-if="course">
-    <div class="d-flex justify-content-center">
-      <div class="p-2">
-        <h6 class="text-dark">Antal registrerade studenter</h6>
-        <small class="text-dark">..</small>
-        <line-chart width="95%" height="70%" :data="studentsReg"></line-chart>
-      </div>
-      <div class="p-2">
-        <h6 class="text-dark">Genomsnittligt betyg</h6>
-        <small class="text-dark">..</small>
-        <line-chart width="95%" height="70%" :discrete="true" :min="2" :max="5" :data="averageGrade"></line-chart>
-      </div>
-      <div class="p-2">
-        <h6 class="text-dark">Studenternas nöjdhet med kursen</h6>
-        <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageImpression"></line-chart>
-      </div>
-      <div class="p-2">
-        <h6 class="text-dark">Studenternas ansträngning</h6>
-        <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-        <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageEffort"></line-chart>
-      </div>
-    </div>
-  </b-container>
+      <b-row>
+        <b-col cols="6" lg="3">
+          <div class="my-3">
+            <h6 class="text-dark">Antal registrerade studenter</h6>
+            <small class="text-dark">..</small>
+            <line-chart width="100%" height="70%" :data="studentsReg"></line-chart>
+          </div>
+        </b-col>
+        <b-col cols="6" lg="3">
+          <div class="my-3">
+            <h6 class="text-dark">Genomsnittligt betyg</h6>
+            <small class="text-dark">..</small>
+            <line-chart
+              width="95%"
+              height="70%"
+              :discrete="true"
+              :min="2"
+              :max="5"
+              :data="averageGrade"
+            ></line-chart>
+          </div>
+        </b-col>
+        <b-col cols="6" lg="3">
+          <div class="my-3">
+            <h6 class="text-dark">Studenternas nöjdhet med kursen</h6>
+            <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
+            <line-chart
+              width="95%"
+              height="70%"
+              :discrete="true"
+              :max="5"
+              :data="averageImpression"
+            ></line-chart>
+          </div>
+        </b-col>
+        <b-col cols="6" lg="3">
+          <div class="my-3">
+            <h6 class="text-dark">Studenternas ansträngning</h6>
+            <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
+            <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageEffort"></line-chart>
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
     <!--Content-->
     <b-container class="my-4" v-if="course">
       <b-form-select v-model="selected" size="lg" class="text-dark border border-primary">
@@ -45,29 +66,35 @@
           :key="instance._id"
           :value="index"
         >
-          {{instance.dateString}}<p v-if="instance.report.length == 0" color="red">. Kursrapport saknas</p>
+          {{instance.dateString}}
+          {{instance.report.length == 0 ? "(Kursrapport saknas)" : ""}}
         </b-form-select-option>
       </b-form-select>
-      <div class="d-flex justify-content-start">
-        <div class="p-2">
+      <b-row>
+        <b-col cols="12" lg="8">
           <course-instance :instance="course.instances[selected]" />
-        </div>
-        <div class="d-flex flex-column p-2" style="margin-top: 50px">
-          <div class="p-2" v-if="course.instances[selected].evaluation[0]">
-            <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
-            <column-chart height="200px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+        </b-col>
+        <b-col cols="12" lg="4">
+          <div class="d-flex flex-column py-2 py-lg-5">
+            <div class="p-2" v-if="course.instances[selected].evaluation[0]">
+              <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
+              <column-chart height="200px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+            </div>
+            <div class="p-2" v-if="course.instances[selected].evaluation[1]">
+              <h6
+                class="text-dark"
+              >I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
+              <column-chart height="200px" :data="course.instances[selected].evaluation[1].answers"></column-chart>
+            </div>
           </div>
-          <div class="p-2" v-if="course.instances[selected].evaluation[1]">
-            <h6 class="text-dark">I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
-            <column-chart height="200px" :data="course.instances[selected].evaluation[1].answers"></column-chart>
-          </div>
-        </div>
-     </div>
+        </b-col>
+      </b-row>
     </b-container>
-</div>
+  </div>
 </template>
 
 <script>
+import formatSemester from "@/modules/formatSemester";
 import courseInstance from "@/components/courseInstance";
 export default {
   created: async function() {
@@ -86,11 +113,10 @@ export default {
       select = this.course.instances.findIndex(
         instance => instance._id == this.$route.query.id
       );
-      this.$router.replace({'query': null});
-    }
-    else {
+      this.$router.replace({ query: null });
+    } else {
       select = this.course.instances.findIndex(
-      instance => instance.report.length
+        instance => instance.report.length
       );
     }
     if (select >= 0) this.selected = select;
@@ -109,20 +135,7 @@ export default {
     };
   },
   methods: {
-    toSemester: function(date) {
-      var year = date.substring(0, 4);
-      var p = date.substring(5);
-      //translates period to corresponding
-      //period in "Teknisk-naturvetenskapliga fakulteten" for now.
-      if (p < 3) return "VT " + year + ", period " + (parseInt(p) + 2);
-      if (p > 3) return "HT " + year + ", period " + (p - 3);
-      else return "Sommar " + year;
-    },
-    toShortSemester: function(date) {
-        var semester  = this.toSemester(date)
-        var shortSemester = semester.substring(0, 2) + semester.substring(5, 7);
-        return shortSemester;
-    },
+    ...formatSemester,
     averageToArray: function() {
       for (var i = 0; i < this.course.instances.length; i++) {
         var instance = this.course.instances[i];
@@ -136,28 +149,36 @@ export default {
         */
 
         //Takes input from CSV
-        if(instance.evaluation[0]) {
-            this.averageImpression.push([semester, instance.evaluation[0].average]);
+        if (instance.evaluation[0]) {
+          this.averageImpression.push([
+            semester,
+            instance.evaluation[0].average
+          ]);
         }
-        if(instance.evaluation[1]) {
-            this.averageEffort.push([semester, instance.evaluation[1].average]);
+        if (instance.evaluation[1]) {
+          this.averageEffort.push([semester, instance.evaluation[1].average]);
         }
 
-          //this.averageImpression.push([semester, answerImpression]);
-          //this.averageEffort.push([semester, answerEffort]); 
-          this.studentsReg.push([semester, Math.ceil(Math.random() * 100)]);
-          this.averageGrade.push([semester, 3]);
+        //this.averageImpression.push([semester, answerImpression]);
+        //this.averageEffort.push([semester, answerEffort]);
+        this.studentsReg.push([semester, Math.ceil(Math.random() * 100)]);
+        this.averageGrade.push([semester, 3]);
       }
-        
     },
     getInstanceDates: function() {
-      for(var i = 0; i < this.course.instances.length; i++) {
+      for (var i = 0; i < this.course.instances.length; i++) {
         this.instanceDates.push(this.course.instances[i].date);
       }
-    },
+    }
   },
   components: {
     courseInstance
+  },
+  metaInfo() {
+    return {
+      title:
+        this.course && this.course.name ? this.course.name : "Laddar kurs..."
+    };
   }
 };
 </script>
@@ -172,5 +193,4 @@ export default {
   transition: 0.2s transform;
   transform: rotate(-90deg);
 }
-
 </style>
