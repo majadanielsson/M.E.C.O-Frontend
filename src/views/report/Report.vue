@@ -7,49 +7,42 @@
           <h5>Kursnamn: {{ instance.name }}</h5>
           <h5>Kurskod: {{ instance.courseId }}</h5>
           <h5>Kurstillfälle: {{ toSemester(instance.date) }}</h5>
-          <div v-if="Array.isArray(instance.report) && instance.report.length">
-            <p v-for="report in instance.report" :key="report._id">
-              Ändrad av: {{ report.author }}, {{ report.date.slice(0, 10) }}
-              {{ report.date.slice(11, 16) }}
-            </p>
+          <div v-if="edit != null">
+            <div v-if="edit">
+              <p v-for="report in instance.report" :key="report._id">
+                Ändrad av: {{ report.author }}, {{ report.date.slice(0, 10) }}
+                {{ report.date.slice(11, 16) }}
+              </p>
+            </div>
             <b-form class="py-3" @submit.prevent="submitForm">
               <b-form-group
                 :label="question.question"
                 label-size="lg"
-                v-for="question in instance.report[0].questions"
-                :key="question._id"
-              >
-                <b-form-textarea
-                  v-model="question.answer"
-                  rows="3"
-                  placeholder="Svar"
-                  required
-                ></b-form-textarea>
-              </b-form-group>
-              <b-button class="my-2" type="submit" variant="primary"
-                >Redigera kursrapport</b-button
-              >
-            </b-form>
-          </div>
-          <div v-else>
-            <b-form class="py-3" @submit.prevent="submitForm">
-              <b-form-group
-                :label="question.question"
                 v-for="question in form"
                 :key="question._id"
               >
-                <b-form-textarea
-                  v-model="question.answer"
-                  rows="3"
-                  placeholder="Svar"
-                  required
-                ></b-form-textarea>
+                <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
               </b-form-group>
-              <b-button class="my-2" type="submit" variant="primary"
-                >Skicka kursrapport</b-button
-              >
+              <b-button
+                class="my-2"
+                type="submit"
+                variant="primary"
+              >{{this.sending ? "Skickar..." : (this.edit ? "Redigera kursrapport" : "Skicka kursrapport")}}</b-button>
             </b-form>
           </div>
+          <ContentLoader
+            v-else
+            class="my-5"
+            height="300"
+            width="550"
+            style="maxWidth:1000px"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            <rect x="0" y="0" rx="3" ry="3" width="270" height="25" />
+            <rect x="0" y="35" rx="7" ry="7" width="550" height="80" />
+            <rect x="0" y="140" rx="3" ry="3" width="200" height="25" />
+            <rect x="0" y="175" rx="7" ry="7" width="550" height="80" />
+          </ContentLoader>
         </b-col>
       </b-row>
     </b-container>
@@ -57,129 +50,128 @@
 </template>
 
 <script>
+import { ContentLoader } from "vue-content-loader";
+import formatSemester from "@/modules/formatSemester";
 export default {
   methods: {
     submitForm: async function() {
       var questions = null;
       var data = null;
       // var response = null;
-      var edit = null;
 
-      if (Array.isArray(this.instance.report) && this.instance.report.length) {
-        questions = this.instance.report[0].questions.map((element) => ({
+      if (this.edit) {
+        questions = this.instance.report[0].questions.map(element => ({
           question: element.question,
-          answer: element.answer,
+          answer: element.answer
         }));
-        edit = true;
       } else {
-        questions = this.form.map((element) => ({
+        questions = this.form.map(element => ({
           question: element.question,
-          answer: element.answer,
+          answer: element.answer
         }));
-        edit = false;
       }
       try {
         data = {
           questions: questions,
-          author: "User",
+          author: "User"
         };
-
+        this.sending = true;
         await this.$api.request(
           "POST",
           `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`,
           data
         );
-        if (edit == true) {
-          this.$swal({
-            title: "Kursrapport redigerad",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 1400,
-          });
-        } else {
-          this.$swal({
-            title: "Kursrapport skapad",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 1400,
-          });
-        }
+        this.sending = false;
+        this.$swal({
+          title: this.edit ? "Kursrapport redigerad" : "Kursrapport skapad",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1400
+        });
         // Go back one step to the My courses page
         this.$router.go(-1);
       } catch (err) {
+        this.sending = false;
         switch (err.status) {
           case 422:
             this.$swal({
               title: "Error 422",
               icon: "error",
               showConfirmButton: false,
-              timer: 1400,
+              timer: 1400
             });
             break;
           case 404:
             this.$router.push("/404");
             break;
           default:
+            alert(err);
             this.$swal({
               title: "Något blev fel",
               icon: "error",
               showConfirmButton: false,
-              timer: 1400,
+              timer: 1400
             });
         }
       }
     },
-    toSemester: function(date) {
-      if (date != undefined) {
-        var year = date.slice(0, 4);
-        var p = date[5];
-        //translates period to corresponding
-        //period in "Teknisk-naturvetenskapliga fakulteten" for now.
-        if (p < 3) return "VT " + year + ", period " + (parseInt(p) + 2);
-        if (p > 3) return "HT " + year + ", period " + (p - 3);
-        else return "Sommar " + year;
-      }
-    },
+    ...formatSemester
   },
   created: async function() {
     this.instance = await this.$api.request(
       "GET",
       `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`
     );
+    if (this.instance.report.length) {
+      this.form = this.instance.report[0].questions;
+    }
+    this.edit = this.instance.report && this.instance.report.length;
   },
   data: function() {
     return {
+      sending: false,
+      edit: null,
       instance: {},
       form: [
         {
           question:
             "Beskrivning av eventuella förändringar sedan förra kurstillfället",
           answer: "",
-          _id: 0,
+          _id: 0
         },
 
         {
           question: "Kursens styrkor enligt studenterna",
           answer: "",
-          _id: 1,
+          _id: 1
         },
         {
           question: "Kursens svagheter engligt studenterna",
           answer: "",
-          _id: 2,
+          _id: 2
         },
         {
           question: "Kursansvariges analys av kurstillfället",
           answer: "",
-          _id: 3,
+          _id: 3
         },
         {
           question: "Förslag till eventuella åtgärder",
           answer: "",
-          _id: 4,
-        },
-      ],
+          _id: 4
+        }
+      ]
     };
   },
+  components: {
+    ContentLoader
+  },
+  metaInfo() {
+    return {
+      title:
+        "Kursrapport: " +
+        (this.instance && this.instance.name ? this.instance.name : "")
+    };
+  }
 };
 </script>

@@ -9,7 +9,9 @@ import router from './router'
 
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
+import VueMeta from 'vue-meta'
 
+Vue.use(VueMeta)
 Vue.use(Chartkick.use(Chart))
 
 import VueSweetalert2 from "vue-sweetalert2";

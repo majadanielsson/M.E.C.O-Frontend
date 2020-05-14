@@ -1,9 +1,19 @@
 <template>
   <b-navbar type="dark" class="text-white" variant="primary">
     <b-navbar-brand :to="url">{{name}}</b-navbar-brand>
-    <b-navbar-nav v-if="$api.state.user">
-      <b-nav-item v-if="$api.state.user.role == 'employee'" to="/admin" variant="primary">Mina kurser</b-nav-item>
-      <b-nav-item v-if="$api.state.user.role == 'employee'" to="/csv" variant="primary">Ladda upp CSV-filer</b-nav-item>
+    <b-navbar-nav class="d-none d-lg-flex" v-if="$api.state.user">
+      <b-nav-item
+        v-if="$api.state.user.role == 'employee'"
+        to="/admin"
+        variant="primary"
+        :class="{'active': $route.name == 'ReportIndex'}"
+      >Mina kurser</b-nav-item>
+      <b-nav-item
+        v-if="$api.state.user.role == 'employee'"
+        to="/csv"
+        variant="primary"
+        :class="{'active': $route.name == 'CSV'}"
+      >Ladda upp CSV-filer</b-nav-item>
     </b-navbar-nav>
     <b-collapse class="justify-content-end" is-nav>
       <!-- Logged in -->
@@ -42,6 +52,20 @@
         </div>
         <h4>{{($api.state.user.name) ? $api.state.user.name : $api.state.user.username }}</h4>
       </div>
+      <b-navbar-nav class="d-block d-lg-none" v-if="$api.state.user">
+        <b-nav-item
+          v-if="$api.state.user.role == 'employee'"
+          to="/admin"
+          variant="primary"
+          :class="{'active': $route.name == 'ReportIndex'}"
+        >Mina kurser</b-nav-item>
+        <b-nav-item
+          v-if="$api.state.user.role == 'employee'"
+          to="/csv"
+          variant="primary"
+          :class="{'active': $route.name == 'CSV'}"
+        >Ladda upp CSV-filer</b-nav-item>
+      </b-navbar-nav>
       <div class="my-4">
         <b-button block variant="light" @click="$api.logout()" href="#">
           <b-icon icon="person-dash" scale="1.2" class="mr-1" />Logga ut
