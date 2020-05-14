@@ -48,17 +48,21 @@
           {{instance.dateString}}<p v-if="instance.report.length == 0" color="red">. Kursrapport saknas</p>
         </b-form-select-option>
       </b-form-select>
-      <div class="d-flex justify-content-center" style="margin-top: 50px">
-        <div class="p-2 graph" v-if="course.instances[selected].evaluation[0]">
-          <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
-          <column-chart height="200px" width="400px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+      <div class="d-flex justify-content-center">
+        <div class="p-2">
+          <course-instance :instance="course.instances[selected]" />
         </div>
-        <div class="p-2 graph" v-if="course.instances[selected].evaluation[1]">
-          <h6 class="text-dark">I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
-          <column-chart height="200px" width="400px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+        <div class="d-flex flex-column p-2" style="margin-top: 50px">
+          <div class="p-2 graph" v-if="course.instances[selected].evaluation[0]">
+            <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
+            <column-chart height="200px" width="400px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+          </div>
+          <div class="p-2 graph" v-if="course.instances[selected].evaluation[1]">
+            <h6 class="text-dark">I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
+            <column-chart height="200px" width="400px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+          </div>
         </div>
-      </div>
-      <course-instance :instance="course.instances[selected]" />
+     </div>
     </b-container>
 </div>
 </template>
@@ -173,4 +177,5 @@ export default {
   align-items: center;
   flex-direction: column;
 }
+
 </style>
