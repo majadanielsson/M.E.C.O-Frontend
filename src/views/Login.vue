@@ -29,6 +29,7 @@ export default {
   created: async function() {
     if (this.$api.state.user) this.$router.replace("/portal");
     const ticket = this.$route.query.ticket;
+    this.$router.replace({ query: null });
     if (!ticket) {
       this.loggingIn = false;
     } else {

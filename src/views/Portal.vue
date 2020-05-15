@@ -1,5 +1,7 @@
 <template>
   <div>
-    <router-view />
+    <keep-alive include="PortalIndex">
+      <router-view />
+    </keep-alive>
   </div>
 </template>

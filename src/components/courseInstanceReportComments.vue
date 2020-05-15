@@ -5,12 +5,12 @@
       <div class="my-2 comment" v-for="comment in comments.comments" :key="comment._id">
         {{comment}}
         <small
-          v-if="index != commentGroup.length - 1"
+          v-if="index != 0"
           class="d-block text-muted"
         >Skriven för en tidigare version av rapporten</small>
       </div>
     </div>
-    <b-form @submit.prevent="send" v-if="$root.user" class="my-3">
+    <b-form @submit.prevent="send" v-if="$api.state.user" class="my-3">
       <b-form-textarea
         v-model="comment"
         class="mb-2"

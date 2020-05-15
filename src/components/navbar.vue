@@ -18,7 +18,7 @@
     <b-collapse class="justify-content-end" is-nav>
       <!-- Logged in -->
       <b-button variant="primary" v-if="$api.state.user" v-b-toggle.sidebar-right>
-        <b-icon icon="person-check-fill" scale="1.2" />
+        <b-icon icon="person-fill" scale="1.2" />
         <span
           class="d-none d-sm-inline ml-1"
         >{{($api.state.user.name) ? $api.state.user.name : $api.state.user.username }}</span>
@@ -26,7 +26,7 @@
 
       <!-- Not logged in -->
       <b-button v-else variant="primary" @click="$api.redirect()" href="#">
-        <b-icon icon="person-plus" scale="1.2" />
+        <b-icon icon="box-arrow-in-right" scale="1.2" />
         <span class="d-none d-sm-inline ml-1">Logga in</span>
       </b-button>
     </b-collapse>
@@ -52,23 +52,27 @@
         </div>
         <h4>{{($api.state.user.name) ? $api.state.user.name : $api.state.user.username }}</h4>
       </div>
-      <b-navbar-nav class="d-block d-lg-none" v-if="$api.state.user">
-        <b-nav-item
-          v-if="$api.state.user.role == 'employee'"
-          to="/admin"
-          variant="primary"
-          :class="{'active': $route.name == 'ReportIndex'}"
-        >Mina kurser</b-nav-item>
-        <b-nav-item
-          v-if="$api.state.user.role == 'employee'"
-          to="/csv"
-          variant="primary"
-          :class="{'active': $route.name == 'CSV'}"
-        >Ladda upp CSV-filer</b-nav-item>
-      </b-navbar-nav>
       <div class="my-4">
+        <div v-if="$api.state.user">
+          <b-button
+            v-if="$api.state.user.role == 'employee'"
+            to="/admin"
+            variant="outline-light"
+            block
+            class="my-3"
+            :class="{'active': $route.name == 'ReportIndex'}"
+          >Mina kurser</b-button>
+          <b-button
+            v-if="$api.state.user.role == 'employee'"
+            to="/csv"
+            variant="outline-light"
+            block
+            class="my-3"
+            :class="{'active': $route.name == 'CSV'}"
+          >Ladda upp CSV-filer</b-button>
+        </div>
         <b-button block variant="light" @click="$api.logout()" href="#">
-          <b-icon icon="person-dash" scale="1.2" class="mr-1" />Logga ut
+          <b-icon icon="box-arrow-right" scale="1.2" class="mr-1" />Logga ut
         </b-button>
       </div>
     </b-sidebar>

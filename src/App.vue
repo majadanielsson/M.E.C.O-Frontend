@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <navbar name="Kursvärderingsportalen" url="/portal"></navbar>
-    <router-view />
+    <keep-alive include="PortalIndex">
+      <router-view />
+    </keep-alive>
   </div>
 </template>
 

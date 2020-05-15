@@ -38,10 +38,10 @@
                         Array.isArray(instance.report) && instance.report.length
                       "
                       >
-                        <b-badge variant="green">Kursrapport finns</b-badge>
+                        <b-badge variant="success">Kursrapport finns</b-badge>
                       </b-col>
                       <b-col v-else>
-                        <b-badge variant="red">Kursrapport finns inte</b-badge>
+                        <b-badge variant="danger">Kursrapport finns inte</b-badge>
                       </b-col>
                       <b-col
                         v-if="
@@ -103,12 +103,26 @@ import formatSemester from "@/modules/formatSemester";
 import { ContentLoader } from "vue-content-loader";
 export default {
   created: async function() {
-    var courses = await this.$api.request("GET", "/courses", null, {
-      responsible: true
-    });
-    courses.sort((a, b) => a < b);
-    this.courses = courses;
-    this.loading = false;
+    try {
+      var courses = await this.$api.request("GET", "/courses", null, {
+        responsible: true
+      });
+      courses.sort((a, b) => a < b);
+      this.courses = courses;
+      this.loading = false;
+    } catch (err) {
+      this.loading = false;
+      switch (err.status) {
+        default:
+          this.$swal({
+            title: "Något gick fel",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1400
+          });
+          break;
+      }
+    }
   },
   data: function() {
     return {

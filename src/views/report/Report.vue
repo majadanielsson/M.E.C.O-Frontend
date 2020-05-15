@@ -118,14 +118,29 @@ export default {
     ...formatSemester
   },
   created: async function() {
-    this.instance = await this.$api.request(
-      "GET",
-      `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`
-    );
-    if (this.instance.report.length) {
-      this.form = this.instance.report[0].questions;
+    try {
+      this.instance = await this.$api.request(
+        "GET",
+        `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`
+      );
+      if (!this.instance.responsible.includes(this.$api.state.user.username)) {
+        this.$router.replace("/401");
+      }
+      if (this.instance.report.length) {
+        this.form = this.instance.report[0].questions;
+      }
+      this.edit = this.instance.report && this.instance.report.length;
+    } catch (err) {
+      switch (err.status) {
+        default:
+          this.$swal({
+            title: "Något gick fel",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1400
+          });
+      }
     }
-    this.edit = this.instance.report && this.instance.report.length;
   },
   data: function() {
     return {
