@@ -17,6 +17,9 @@ Vue.use(Chartkick.use(Chart))
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 Vue.use(VueSweetalert2);
+Chartkick.options = {
+  colors: ["#61599d"],
+}
 // Install BootstrapVue
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
