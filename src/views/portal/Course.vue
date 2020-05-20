@@ -72,7 +72,7 @@
       </b-form-select>
       <b-row>
         <b-col cols="12" lg="8">
-          <course-instance :instance="course.instances[selected]" />
+          <course-instance :instance="course.instances[selected]" :courseId="course._id" />
         </b-col>
         <b-col cols="12" lg="4">
           <div class="d-flex flex-column py-2 py-lg-5">

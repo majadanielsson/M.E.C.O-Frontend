@@ -5,13 +5,17 @@
       <h5>{{question.question}}</h5>
       <p>{{question.answer}}</p>
     </div>
-    <courseInstanceReportComments :commentGroup="commentGroup" :instanceId="instanceId" />
+    <courseInstanceReportComments
+      :instanceId="instanceId"
+      :courseId="courseId"
+      :date="report.date"
+    />
   </div>
 </template>
 <script>
 import courseInstanceReportComments from "./courseInstanceReportComments";
 export default {
-  props: ["report", "commentGroup", "instanceId"],
+  props: ["report", "instanceId", "courseId"],
   components: {
     courseInstanceReportComments
   }

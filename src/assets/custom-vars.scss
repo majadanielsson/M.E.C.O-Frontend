@@ -73,3 +73,35 @@ $input-btn-font-size: 1.1rem;
 $btn-font-weight: 500;
 $input-btn-padding-y: 0.6rem;
 $input-btn-padding-x: 1.1rem;
+
+// Comments 
+.comments {
+  max-width: 500px;
+}
+.comment .flag,
+.comment .vote-up,
+.comment .vote-down,
+.comment .vote-text {
+  color: map_get($theme-colors, 'primary');
+  opacity:0.8;
+}
+
+.comment.up .vote-up,
+.comment.up .vote-text {
+  color: map_get($theme-colors, 'success');
+  opacity:1;
+}
+.comment.down .vote-down,
+.comment.down .vote-text {
+  color: map_get($theme-colors, 'danger');
+  opacity:1;
+}
+.comment.flag .flag {
+  color: map_get($theme-colors, 'danger');
+  opacity:1;
+}
+.comment {
+  background-color: #f3f3f3;
+  padding: 0.6rem 1.1rem;
+  border-radius: 0.7rem;
+}
