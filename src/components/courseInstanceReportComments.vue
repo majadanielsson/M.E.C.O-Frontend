@@ -1,15 +1,12 @@
 <template>
   <div class="comments">
     <h4 class="text-dark">Kommentarer</h4>
-    <div v-for="(comments, index) in commentGroup" :key="comments.date">
-      <div class="my-2 comment" v-for="comment in comments.comments" :key="comment._id">
-        {{comment}}
-        <small
-          v-if="index != 0"
-          class="d-block text-muted"
-        >Skriven för en tidigare version av rapporten</small>
-      </div>
-    </div>
+    <comment
+      :comment="comment"
+      v-for="comment in comments[instanceId]"
+      :date="date"
+      :key="comment._id"
+    />
     <b-form @submit.prevent="send" v-if="$api.state.user" class="my-3">
       <b-form-textarea
         v-model="comment"
@@ -23,37 +20,86 @@
   </div>
 </template>
 <script>
+import comment from "@/components/Comment";
 export default {
   data() {
     return {
-      comment: ""
+      comment: "",
+      comments: { "": null }
     };
+  },
+  watch: {
+    instanceId() {
+      this.load();
+    }
   },
   methods: {
     send: async function() {
+      if (!this.comment.trim().length) return;
       try {
-        const posted = await this.$api.request(
+        var instanceId = this.instanceId;
+        var comment = await this.$api.request(
           "POST",
-          `/courses/${this.$route.params.id}/${this.instanceId}/comment`,
+          "/comments/" + this.courseId + "/" + instanceId,
           { comment: this.comment }
         );
+        this.comments[instanceId].push(comment);
         this.comment = "";
-        this.commentGroup[this.commentGroup.length - 1].comments.push(posted);
       } catch (err) {
-        console.log(err);
+        switch (err.status) {
+          default:
+            this.$swal({
+              title: "Något gick fel",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1400
+            });
+        }
+      }
+    },
+    async action(action, id) {
+      var instanceId = this.instanceId;
+      var comment = await this.$api.request(
+        "PATCH",
+        "/comments/" + id + "/" + action
+      );
+      this.comments[instanceId].splice(
+        this.comments[instanceId].findIndex(x => x._id == comment._id),
+        1,
+        comment
+      );
+    },
+    load: async function() {
+      if (this.comments[this.instanceId]) return;
+      try {
+        var comments = await this.$api.request(
+          "GET",
+          "/comments/" + this.instanceId
+        );
+        comments.sort(function(a, b) {
+          if (a.votes == b.votes) return a.date > b.date;
+          else return a.votes < b.votes;
+        });
+        this.$set(this.comments, this.instanceId, comments);
+      } catch (err) {
+        switch (err.status) {
+          default:
+            this.$swal({
+              title: "Något gick fel",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1400
+            });
+        }
       }
     }
   },
-  props: ["commentGroup", "instanceId"]
+  props: ["instanceId", "courseId", "date"],
+  async created() {
+    this.load();
+  },
+  components: {
+    comment
+  }
 };
 </script>
-<style>
-.comments {
-  max-width: 500px;
-}
-.comment {
-  background-color: #f3f3f3;
-  padding: 0.6rem 1.1rem;
-  border-radius: 0.7rem;
-}
-</style>
