@@ -47,6 +47,13 @@ export default {
         this.comment = "";
       } catch (err) {
         switch (err.status) {
+          case 403:
+            this.$swal({
+              title: "Du har blivit tillfälligt avstängd",
+              html: `Avstängningen upphör ${err.expires}`,
+              icon: "error"
+            });
+            break;
           default:
             this.$swal({
               title: "Något gick fel",

@@ -22,7 +22,7 @@ function api(Vue) {
         const responseData = await response.json();
         if (response.ok) return responseData;
         else {
-            console.log("Error " + response.status + ": " + responseData.detail);
+            console.log("Error " + response.status + ": " + responseData.message);
             switch (responseData.error) {
                 case "session-timeout":
                     this.state.user = null;

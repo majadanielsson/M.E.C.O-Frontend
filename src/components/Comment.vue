@@ -11,20 +11,20 @@
     {{comment.comment}}
     <div class="text-right">
       <template v-if="$route.name=='Moderator'">
-        <b-link class="text-primary mr-4" @click="$parent.remove">
+        <b-link class="text-primary mr-3" @click="$parent.remove(comment._id)">
           <b-icon icon="trash-fill" />
         </b-link>
-        <b-link class="text-primary mr-3" @click="$parent.ban">
-          <b-icon icon="person-dash-fill" scale="1.1" />
+        <b-link class="text-primary mr-3" @click="$parent.ban(comment._id)">
+          <b-icon icon="person-fill" scale="1.1" />
         </b-link>
-        <b-link class="text-danger mr-3">
+        <span class="text-danger mr-2">
           <b-icon icon="flag-fill" scale="1.1" />
           {{comment.flag}}
-        </b-link>
-        <b-link>
+        </span>
+        <span>
           <b-icon icon="chevron-expand" scale="1.1" />
           {{comment.votes}}
-        </b-link>
+        </span>
       </template>
       <template v-else>
         <b-link class="vote-up" @click="up">
