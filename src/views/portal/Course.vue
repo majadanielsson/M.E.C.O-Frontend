@@ -83,7 +83,7 @@
           :value="index"
         >
           {{instance.dateString}}
-          {{instance.report.length == 0 ? "(Kursrapport saknas)" : ""}}
+          {{instance.report.length == 0 ? "(Kursrapport saknas)" : "✓"}}
         </b-form-select-option>
       </b-form-select>
       <b-row>
@@ -200,15 +200,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.course-instance .collapse-rotate {
-  transition: 0.2s transform;
-  transform: rotate(0deg);
-}
-
-.course-instance .collapsed .b-icon {
-  transition: 0.2s transform;
-  transform: rotate(-90deg);
-}
-</style>

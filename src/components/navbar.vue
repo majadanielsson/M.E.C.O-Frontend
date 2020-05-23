@@ -18,7 +18,7 @@
     <b-collapse class="justify-content-end" is-nav>
       <!-- Logged in -->
       <b-button variant="primary" v-if="$api.state.user" v-b-toggle.sidebar-right>
-        <b-icon icon="person-fill" scale="1.2" />
+        <fa-icon class="fa-lg" icon="user" />
         <span
           class="d-none d-sm-inline ml-1"
         >{{($api.state.user.name) ? $api.state.user.name : $api.state.user.username }}</span>
@@ -26,7 +26,7 @@
 
       <!-- Not logged in -->
       <b-button v-else variant="primary" @click="$api.redirect()" href="#">
-        <b-icon icon="box-arrow-in-right" scale="1.2" />
+        <fa-icon icon="sign-in-alt" />
         <span class="d-none d-sm-inline ml-1">Logga in</span>
       </b-button>
     </b-collapse>
@@ -71,9 +71,7 @@
             :class="{'active': $route.name == 'CSV'}"
           >Ladda upp CSV-filer</b-button>
         </div>
-        <b-button block variant="light" @click="$api.logout()" href="#">
-          <b-icon icon="box-arrow-right" scale="1.2" class="mr-1" />Logga ut
-        </b-button>
+        <b-button block variant="light" @click="$api.logout()" href="#">Logga ut</b-button>
       </div>
     </b-sidebar>
   </b-navbar>

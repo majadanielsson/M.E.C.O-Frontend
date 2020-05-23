@@ -12,32 +12,32 @@
     <div class="text-right">
       <template v-if="$route.name=='Moderator'">
         <b-link class="text-primary mr-3" @click="$parent.remove(comment._id)">
-          <b-icon icon="trash-fill" />
+          <fa-icon icon="trash-alt" />
         </b-link>
         <b-link class="text-primary mr-3" @click="$parent.ban(comment._id)">
-          <b-icon icon="person-fill" scale="1.1" />
+          <fa-icon icon="user-slash" />
         </b-link>
         <span class="text-danger mr-2">
-          <b-icon icon="flag-fill" scale="1.1" />
+          <fa-icon icon="exclamation-triangle" />
           {{comment.flag}}
         </span>
-        <span>
-          <b-icon icon="chevron-expand" scale="1.1" />
+        <span class="text-secondary">
+          <fa-icon icon="sort" />
           {{comment.votes}}
         </span>
       </template>
       <template v-else>
         <b-link class="vote-up" @click="up">
-          <b-icon icon="caret-up-fill" scale="1.2" />
+          <fa-icon icon="arrow-up" />
         </b-link>
         <span class="vote-text mx-1">{{comment.votes}}</span>
         <b-link class="vote-down" @click="down">
-          <b-icon icon="caret-down-fill" scale="1.2" />
+          <fa-icon icon="arrow-down" />
         </b-link>
-        <b-link class="flag ml-4" @click="doflag">
-          <template v-if="$route.name=='Moderator'">{{comment.flag}}</template>
-          <b-icon icon="flag-fill" scale="1" />
+        <b-link :id="comment._id + '-flag'" class="flag ml-4" @click="doflag">
+          <fa-icon icon="exclamation" />
         </b-link>
+        <b-tooltip noninteractive :target="comment._id + '-flag'" delay="200">Anmäl kommentar</b-tooltip>
       </template>
     </div>
   </div>

@@ -15,7 +15,7 @@
             />
             <b-input-group-append>
               <b-button type="submit" variant="primary">
-                <b-icon icon="search" />
+                <fa-icon class="fa-lg" icon="search" />
               </b-button>
             </b-input-group-append>
           </b-input-group>
@@ -94,7 +94,6 @@ export default {
   watch: {
     "$route.query.q": function() {
       if (this.$route.name == "PortalIndex" && this.$route.query.q != this.q) {
-        console.log("LADDAAAAR!");
         if (this.$route.query.q) {
           this.q = this.$route.query.q;
           this.searchBar = this.$route.query.q;

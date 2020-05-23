@@ -1,11 +1,17 @@
 import Vue from 'vue'
 import api from '@/plugins/api';
 import {
-  BootstrapVue,
-  IconsPlugin
+  BootstrapVue
 } from 'bootstrap-vue'
 import App from './App.vue'
 import router from './router'
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUser, faSignInAlt, faSignOutAlt, faUserSlash, faExclamation, faArrowDown, faArrowUp, faTrashAlt, faSort, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faUser, faSignInAlt, faSignOutAlt, faUserSlash, faExclamation, faArrowDown, faArrowUp, faTrashAlt, faSort, faSearch)
+Vue.component('fa-icon', FontAwesomeIcon)
 
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
@@ -31,8 +37,6 @@ Chartkick.options = {
 }
 // Install BootstrapVue
 Vue.use(BootstrapVue);
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin)
 Vue.use(api);
 Vue.config.productionTip = false
 
