@@ -16,7 +16,16 @@ Vue.use(Chartkick.use(Chart))
 
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-Vue.use(VueSweetalert2);
+Vue.use(VueSweetalert2, {
+  customClass: {
+    confirmButton: 'btn btn-primary mx-1 mw-5',
+    cancelButton: 'btn btn-outline-secondary mx-1 mw-5',
+    popup: 'rounded shadow-lg',
+  },
+  buttonsStyling: false,
+  cancelButtonText: "Avbryt"
+
+});
 Chartkick.options = {
   colors: ["#61599d"],
 }

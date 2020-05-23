@@ -73,6 +73,9 @@ $input-btn-font-size: 1.1rem;
 $btn-font-weight: 500;
 $input-btn-padding-y: 0.6rem;
 $input-btn-padding-x: 1.1rem;
+.btn.mw-5 {
+  min-width: 5rem;
+}
 
 // Comments 
 .comments {

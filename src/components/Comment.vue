@@ -1,21 +1,44 @@
 <template>
-  <div class="my-2 comment" :class="{up: vote=='up', down: vote=='down', flag: flag}">
+  <div
+    v-if="comment"
+    class="my-2 comment"
+    :class="{up: vote=='up', down: vote=='down', flag: flag}"
+  >
     <small
-      v-if="date > comment.date"
+      v-if="date && date > comment.date"
       class="d-block text-muted"
     >Skriven för en tidigare version av rapporten</small>
     {{comment.comment}}
     <div class="text-right">
-      <b-link class="vote-up" @click="up">
-        <b-icon icon="caret-up-fill" scale="1.2" />
-      </b-link>
-      <span class="vote-text mx-1">{{comment.votes}}</span>
-      <b-link class="vote-down" @click="down">
-        <b-icon icon="caret-down-fill" scale="1.2" />
-      </b-link>
-      <b-link class="flag ml-4" @click="doflag">
-        <b-icon icon="flag-fill" scale="1" />
-      </b-link>
+      <template v-if="$route.name=='Moderator'">
+        <b-link class="text-primary mr-4" @click="$parent.remove">
+          <b-icon icon="trash-fill" />
+        </b-link>
+        <b-link class="text-primary mr-3" @click="$parent.ban">
+          <b-icon icon="person-dash-fill" scale="1.1" />
+        </b-link>
+        <b-link class="text-danger mr-3">
+          <b-icon icon="flag-fill" scale="1.1" />
+          {{comment.flag}}
+        </b-link>
+        <b-link>
+          <b-icon icon="chevron-expand" scale="1.1" />
+          {{comment.votes}}
+        </b-link>
+      </template>
+      <template v-else>
+        <b-link class="vote-up" @click="up">
+          <b-icon icon="caret-up-fill" scale="1.2" />
+        </b-link>
+        <span class="vote-text mx-1">{{comment.votes}}</span>
+        <b-link class="vote-down" @click="down">
+          <b-icon icon="caret-down-fill" scale="1.2" />
+        </b-link>
+        <b-link class="flag ml-4" @click="doflag">
+          <template v-if="$route.name=='Moderator'">{{comment.flag}}</template>
+          <b-icon icon="flag-fill" scale="1" />
+        </b-link>
+      </template>
     </div>
   </div>
 </template>
@@ -50,7 +73,7 @@ export default {
       if (!this.flag) {
         this.$swal({
           title: "Vill du anmäla kommentaren?",
-          icon: "warning",
+          icon: "question",
           showCancelButton: true
         }).then(result => {
           if (!result.value) return;

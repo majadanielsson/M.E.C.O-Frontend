@@ -9,6 +9,7 @@ import PortalIndex from '@/views/portal/Index.vue'
 import PortalCourse from '@/views/portal/Course.vue'
 import NotFound from '@/views/404.vue'
 import Unauthorized from '@/views/401.vue'
+import Moderator from '@/views/Moderator.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [{
   component: Home
 },
 {
+  path: '/moderator',
+  component: Moderator,
+  name: "Moderator"
+},
+{
   path: '/login',
   component: Login
 },
@@ -32,7 +38,8 @@ const routes = [{
 },
 {
   path: "/portal/courses/:id",
-  component: PortalCourse
+  component: PortalCourse,
+  name: "PortalCourse"
 },
 {
   path: "/admin",

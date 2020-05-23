@@ -2,15 +2,31 @@
   <div>
     <!--Header-->
     <div class="bg-primary text-white py-3 py-md-5">
-      <b-container v-if="course">
-        <h1 class="h2">{{course.name}}</h1>
-        <h2 class="h5">
-          <span class="d-inline-block align-middle mr-2">{{course._id}}</span>
-          <b-badge
-            class="d-inline-block align-middle"
-            variant="light"
-          >{{course.extent}} {{course.extentUnit}}</b-badge>
-        </h2>
+      <b-container>
+        <template v-if="course">
+          <h1 class="h2">{{course.name}}</h1>
+          <h2 class="h5">
+            <span class="d-inline-block align-middle mr-2">{{course._id}}</span>
+            <b-badge
+              class="d-inline-block align-middle"
+              variant="light"
+            >{{course.extent}} {{course.extentUnit}}</b-badge>
+          </h2>
+        </template>
+        <ContentLoader
+          primaryOpacity="0.7"
+          secondaryOpacity="0.7"
+          class="my-1"
+          v-else
+          height="55"
+          width="300"
+          style="maxWidth:400px"
+          preserveAspectRatio="xMidYMid slice"
+        >
+          <rect x="0" y="0" rx="3" ry="3" width="250" height="25" />
+          <rect x="0" y="35" rx="3" ry="3" width="50" height="17" />
+          <rect x="60" y="35" rx="3" ry="3" width="35" height="17" />
+        </ContentLoader>
       </b-container>
     </div>
     <b-container class="my-4" v-if="course">
@@ -71,10 +87,7 @@
         </b-form-select-option>
       </b-form-select>
       <b-row>
-        <b-col cols="12" lg="8">
-          <course-instance :instance="course.instances[selected]" :courseId="course._id" />
-        </b-col>
-        <b-col cols="12" lg="4">
+        <b-col cols="12" lg="4" order-lg="2">
           <div class="d-flex flex-column py-2 py-lg-5">
             <div class="p-2" v-if="course.instances[selected].evaluation[0]">
               <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
@@ -88,6 +101,9 @@
             </div>
           </div>
         </b-col>
+        <b-col cols="12" lg="8" order-lg="1">
+          <course-instance :instance="course.instances[selected]" :courseId="course._id" />
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -96,6 +112,7 @@
 <script>
 import formatSemester from "@/modules/formatSemester";
 import courseInstance from "@/components/courseInstance";
+import { ContentLoader } from "vue-content-loader";
 export default {
   created: async function() {
     var course = await this.$api.request(
@@ -172,7 +189,8 @@ export default {
     }
   },
   components: {
-    courseInstance
+    courseInstance,
+    ContentLoader
   },
   metaInfo() {
     return {
