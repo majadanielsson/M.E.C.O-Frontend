@@ -57,7 +57,7 @@ export default {
   },
   created: async function() {
     try {
-      var comments = await this.$api.request("GET", "/comments/2018-11023");
+      var comments = await this.$api.request("GET", "/comments?flag=true");
       //comments.sort((a, b) => a.flag < b.flag);
       this.comments = comments;
     } catch (err) {
