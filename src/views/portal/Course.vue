@@ -2,7 +2,7 @@
   <div>
     <!--Header-->
     <div class="bg-primary text-white py-3 py-md-5">
-      <b-container>
+      <b-container class="px-md-4 px-xl-2" fluid="xl">
         <template v-if="course">
           <h1 class="h2">{{course.name}}</h1>
           <h2 class="h5">
@@ -29,53 +29,49 @@
         </ContentLoader>
       </b-container>
     </div>
-    <b-container class="my-4" v-if="course">
-      <b-row>
-        <b-col cols="6" lg="3">
-          <div class="my-3">
-            <h6 class="text-dark">Antal registrerade studenter</h6>
-            <small class="text-dark">..</small>
+    <!--Content-->
+    <b-container class="my-4 px-md-4 px-xl-2" v-if="course" fluid="xl">
+      <b-row class="mt-4 flex-nowrap flex-md-wrap overflow-scroll">
+        <b-col cols="9" sm="7" md="6" lg="3">
+          <div class="my-3 text-center">
             <line-chart width="100%" height="70%" :data="studentsReg"></line-chart>
+            <h6 class="text-dark small font-weight-bold">Antal registrerade studenter</h6>
           </div>
         </b-col>
-        <b-col cols="6" lg="3">
-          <div class="my-3">
-            <h6 class="text-dark">Genomsnittligt betyg</h6>
-            <small class="text-dark">..</small>
+        <b-col cols="9" sm="7" md="6" lg="3">
+          <div class="my-3 text-center">
             <line-chart
-              width="95%"
+              width="100%"
               height="70%"
               :discrete="true"
               :min="2"
               :max="5"
               :data="averageGrade"
             ></line-chart>
+            <h6 class="text-dark small font-weight-bold">Genomsnittligt betyg</h6>
           </div>
         </b-col>
-        <b-col cols="6" lg="3">
-          <div class="my-3">
-            <h6 class="text-dark">Studenternas nöjdhet med kursen</h6>
-            <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
+        <b-col cols="9" sm="7" md="6" lg="3">
+          <div class="my-3 text-center">
             <line-chart
-              width="95%"
+              width="100%"
               height="70%"
               :discrete="true"
               :max="5"
               :data="averageImpression"
             ></line-chart>
+            <h6 class="text-dark small font-weight-bold">Studenternas nöjdhet med kursen</h6>
+            <div class="small text-dark">(medelvärde utifrån kursvärdering)</div>
           </div>
         </b-col>
-        <b-col cols="6" lg="3">
-          <div class="my-3">
-            <h6 class="text-dark">Studenternas ansträngning</h6>
-            <small class="text-dark">(medelvärde utifrån kursvärdering)</small>
-            <line-chart width="95%" height="70%" :discrete="true" :max="5" :data="averageEffort"></line-chart>
+        <b-col cols="9" sm="7" md="6" lg="3">
+          <div class="my-3 text-center">
+            <line-chart width="100%" height="70%" :discrete="true" :max="5" :data="averageEffort"></line-chart>
+            <h6 class="text-dark small font-weight-bold">Studenternas ansträngning</h6>
+            <div class="small text-dark">(medelvärde utifrån kursvärdering)</div>
           </div>
         </b-col>
       </b-row>
-    </b-container>
-    <!--Content-->
-    <b-container class="my-4" v-if="course">
       <b-form-select v-model="selected" size="lg" class="text-dark border border-primary">
         <b-form-select-option
           v-for="(instance, index) in course.instances"
@@ -88,18 +84,33 @@
       </b-form-select>
       <b-row>
         <b-col cols="12" lg="4" order-lg="2">
-          <div class="d-flex flex-column py-2 py-lg-5">
-            <div class="p-2" v-if="course.instances[selected].evaluation[0]">
-              <h6 class="text-dark">Hur nöjda var studenterna med kursen i stort?</h6>
+          <b-row class="mt-4 flex-nowrap flex-md-wrap overflow-scroll">
+            <b-col
+              class="my-2 text-center"
+              cols="9"
+              sm="7"
+              md="6"
+              lg="12"
+              v-if="course.instances[selected].evaluation[0]"
+            >
               <column-chart height="200px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
-            </div>
-            <div class="p-2" v-if="course.instances[selected].evaluation[1]">
               <h6
-                class="text-dark"
-              >I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
+                class="small font-weight-bold text-dark"
+              >Hur nöjda var studenterna med kursen i stort?</h6>
+            </b-col>
+            <b-col
+              class="my-2 text-center"
+              cols="9"
+              md="6"
+              lg="12"
+              v-if="course.instances[selected].evaluation[1]"
+            >
               <column-chart height="200px" :data="course.instances[selected].evaluation[1].answers"></column-chart>
-            </div>
-          </div>
+              <h6
+                class="text-dark small font-weight-bold"
+              >I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
+            </b-col>
+          </b-row>
         </b-col>
         <b-col cols="12" lg="8" order-lg="1">
           <course-instance :instance="course.instances[selected]" :courseId="course._id" />

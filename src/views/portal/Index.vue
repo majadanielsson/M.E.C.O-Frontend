@@ -3,6 +3,8 @@
     <b-row align-h="center">
       <b-col lg="8">
         <b-link to="/dev" class="text-danger">Dev login</b-link>
+        <br>
+        <b-link to="/moderator">Mod</b-link>
         <h1 class="mb-3 text-dark">Sök kurser</h1>
         <!-- Search Field -->
         <b-form @submit.prevent="searchButton">

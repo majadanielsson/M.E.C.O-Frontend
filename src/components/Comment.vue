@@ -18,7 +18,7 @@
           <fa-icon icon="user-slash" />
         </b-link>
         <span class="text-danger mr-2">
-          <fa-icon icon="exclamation-triangle" />
+          <fa-icon icon="exclamation" />
           {{comment.flag}}
         </span>
         <span class="text-secondary">
