@@ -88,6 +88,11 @@ export default {
   // Perform search on history change
   watch: {
     async q() {
+      if (
+        !this.searchResults[this.show] ||
+        this.searchResults[this.show].length == 0
+      )
+        this.show = this.q;
       await this.search();
       this.show = this.q;
       if (this.replace) this.$router.replace({ query: { q: this.q } });
