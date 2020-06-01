@@ -107,7 +107,7 @@ export default {
       var courses = await this.$api.request("GET", "/courses", null, {
         responsible: true
       });
-      courses.sort((a, b) => a < b);
+      courses.sort((a, b) => (a < b ? 1 : -1));
       this.courses = courses;
       this.loading = false;
     } catch (err) {

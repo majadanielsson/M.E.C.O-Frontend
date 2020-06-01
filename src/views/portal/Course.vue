@@ -130,7 +130,7 @@ export default {
       "GET",
       "/courses/" + this.$route.params.id
     );
-    course.instances.sort((a, b) => a.date < b.date);
+    course.instances.sort((a, b) => (a.date < b.date ? 1 : -1));
     for (var i in course.instances)
       course.instances[i].dateString = this.toSemester(
         course.instances[i].date
