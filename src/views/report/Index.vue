@@ -108,6 +108,9 @@ export default {
         responsible: true
       });
       courses.sort((a, b) => (a < b ? 1 : -1));
+      for (var i in courses) {
+        courses[i].instances.sort((a, b) => (a < b ? 1 : -1));
+      }
       this.courses = courses;
       this.loading = false;
     } catch (err) {
