@@ -169,28 +169,20 @@ export default {
         var instance = this.course.instances[i];
         var semester = this.toShortSemester(instance.date);
 
-        //Takes imput from form
-        /*
-        if(instance.report[0]) {
-          var answerImpression = instance.report[0].questions[1].answer;
-          var answerEffort = instance.report[0].questions[2].answer;
-        */
-
-        //Takes input from CSV
         if (instance.evaluation[0]) {
-          this.averageImpression.push([
+          this.averageImpression.unshift([
             semester,
             instance.evaluation[0].average
           ]);
         }
         if (instance.evaluation[1]) {
-          this.averageEffort.push([semester, instance.evaluation[1].average]);
+          this.averageEffort.unshift([semester, instance.evaluation[1].average]);
         }
 
         //this.averageImpression.push([semester, answerImpression]);
         //this.averageEffort.push([semester, answerEffort]);
-        this.studentsReg.push([semester, Math.ceil(Math.random() * 100)]);
-        this.averageGrade.push([semester, 3]);
+        this.studentsReg.unshift([semester, Math.ceil(Math.random() * 100)]);
+        this.averageGrade.unshift([semester, 3]);
       }
     },
     getInstanceDates: function() {
