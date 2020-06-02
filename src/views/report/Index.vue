@@ -104,13 +104,17 @@ import { ContentLoader } from "vue-content-loader";
 export default {
   created: async function() {
     try {
+      //Get all courses that the user is responsible for
       var courses = await this.$api.request("GET", "/courses", null, {
         responsible: true
       });
+
+      //Sort courses and each instance in courses
       courses.sort((a, b) => (a < b ? 1 : -1));
       for (var i in courses) {
         courses[i].instances.sort((a, b) => (a < b ? 1 : -1));
       }
+      
       this.courses = courses;
       this.loading = false;
     } catch (err) {

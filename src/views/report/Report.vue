@@ -3,17 +3,22 @@
     <b-container class="my-4">
       <b-row align-h="center">
         <b-col lg="8">
+          <!-- General information about the course instance -->
           <h2>Kursrapport</h2>
           <h5>Kursnamn: {{ instance.name }}</h5>
           <h5>Kurskod: {{ instance.courseId }}</h5>
           <h5>Kurstillfälle: {{ toSemester(instance.date) }}</h5>
+
           <div v-if="edit != null">
+            <!-- List all editors of the report -->
             <div v-if="edit">
               <p v-for="report in instance.report" :key="report._id">
                 Ändrad av: {{ report.author }}, {{ report.date.slice(0, 10) }}
                 {{ report.date.slice(11, 16) }}
               </p>
             </div>
+
+            <!-- A form with all the questions -->
             <b-form class="py-3" @submit.prevent="submitForm">
               <b-form-group
                 :label="question.question"
@@ -23,6 +28,8 @@
               >
                 <b-form-textarea v-model="question.answer" rows="3" placeholder="Svar" required></b-form-textarea>
               </b-form-group>
+
+              <!-- Submit button -->
               <b-button
                 class="my-2"
                 type="submit"
@@ -57,13 +64,15 @@ export default {
     submitForm: async function() {
       var questions = null;
       var data = null;
-      // var response = null;
 
+      //If the report is being edited, map all answers to the corresponding
+      //questions in the report.
       if (this.edit) {
         questions = this.instance.report[0].questions.map(element => ({
           question: element.question,
           answer: element.answer
         }));
+      //Otherwise map to the default form
       } else {
         questions = this.form.map(element => ({
           question: element.question,
@@ -123,9 +132,11 @@ export default {
         "GET",
         `/courses/${this.$route.params.courseId}/${this.$route.params.instanceId}`
       );
+      //If the user is not responsible for the course, redirect
       if (!this.instance.responsible.includes(this.$api.state.user.username)) {
         this.$router.replace("/401");
       }
+      //If the coures instance has a report, replace the question form with the report
       if (this.instance.report.length) {
         this.form = this.instance.report[0].questions;
       }
