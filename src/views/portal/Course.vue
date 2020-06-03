@@ -29,49 +29,10 @@
         </ContentLoader>
       </b-container>
     </div>
-    <!--Content-->
+    <!--Statistic graphs-->
     <b-container class="my-4 px-md-4 px-xl-2" v-if="course" fluid="xl">
-      <b-row class="mt-4 flex-nowrap flex-md-wrap overflow-scroll">
-        <b-col cols="9" sm="7" md="6" lg="3">
-          <div class="my-3 text-center">
-            <line-chart width="100%" height="70%" :data="studentsReg"></line-chart>
-            <h6 class="text-dark small font-weight-bold">Antal registrerade studenter</h6>
-          </div>
-        </b-col>
-        <b-col cols="9" sm="7" md="6" lg="3">
-          <div class="my-3 text-center">
-            <line-chart
-              width="100%"
-              height="70%"
-              :discrete="true"
-              :min="2"
-              :max="5"
-              :data="averageGrade"
-            ></line-chart>
-            <h6 class="text-dark small font-weight-bold">Genomsnittligt betyg</h6>
-          </div>
-        </b-col>
-        <b-col cols="9" sm="7" md="6" lg="3">
-          <div class="my-3 text-center">
-            <line-chart
-              width="100%"
-              height="70%"
-              :discrete="true"
-              :max="5"
-              :data="averageImpression"
-            ></line-chart>
-            <h6 class="text-dark small font-weight-bold">Studenternas nöjdhet med kursen</h6>
-            <div class="small text-dark">(medelvärde utifrån kursvärdering)</div>
-          </div>
-        </b-col>
-        <b-col cols="9" sm="7" md="6" lg="3">
-          <div class="my-3 text-center">
-            <line-chart width="100%" height="70%" :discrete="true" :max="5" :data="averageEffort"></line-chart>
-            <h6 class="text-dark small font-weight-bold">Studenternas ansträngning</h6>
-            <div class="small text-dark">(medelvärde utifrån kursvärdering)</div>
-          </div>
-        </b-col>
-      </b-row>
+      <course-statistics :course="course"/>
+      <!--Drop down list of course instances-->
       <b-form-select v-model="selected" size="lg" class="text-dark border border-primary">
         <b-form-select-option
           v-for="(instance, index) in course.instances"
@@ -82,7 +43,9 @@
           {{instance.report.length == 0 ? "(Kursrapport saknas)" : "✓"}}
         </b-form-select-option>
       </b-form-select>
+      <!--Instance specific statistics-->
       <b-row>
+        <!--Students' general satisfaction-->
         <b-col cols="12" lg="4" order-lg="2">
           <b-row class="mt-4 flex-nowrap flex-md-wrap overflow-scroll">
             <b-col
@@ -93,11 +56,15 @@
               lg="12"
               v-if="course.instances[selected].evaluation[0]"
             >
-              <column-chart height="200px" :data="course.instances[selected].evaluation[0].answers"></column-chart>
+              <column-chart 
+                height="200px" 
+                :data="course.instances[selected].evaluation[0].answers"
+              ></column-chart>
               <h6
                 class="small font-weight-bold text-dark"
               >Hur nöjda var studenterna med kursen i stort?</h6>
             </b-col>
+            <!--Students' general effort-->
             <b-col
               class="my-2 text-center"
               cols="9"
@@ -105,13 +72,17 @@
               lg="12"
               v-if="course.instances[selected].evaluation[1]"
             >
-              <column-chart height="200px" :data="course.instances[selected].evaluation[1].answers"></column-chart>
+              <column-chart 
+                height="200px" 
+                :data="course.instances[selected].evaluation[1].answers"
+              ></column-chart>
               <h6
                 class="text-dark small font-weight-bold"
               >I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
             </b-col>
           </b-row>
         </b-col>
+        <!--Course report-->
         <b-col cols="12" lg="8" order-lg="1">
           <course-instance :instance="course.instances[selected]" :courseId="course._id" />
         </b-col>
@@ -123,6 +94,7 @@
 <script>
 import formatSemester from "@/modules/formatSemester";
 import courseInstance from "@/components/courseInstance";
+import courseStatistics from "@/components/courseStatistics";
 import { ContentLoader } from "vue-content-loader";
 export default {
   created: async function() {
@@ -132,7 +104,7 @@ export default {
     );
     course.instances.sort((a, b) => (a.date < b.date ? 1 : -1));
     for (var i in course.instances)
-      course.instances[i].dateString = this.toSemester(
+      course.instances[i].dateString = formatSemester.toSemester(
         course.instances[i].date
       );
     this.course = course;
@@ -149,42 +121,15 @@ export default {
     }
     if (select >= 0) this.selected = select;
     this.getInstanceDates();
-    this.averageToArray();
   },
   data: function() {
     return {
       course: null,
       instanceDates: [],
-      studentsReg: [],
-      averageGrade: [],
-      averageImpression: [],
-      averageEffort: [],
       selected: 0
     };
   },
   methods: {
-    ...formatSemester,
-    averageToArray: function() {
-      for (var i = 0; i < this.course.instances.length; i++) {
-        var instance = this.course.instances[i];
-        var semester = this.toShortSemester(instance.date);
-
-        if (instance.evaluation[0]) {
-          this.averageImpression.unshift([
-            semester,
-            instance.evaluation[0].average
-          ]);
-        }
-        if (instance.evaluation[1]) {
-          this.averageEffort.unshift([semester, instance.evaluation[1].average]);
-        }
-
-        //this.averageImpression.push([semester, answerImpression]);
-        //this.averageEffort.push([semester, answerEffort]);
-        this.studentsReg.unshift([semester, Math.ceil(Math.random() * 100)]);
-        this.averageGrade.unshift([semester, 3]);
-      }
-    },
     getInstanceDates: function() {
       for (var i = 0; i < this.course.instances.length; i++) {
         this.instanceDates.push(this.course.instances[i].date);
@@ -193,6 +138,7 @@ export default {
   },
   components: {
     courseInstance,
+    courseStatistics,
     ContentLoader
   },
   metaInfo() {
