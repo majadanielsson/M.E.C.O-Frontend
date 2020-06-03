@@ -1,5 +1,6 @@
 export default {
     0: {
+        _id: 0,
         question: "Hur nöjd är du med kursen i stort?",
         answers: {
             0: 0,
@@ -11,6 +12,7 @@ export default {
         }
     },
     1: {
+        _id: 1,
         question: "I vilken grad har du ansträngt dig att tillgodogöra dig kursinnehållet?",
         answers: {
             0: 0,

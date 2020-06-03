@@ -23,12 +23,14 @@
             v-for="question in questions"
             :key="question._id"
             class="bg-white border my-3"
-            header-bg-variant="primary"
-            border-variant="primary"
+            header-bg-variant="secondary"
             header-text-variant="white"
           >
             <template v-slot:header>
-              <h3 class="h5 mb-0">{{question.question}}</h3>
+              <b-link @click="remove(question._id)" class="text-white">
+                <fa-icon icon="times" class="float-right fa-lg" />
+              </b-link>
+              <h3 class="h5 mb-0 font-weight-normal">{{question.question}}</h3>
             </template>
             <div style="max-width:150px">
               <b-form-group
@@ -45,6 +47,29 @@
         </b-form>
       </b-col>
     </b-row>
+    <b-button v-b-modal.modal>Launch demo modal</b-button>
+
+    <b-modal
+      id="modal"
+      hide-header
+      hide-footer
+      centered
+      content-class="px-3 py-2 border-0 shadow-lg"
+    >
+      <b-link class="text-secondary float-right fa-lg" @click="$bvModal.hide('modal')">
+        <fa-icon icon="times" />
+      </b-link>
+      <h3>Hantera frågor</h3>
+      <b-form-checkbox-group
+        id="checkbox-group-1"
+        v-model="included"
+        size="lg"
+        :options="evaluationQuestions"
+        name="included"
+        value-field="_id"
+        text-field="question"
+      ></b-form-checkbox-group>
+    </b-modal>
   </b-container>
 </template>
 <script>
@@ -55,8 +80,17 @@ export default {
     course: null,
     courseId: null,
     select: 0,
-    questions: evaluationQuestions
+    included: [0, 1],
+    evaluationQuestions: evaluationQuestions
   }),
+  computed: {
+    questions() {
+      var included = this.included;
+      return Object.values(evaluationQuestions).filter(x =>
+        included.includes(x._id)
+      );
+    }
+  },
   watch: {
     async courseId() {
       this.courseId = this.courseId.trim().toUpperCase();
@@ -84,6 +118,13 @@ export default {
       }).then(async result => {
         if (!result.value) return;
       });
+    },
+    remove(id) {
+      var index = this.included.findIndex(x => x == id);
+      if (index != -1) this.included.splice(index, 1);
+    },
+    add(id) {
+      if (this.included.findIndex(x => x == id) == -1) this.included.push(id);
     }
   }
 };

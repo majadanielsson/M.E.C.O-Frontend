@@ -7,10 +7,10 @@ import App from './App.vue'
 import router from './router'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faSignInAlt, faSignOutAlt, faUserSlash, faExclamation, faArrowDown, faArrowUp, faTrashAlt, faSort, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faSignInAlt, faSignOutAlt, faUserSlash, faExclamation, faArrowDown, faArrowUp, faTrashAlt, faSort, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUser, faSignInAlt, faSignOutAlt, faUserSlash, faExclamation, faArrowDown, faArrowUp, faTrashAlt, faSort, faSearch)
+library.add(faUser, faSignInAlt, faSignOutAlt, faUserSlash, faExclamation, faArrowDown, faArrowUp, faTrashAlt, faSort, faSearch, faTimes)
 Vue.component('fa-icon', FontAwesomeIcon)
 
 import Chartkick from 'vue-chartkick'
