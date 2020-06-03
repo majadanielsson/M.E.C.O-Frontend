@@ -10,6 +10,7 @@ import PortalCourse from '@/views/portal/Course.vue'
 import NotFound from '@/views/404.vue'
 import Unauthorized from '@/views/401.vue'
 import Moderator from '@/views/Moderator.vue'
+import Evaluation from '@/views/Evaluation.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,11 @@ const routes = [{
   path: '/moderator',
   component: Moderator,
   name: "Moderator"
+},
+{
+  path: '/evaluation',
+  component: Evaluation,
+  name: "Evaluation"
 },
 {
   path: '/login',
