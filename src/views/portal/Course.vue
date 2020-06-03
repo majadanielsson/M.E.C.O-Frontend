@@ -43,15 +43,15 @@
           {{instance.report.length == 0 ? "(Kursrapport saknas)" : "✓"}}
         </b-form-select-option>
       </b-form-select>
-      <!--Instance specific statistics-->
       <b-row>
+      <!--Instance specific statistics-->
         <b-col cols="12" lg="4" order-lg="2">
           <instance-statistics :instance="course.instances[selected]" />
         </b-col>
         <!--Course report-->
-          <b-col cols="12" lg="8" order-lg="1">
-            <course-instance :instance="course.instances[selected]" :courseId="course._id"/>
-          </b-col>
+        <b-col cols="12" lg="8" order-lg="1">
+          <course-instance :instance="course.instances[selected]" :courseId="course._id"/>
+        </b-col>
       </b-row>
     </b-container>
   </div>

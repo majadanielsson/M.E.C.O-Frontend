@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--Students' general satisfaction-->
-        <b-row class="mt-4 flex-nowrap flex-md-wrap overflow-scroll">
+    <b-row class="mt-4 flex-nowrap flex-md-wrap overflow-scroll">
         <b-col
             class="my-2 text-center"
             cols="9"
@@ -34,7 +34,7 @@
             class="text-dark small font-weight-bold"
             >I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
         </b-col>
-        </b-row>
+    </b-row>
   </div>
 </template>
 <script>
