@@ -45,47 +45,13 @@
       </b-form-select>
       <!--Instance specific statistics-->
       <b-row>
-        <!--Students' general satisfaction-->
         <b-col cols="12" lg="4" order-lg="2">
-          <b-row class="mt-4 flex-nowrap flex-md-wrap overflow-scroll">
-            <b-col
-              class="my-2 text-center"
-              cols="9"
-              sm="7"
-              md="6"
-              lg="12"
-              v-if="course.instances[selected].evaluation[0]"
-            >
-              <column-chart 
-                height="200px" 
-                :data="course.instances[selected].evaluation[0].answers"
-              ></column-chart>
-              <h6
-                class="small font-weight-bold text-dark"
-              >Hur nöjda var studenterna med kursen i stort?</h6>
-            </b-col>
-            <!--Students' general effort-->
-            <b-col
-              class="my-2 text-center"
-              cols="9"
-              md="6"
-              lg="12"
-              v-if="course.instances[selected].evaluation[1]"
-            >
-              <column-chart 
-                height="200px" 
-                :data="course.instances[selected].evaluation[1].answers"
-              ></column-chart>
-              <h6
-                class="text-dark small font-weight-bold"
-              >I vilken grad ansträngde studenterna sig för att tillgodogöra sig kursinnehållet?</h6>
-            </b-col>
-          </b-row>
+          <instance-statistics :instance="course.instances[selected]" />
         </b-col>
         <!--Course report-->
-        <b-col cols="12" lg="8" order-lg="1">
-          <course-instance :instance="course.instances[selected]" :courseId="course._id" />
-        </b-col>
+          <b-col cols="12" lg="8" order-lg="1">
+            <course-instance :instance="course.instances[selected]" :courseId="course._id"/>
+          </b-col>
       </b-row>
     </b-container>
   </div>
@@ -95,6 +61,7 @@
 import formatSemester from "@/modules/formatSemester";
 import courseInstance from "@/components/courseInstance";
 import courseStatistics from "@/components/courseStatistics";
+import instanceStatistics from "@/components/instanceStatistics";
 import { ContentLoader } from "vue-content-loader";
 export default {
   created: async function() {
@@ -139,6 +106,7 @@ export default {
   components: {
     courseInstance,
     courseStatistics,
+    instanceStatistics,
     ContentLoader
   },
   metaInfo() {
