@@ -75,7 +75,7 @@
         id="checkbox-group-1"
         v-model="included"
         size="lg"
-        :options="evaluationQuestions"
+        :options="this.evaluationQuestions"
         name="included"
         value-field="_id"
         text-field="question"
@@ -86,6 +86,7 @@
 <script>
 import formatSemester from "@/modules/formatSemester";
 import evaluationQuestions from "@/modules/evaluationQuestions";
+
 export default {
   data: () => ({
     course: null,
@@ -93,18 +94,19 @@ export default {
     sending: false,
     select: 0,
     included: [0, 1],
-    evaluationQuestions: evaluationQuestions
+    evaluationQuestions: JSON.parse(JSON.stringify(evaluationQuestions))
   }),
   computed: {
     questions() {
       var included = this.included;
-      return Object.values(evaluationQuestions).filter(x =>
+      return Object.values(this.evaluationQuestions).filter(x =>
         included.includes(x._id)
       );
     }
   },
   watch: {
     async courseId() {
+      if (!this.courseId) return;
       this.courseId = this.courseId.trim().toUpperCase();
       if (this.courseId.length == 6) {
         var course = await this.$api.request(
@@ -142,13 +144,32 @@ export default {
         showCancelButton: true
       }).then(async result => {
         if (!result.value) return;
-        this.$api.request(
-          "POST",
-          `/courses/${this.course._id}/${
-            this.course.instances[this.select]._id
-          }/evaluation`,
-          this.questions.map(x => ({ answers: x.answers, _id: x._id }))
-        );
+        try {
+          await this.$api.request(
+            "POST",
+            `/courses/${this.course._id}/${
+              this.course.instances[this.select]._id
+            }/evaluation`,
+            this.questions.map(x => ({ answers: x.answers, _id: x._id }))
+          );
+          this.$swal({
+            title: "Informationen har laddats upp",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1400
+          });
+          Object.assign(this.$data, this.$options.data());
+          this.evaluationQuestions = JSON.parse(
+            JSON.stringify(evaluationQuestions)
+          );
+        } catch (err) {
+          this.$swal({
+            title: "Något gick fel",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1400
+          });
+        }
       });
     },
     remove(id) {
