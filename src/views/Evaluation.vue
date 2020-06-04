@@ -11,52 +11,58 @@
         <div v-if="course" class="mb-4">
           <h2 class="h4">{{course.name}}</h2>
           <b-form-select v-model="select" class="text-dark">
+            <template v-slot:first>
+              <b-form-select-option :value="null" disabled>Välj kurstillfälle</b-form-select-option>
+            </template>
             <b-form-select-option
-              v-for="(instance, index) in course.instances"
+              v-for="(instance) in course.instances"
               :key="instance._id"
-              :value="index"
+              :value="instance._id"
+              placeholder="Välj kurstillfälle"
             >{{instance.dateString}} - Anmälningskod: {{instance._id.split("-")[1]}}</b-form-select-option>
           </b-form-select>
         </div>
-        <div class="d-flex justify-content-between">
-          <h2 class="h3 text-dark">Frågor</h2>
-          <b-button v-b-modal.modal variant="link">
-            <fa-icon icon="cog" class="mr-1" />Hantera frågor
-          </b-button>
-        </div>
-        <b-form @submit.prevent="submit">
-          <b-card
-            v-for="question in questions"
-            :key="question._id"
-            class="bg-white border mb-3"
-            body-class="px-4"
-            header-bg-variant="secondary"
-            header-text-variant="white"
-          >
-            <template v-slot:header>
-              <b-link @click="remove(question._id)" class="text-white">
-                <fa-icon icon="times" class="float-right fa-lg" />
-              </b-link>
-              <h3 class="h5 mb-0 font-weight-normal">{{question.question}}</h3>
-            </template>
-            <div style="max-width:150px">
-              <b-form-group
-                v-for="answer in Object.keys(question.answers)"
-                :key="answer"
-                :label="answer + ':'"
-                label-cols="2"
-              >
-                <b-form-input type="number" v-model.number="question.answers[answer]" />
-              </b-form-group>
-            </div>
-          </b-card>
-          <b-button
-            type="submit"
-            :disabled="included.length==0 || !course || sending"
-            block
-            variant="primary"
-          >{{sending ? "Skickar..." : "Skicka"}}</b-button>
-        </b-form>
+        <template v-if="select">
+          <div class="d-flex justify-content-between">
+            <h2 class="h3 text-dark">Frågor</h2>
+            <b-button v-b-modal.modal variant="link">
+              <fa-icon icon="cog" class="mr-1" />Hantera frågor
+            </b-button>
+          </div>
+          <b-form @submit.prevent="submit">
+            <b-card
+              v-for="question in questions"
+              :key="question._id"
+              class="bg-white border mb-3"
+              body-class="px-4"
+              header-bg-variant="secondary"
+              header-text-variant="white"
+            >
+              <template v-slot:header>
+                <b-link @click="remove(question._id)" class="text-white">
+                  <fa-icon icon="times" class="float-right fa-lg" />
+                </b-link>
+                <h3 class="h5 mb-0 font-weight-normal">{{question.question}}</h3>
+              </template>
+              <div style="max-width:150px">
+                <b-form-group
+                  v-for="answer in Object.keys(question.answers)"
+                  :key="answer"
+                  :label="answer + ':'"
+                  label-cols="2"
+                >
+                  <b-form-input type="number" v-model.number="question.answers[answer]" />
+                </b-form-group>
+              </div>
+            </b-card>
+            <b-button
+              type="submit"
+              :disabled="included.length==0 || !course || sending"
+              block
+              variant="primary"
+            >{{sending ? "Skickar..." : "Skicka"}}</b-button>
+          </b-form>
+        </template>
       </b-col>
     </b-row>
 
@@ -92,7 +98,7 @@ export default {
     course: null,
     courseId: null,
     sending: false,
-    select: 0,
+    select: null,
     included: [0, 1],
     evaluationQuestions: JSON.parse(JSON.stringify(evaluationQuestions))
   }),
@@ -147,13 +153,11 @@ export default {
         try {
           await this.$api.request(
             "POST",
-            `/courses/${this.course._id}/${
-              this.course.instances[this.select]._id
-            }/evaluation`,
+            `/courses/${this.course._id}/${this.select}/evaluation`,
             this.questions.map(x => ({ answers: x.answers, _id: x._id }))
           );
           this.$swal({
-            title: "Informationen har laddats upp",
+            title: "Uppladdningen lyckades",
             icon: "success",
             showConfirmButton: false,
             timer: 1400
