@@ -117,7 +117,9 @@ export default {
       if (this.courseId.length == 6) {
         var course = await this.$api.request(
           "GET",
-          "/courses/" + this.courseId
+          "/courses/" + this.courseId,
+          null,
+          { meta: true }
         );
         course.instances.sort((a, b) => (a.date < b.date ? 1 : -1));
         for (var i in course.instances)
