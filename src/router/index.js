@@ -4,7 +4,6 @@ import Dev from '@/views/Dev.vue'
 import Login from '@/views/Login.vue'
 import ReportIndex from '@/views/report/Index.vue'
 import ReportReport from '@/views/report/Report.vue'
-import Csv from '@/views/Csv.vue'
 import PortalIndex from '@/views/portal/IndexBeta.vue'
 import PortalCourse from '@/views/portal/Course.vue'
 import NotFound from '@/views/404.vue'
@@ -55,11 +54,6 @@ const routes = [{
 {
   path: "/admin/report/:courseId/:instanceId",
   component: ReportReport
-},
-{
-  path: '/csv',
-  component: Csv,
-  name: "CSV"
 },
 {
   path: "/401",

@@ -1,14 +1,14 @@
 <template>
-  <b-container class="my-4">
+  <b-container class="my-4 mb-5">
     <b-row align-h="center">
       <b-col lg="8">
-        <h1 class="h2 text-dark">Kursutvärdering</h1>
+        <h1 class="text-dark">Ladda upp kursutvärdering</h1>
         <b-form @submit.prevent>
-          <b-form-group>
+          <b-form-group class="mb-4" label="Kurskod" label-size="lg">
             <b-form-input placeholder="Kurskod" v-model="courseId" />
           </b-form-group>
         </b-form>
-        <div v-if="course">
+        <div v-if="course" class="mb-4">
           <h2 class="h4">{{course.name}}</h2>
           <b-form-select v-model="select" class="text-dark">
             <b-form-select-option
@@ -18,11 +18,18 @@
             >{{instance.dateString}} - Anmälningskod: {{instance._id.split("-")[1]}}</b-form-select-option>
           </b-form-select>
         </div>
+        <div class="d-flex justify-content-between">
+          <h2 class="h3 text-dark">Frågor</h2>
+          <b-button v-b-modal.modal variant="link">
+            <fa-icon icon="cog" class="mr-1" />Hantera frågor
+          </b-button>
+        </div>
         <b-form @submit.prevent="submit">
           <b-card
             v-for="question in questions"
             :key="question._id"
-            class="bg-white border my-3"
+            class="bg-white border mb-3"
+            body-class="px-4"
             header-bg-variant="secondary"
             header-text-variant="white"
           >
@@ -39,15 +46,19 @@
                 :label="answer + ':'"
                 label-cols="2"
               >
-                <b-form-input type="number" v-model="question.answers[answer]" />
+                <b-form-input type="number" v-model.number="question.answers[answer]" />
               </b-form-group>
             </div>
           </b-card>
-          <b-button type="submit" block variant="primary">Skicka</b-button>
+          <b-button
+            type="submit"
+            :disabled="included.length==0 || !course || sending"
+            block
+            variant="primary"
+          >{{sending ? "Skickar..." : "Skicka"}}</b-button>
         </b-form>
       </b-col>
     </b-row>
-    <b-button v-b-modal.modal>Launch demo modal</b-button>
 
     <b-modal
       id="modal"
@@ -79,6 +90,7 @@ export default {
   data: () => ({
     course: null,
     courseId: null,
+    sending: false,
     select: 0,
     included: [0, 1],
     evaluationQuestions: evaluationQuestions
@@ -111,12 +123,32 @@ export default {
   methods: {
     ...formatSemester,
     async submit() {
+      if (
+        this.questions
+          .map(x => Object.values(x.answers).findIndex(y => y != 0) != -1)
+          .includes(false)
+      ) {
+        this.$swal({
+          title: "Innehåller tom fråga",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 1400
+        });
+        return;
+      }
       this.$swal({
         title: "Vill du skicka?",
         icon: "question",
         showCancelButton: true
       }).then(async result => {
         if (!result.value) return;
+        this.$api.request(
+          "POST",
+          `/courses/${this.course._id}/${
+            this.course.instances[this.select]._id
+          }/evaluation`,
+          this.questions.map(x => ({ answers: x.answers, _id: x._id }))
+        );
       });
     },
     remove(id) {

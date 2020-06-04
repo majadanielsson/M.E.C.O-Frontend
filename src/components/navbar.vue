@@ -10,10 +10,10 @@
       >Mina kurser</b-nav-item>
       <b-nav-item
         v-if="$api.state.user.role == 'employee'"
-        to="/csv"
+        to="/evaluation"
         variant="primary"
-        :class="{'active': $route.name == 'CSV'}"
-      >Ladda upp CSV-filer</b-nav-item>
+        :class="{'active': $route.name == 'Evaluation'}"
+      >Hantera kursvärderingar</b-nav-item>
     </b-navbar-nav>
     <b-collapse class="justify-content-end" is-nav>
       <!-- Logged in -->
@@ -64,12 +64,12 @@
           >Mina kurser</b-button>
           <b-button
             v-if="$api.state.user.role == 'employee'"
-            to="/csv"
+            to="/evaluation"
             variant="outline-light"
             block
             class="my-3"
-            :class="{'active': $route.name == 'CSV'}"
-          >Ladda upp CSV-filer</b-button>
+            :class="{'active': $route.name == 'Evaluation'}"
+          >Hantera kursvärderingar</b-button>
         </div>
         <b-button block variant="light" @click="$api.logout()" href="#">Logga ut</b-button>
       </div>
