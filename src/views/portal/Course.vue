@@ -76,17 +76,22 @@ export default {
       );
     this.course = course;
     var select = null;
+
+    //If the user is coming from "Mina kurser", there might be a course instance
+    //id in a query in the route, then show this course instance.
     if (this.$route.query.id) {
       select = this.course.instances.findIndex(
         instance => instance._id == this.$route.query.id
       );
       this.$router.replace({ query: null });
+    //Otherwise show the latest instance with a report.
     } else {
       select = this.course.instances.findIndex(
         instance => instance.report.length
       );
     }
     if (select >= 0) this.selected = select;
+
   },
   data: function() {
     return {

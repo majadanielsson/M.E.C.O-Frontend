@@ -1,6 +1,7 @@
 <template>
   <b-navbar type="dark" class="text-white" variant="primary">
     <b-navbar-brand :to="url">{{name}}</b-navbar-brand>
+    <!-- Show the following two navigation buttons if logged in as employee -->
     <b-navbar-nav class="d-none d-lg-flex" v-if="$api.state.user">
       <b-nav-item
         v-if="$api.state.user.role == 'employee'"

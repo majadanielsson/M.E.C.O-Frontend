@@ -6,6 +6,7 @@
           <h1 class="text-dark">Mina kurser</h1>
           <p v-if="!loading && !courses.length">Du har inga kurser</p>
           <div class="my-4">
+            <!-- Loop through all courses -->
             <div v-for="course in courses" :key="course._id">
               <h2 class="h4">{{ course.name }}</h2>
               <h3 class="h5">
@@ -24,6 +25,7 @@
                   <b-container>
                     <b-row align-v="center" align-h="center">
                       <b-col>
+                        <!-- A link to each coures instance -->
                         <b-link
                           :to="
                           '/portal/courses/' +
@@ -33,6 +35,8 @@
                         "
                         >{{ toSemester(instance.date) }}</b-link>
                       </b-col>
+
+                      <!-- Show a badge if course report exists or not -->
                       <b-col
                         v-if="
                         Array.isArray(instance.report) && instance.report.length
@@ -43,6 +47,8 @@
                       <b-col v-else>
                         <b-badge variant="danger">Kursrapport finns inte</b-badge>
                       </b-col>
+
+                      <!-- A button to create or edit a course report -->
                       <b-col
                         v-if="
                         Array.isArray(instance.report) && instance.report.length
@@ -114,7 +120,7 @@ export default {
       for (var i in courses) {
         courses[i].instances.sort((a, b) => (a < b ? 1 : -1));
       }
-      
+
       this.courses = courses;
       this.loading = false;
     } catch (err) {

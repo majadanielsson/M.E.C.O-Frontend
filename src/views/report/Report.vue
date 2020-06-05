@@ -65,20 +65,12 @@ export default {
       var questions = null;
       var data = null;
 
-      //If the report is being edited, map all answers to the corresponding
-      //questions in the report.
-      if (this.edit) {
-        questions = this.instance.report[0].questions.map(element => ({
-          question: element.question,
-          answer: element.answer
-        }));
-      //Otherwise map to the default form
-      } else {
-        questions = this.form.map(element => ({
-          question: element.question,
-          answer: element.answer
-        }));
-      }
+      //Map all answers to the form
+      questions = this.form.map(element => ({
+        question: element.question,
+        answer: element.answer
+      }));
+
       try {
         data = {
           questions: questions,
