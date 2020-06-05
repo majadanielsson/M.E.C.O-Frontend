@@ -87,21 +87,12 @@ export default {
       );
     }
     if (select >= 0) this.selected = select;
-    this.getInstanceDates();
   },
   data: function() {
     return {
       course: null,
-      instanceDates: [],
       selected: 0
     };
-  },
-  methods: {
-    getInstanceDates: function() {
-      for (var i = 0; i < this.course.instances.length; i++) {
-        this.instanceDates.push(this.course.instances[i].date);
-      }
-    }
   },
   components: {
     courseInstance,

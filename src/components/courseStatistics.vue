@@ -1,3 +1,5 @@
+<!--General statistics for entire course-->
+
 <template>
   <div>
     <b-row class="mt-4 flex-nowrap flex-md-wrap overflow-scroll">
@@ -74,6 +76,7 @@ export default {
   },
   methods: { 
   ...formatSemester,
+
     getStatistics: function() {
       for (var i = 0; i < this.course.instances.length; i++) {
         var instance = this.course.instances[i];
@@ -89,7 +92,12 @@ export default {
           this.averageEffort.unshift([semester, instance.evaluation[1].average]);
         }
         
+        //Generates random values for number of students registered at each instance of the course.
+        //FIXME when access to LADOK is granted.
         this.studentsReg.unshift([semester, Math.ceil(Math.random() * 100)]);
+
+        //Generates static values for average grade at each instance of the course. 
+        //FIXME when access to LADOK is granted.
         this.averageGrade.unshift([semester, 3]);
       }
     },

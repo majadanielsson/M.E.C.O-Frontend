@@ -1,3 +1,5 @@
+<!--Elaborate statistics for specific questions from course evaluation-->
+
 <template>
   <div>
     <!--Students' general satisfaction-->
