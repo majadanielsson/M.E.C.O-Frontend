@@ -38,7 +38,7 @@
               :max="5"
               :data="averageImpression"
             ></line-chart>
-            <h6 class="text-dark small font-weight-bold">Studenternas nöjdhet med kursen</h6>
+            <h6 class="text-dark small font-weight-bold">{{this.evaluationQuestions.find(function(obj) { return obj._id === 0 }).question}}</h6>
             <div class="small text-dark">(medelvärde utifrån kursvärdering)</div>
           </div>
         </b-col>
@@ -52,7 +52,7 @@
               :max="5" 
               :data="averageEffort"
             ></line-chart>
-            <h6 class="text-dark small font-weight-bold">Studenternas ansträngning att tillgodogöra sig kursinnehållet</h6>
+            <h6 class="text-dark small font-weight-bold">{{this.evaluationQuestions.find(function(obj) { return obj._id === 1 }).question}}</h6>
             <div class="small text-dark">(medelvärde utifrån kursvärdering)</div>
           </div>
         </b-col>
@@ -61,6 +61,7 @@
 </template>
 <script>
 import formatSemester from "@/modules/formatSemester";
+import evaluationQuestions from "@/modules/evaluationQuestions";
 export default {
   props: ["course"],
   data: function() {
@@ -69,27 +70,31 @@ export default {
       averageGrade: [],
       averageImpression: [],
       averageEffort: [],
+      evaluationQuestions: []
     };
   },
   created: async function() {
-      this.getStatistics();
+    this.evaluationQuestions = Object.values(evaluationQuestions)
+    this.getStatistics();
   },
   methods: { 
   ...formatSemester,
 
     getStatistics: function() {
+      var impressionEval;
+      var effortEval;
       for (var i = 0; i < this.course.instances.length; i++) {
         var instance = this.course.instances[i];
         var semester = this.toShortSemester(instance.date);
 
-        if (instance.evaluation[0]) {
-          this.averageImpression.unshift([
-            semester,
-            instance.evaluation[0].average
-          ]);
+        impressionEval = instance.evaluation.find(function(obj) { return obj._id === 0 })
+        if (impressionEval) {
+          this.averageImpression.unshift([semester, impressionEval.average]);
         }
-        if (instance.evaluation[1]) {
-          this.averageEffort.unshift([semester, instance.evaluation[1].average]);
+
+        effortEval = instance.evaluation.find(function(obj) { return obj._id === 1 })
+        if (effortEval) {
+          this.averageEffort.unshift([semester, effortEval.average]);
         }
         
         //Generates random values for number of students registered at each instance of the course.
